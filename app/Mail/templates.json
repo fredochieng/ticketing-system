@@ -1,0 +1,1 @@
+[{"template_name":"Ticket Assignments","template_slug":"ticketAssignments","template_description":"Email template to notify the user about the ticket acknowledgment","template_type":"markdown","template_view_name":"postmark","template_skeleton":"user-invitation"}]

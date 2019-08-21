@@ -1,0 +1,24 @@
+{
+    "sqltools.connections": [
+        {
+            "askForPassword": true,
+            "connectionTimeout": 30,
+            "database": "helpdesk",
+            "dialect": "MySQL",
+            "name": "Helpdesk System",
+            "port": 3306,
+            "server": "127.0.0.1",
+            "username": "root"
+        },
+        {
+            "askForPassword": false,
+            "connectionTimeout": 30,
+            "database": "legal",
+            "dialect": "MySQL",
+            "name": "Legal Contracts Connection",
+            "port": 3306,
+            "server": "127.0.0.1",
+            "username": "root"
+        }
+    ]
+}

@@ -1,0 +1,30 @@
+$texts = DB::table('quees')
+			->select(
+				DB::raw('quees.*'),
+				DB::raw('texts.text_title as batchname'),
+				DB::raw('texts.message as msgtemplate'),
+				DB::raw('texts.created_at as text_date'),
+				DB::raw('texts.priority_id'),
+				DB::raw('quees.que_id'),
+				DB::raw('quees.phone_no'),
+				DB::raw('quees.status'),
+				DB::raw('quees.message'),
+				DB::raw('users.name as created_by'),
+				DB::raw('users.id as userid'),
+				DB::raw('recipients_country.country_name as country'),
+				DB::raw('departments.dept_name as department'),
+				DB::raw('departments.department_id as departmentid'),
+				DB::raw('user_departments_mapping.mapping_dept_id'),
+				DB::raw('user_departments_mapping.user_id')
+			)
+			->Join('texts', 'quees.text_id', '=', 'texts.text_id')
+			->Join('users', 'texts.created_by', '=', 'users.id')
+			->Join('recipients_country', 'texts.recepient_country_id', '=', 'recipients_country.recipients_country_id')
+			->Join('user_departments_mapping', 'users.id', 'user_departments_mapping.user_id')
+			->Join('departments', 'user_departments_mapping.mapping_dept_id', 'departments.department_id')
+			->orderBy('que_id', 'desc')
+			->whereRaw("CAST(texts.created_at as DATE) between '" . $from_date . "' and '" . $to_date . "'")
+			->whereIn('recepient_country_id', $country)
+			->whereIn('user_departments_mapping.mapping_dept_id', $department)
+			->whereIn('quees.status', $status);
+			->get();

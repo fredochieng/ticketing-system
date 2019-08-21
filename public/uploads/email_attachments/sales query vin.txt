@@ -1,0 +1,24 @@
+$sales = DB::table('sales')
+				->select(
+					DB::raw('sum(DISTINCT(supplier_skus)) as total_skus'),
+					DB::raw('sales.month_name'),
+					DB::raw('sales.supplier')
+				)
+				->groupBy('sales.supplier')
+				->groupBy('sales.month_name')
+				->get();
+
+			$sales = json_encode($sales, true);
+
+			$sales = json_decode($sales, true);
+
+			$sales1 = array();
+			foreach ($sales as $value) {
+				$sales1[] .= $value['total_skus'];
+			}
+
+
+
+			// echo "<pre>";
+			// print_r($sales1);
+			// exit;
