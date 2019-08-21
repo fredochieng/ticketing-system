@@ -21,10 +21,10 @@
                     'method'=>'POST','class'=>'form','enctype'=>'multipart/form-data'])
                     !!}
                     <div class="col-md-12">
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             {{Form::label('Ticket Status')}}
                             <div class="form-group">
-                                <select class="form-control select2" id="status_id" name="status_id"
+                                <select class="form-control select2" id="status_id" name="status_id" required
                                     style="width: 100%;" tabindex="-1" aria-hidden="true">
                                     <option selected="selected" value="">Select ticket status</option>
                                     @foreach($ticket_status as $item)
@@ -34,7 +34,20 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-3">
+                            {{Form::label('Ticket Country')}}
+                            <div class="form-group">
+                                <select class="form-control select2" id="status_id" name="country_id" required
+                                    style="width: 100%;" tabindex="-1" aria-hidden="true">
+                                    <option selected="selected" value="">Select country</option>
+                                    @foreach($countries as $item)
+                                    <option value="{{ $item->country_id }}">{{ $item->country_name }}
+                                    </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
                             <div class="form-group">
                                 {!! Form::label('Date Range') !!}
                                 {!! Form::text('date_range', null, ['placeholder' => 'Select date range', 'class' =>

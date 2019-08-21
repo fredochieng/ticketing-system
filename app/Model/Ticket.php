@@ -26,7 +26,8 @@ class Ticket extends Model
                 DB::raw('ticket_details.*'),
                 DB::raw('issues_categories.*'),
                 DB::raw('issue_subcategories.*'),
-                DB::raw('users.*')
+                DB::raw('users.*'),
+                DB::raw('countries.*')
             )
             ->leftJoin('tickets_action', 'tickets.ticket_id', '=', 'tickets_action.id')
             ->leftJoin('tickets_status', 'tickets.status_id', '=', 'tickets_status.status_id')
@@ -35,6 +36,7 @@ class Ticket extends Model
             ->leftJoin('issues_categories', 'ticket_details.issue_type_id', '=', 'issues_categories.issue_id')
             ->leftjoin('issue_subcategories', 'ticket_details.issue_subtype_id', '=', 'issue_subcategories.issue_subcategory_id')
             ->leftJoin('users', 'tickets.user_id', '=', 'users.id')
+            ->leftJoin('countries', 'tickets.country_id', '=', 'countries.country_id')
             ->orderBy('tickets.ticket_id', 'desc')
             ->get();
 

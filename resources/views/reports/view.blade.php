@@ -17,17 +17,25 @@
             <div id="collapseFilter" class="panel-collapse active collapse in" aria-expanded="true">
                 <div class="box-body">
                     {!! Form::open(['url' => '#', 'method' => 'get', 'id' => 'sell_payment_report_form' ]) !!}
-                    <div class="col-md-5">
+                    <div class="col-md-3">
                         {{Form::label('Ticket Status ')}}
                         <div class="form-group">
                             {!! Form::text('pay_mode_idss', $status_name, ['class' =>
                             'form-control', 'readonly']); !!}
                         </div>
                     </div>
+                    <div class="col-md-3">
+                        {{Form::label('Ticket Country ')}}
+                        <div class="form-group">
+                            {!! Form::text('pay_mode_idss', $country_name, ['class' =>
+                            'form-control', 'readonly']); !!}
+                        </div>
+                    </div>
 
                     <input type="hidden" name="status" value="{{$status_id}}">
+                    <input type="hidden" name="country_id" value="{{$country_id}}">
 
-                    <div class="col-md-5">
+                    <div class="col-md-3">
                         <div class="form-group">
                             {!! Form::label('Ticket Creation Date') !!}
                             {!! Form::text('date_range', $start_date .' - '. $end_date, ['placeholder' => '',
@@ -35,7 +43,7 @@
                         </div>
                     </div>
 
-                    <div class="col-md-2">
+                    <div class="col-md-3">
                         <a href="/reports" style="margin-top:25px;" class="btn bg-purple"><strong><i
                                     class="fa fa-arrow-left"></i> BACK</strong></a>
 
@@ -60,7 +68,7 @@
                     <table id="example4" class="table table-no-margin">
 
                         <div class="btn-group  btn-sm" style="margin-left:930px;">
-                            <a href="/report/excel/generate?date_range=<?php echo $start_date .' - '. $end_date ?>&status_id=<?php echo $status_id ?>"
+                            <a href="/report/excel/generate?date_range=<?php echo $start_date .' - '. $end_date ?>&status_id=<?php echo $status_id ?>&country_id=<?php echo $country_id ?>"
                                 class="btn btn-info btn-flat"><strong>EXPORT
                                     TO EXCEL</strong></a>
 
@@ -71,7 +79,7 @@
                                 <th>Ticket #</th>
                                 <th>Subject</th>
                                 <th>Submitter</th>
-                                {{--  // <th>Email</th>  --}}
+                                <th>Country</th>
                                 <th>Assignee</th>
                                 <th>Status</th>
                                 <th>Issue Category</th>
@@ -91,6 +99,7 @@
                                 <td>{{$row->subject}}</td>
                                 <td>{{$row->submitter}}</td>
                                 {{--  // <a><a href="">{{$row->submitter_email}}</a></a> --}}
+                                <td>{{$row->country_name}}</td>
                                 <td>{{$row->assigned_to}}</td>
                                 <td><small class="badge bg-{{$row->status_color}}">{{$row->status_name}}</small></span>
                                 </td>

@@ -70,6 +70,7 @@ class TicketController extends Controller
         $data['priorities'] = Priority::getPriorities();
         $data['users'] = User::getUsers();
         $data['issue_categories'] = Issue::getIssueCategories();
+        $data['countries'] = DB::table('countries')->orderBy('country_id', 'asc')->get();
 
         // // $obj = new FetchMails('webmail.ke.wananchi.com', 'fredrick.ochieng@ke.wananchi.com', 'Happy1995', 'imap', '143', false, true);
         // $obj = new FetchMails('webmail.ke.wananchi.com', 'ticketing@ke.wananchi.com', 'Zuku@2019!', 'imap', '143', false, true);
@@ -331,6 +332,7 @@ class TicketController extends Controller
             $ticket_string = "IT";
             $ticket->ticket = $ticket_string . '-' . $next_number;
             $ticket->priority_id = $request->input('priority_id');
+            $ticket->country_id = $request->input('country_id');
             $assigned_user = $request->input('assigned_user_id');
 
             if (!empty($assigned_user)) {
@@ -408,7 +410,6 @@ class TicketController extends Controller
                 );
 
                 $resp = Mail::to($assigned_email)->send(new TicketCreationAndAssignment($mailData1));
-
             }
 
             DB::commit();
@@ -656,7 +657,7 @@ class TicketController extends Controller
         }
 
 
-    //    $variable = substr($message, 0, strpos($message, "From:"));
+        //    $variable = substr($message, 0, strpos($message, "From:"));
 
         // print_r($variable);
 

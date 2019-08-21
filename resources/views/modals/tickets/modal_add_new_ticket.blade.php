@@ -51,7 +51,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <div class="form-group">
                             {{Form::label('Username *')}}<br>
                             <div class="form-group">
@@ -59,8 +59,20 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>User Country</label>
+                            <select class="form-control select2" name="country_id" style="width: 100%;" tabindex="-1"
+                                required aria-hidden="true">
+                                <option value="">Select user country</option>
+                                @foreach ( $countries as $row )
+                                <option value="{{ $row->country_id }}">{{ $row->country_name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
 
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <div class="form-group">
                             <label>Assign To</label>
                             <select class="form-control select2" name="assigned_user_id" style="width: 100%;"
@@ -72,9 +84,10 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-4">
+
+                    <div class="col-md-3">
                         <div class="form-group">
-                            <label>Ticket Priority</label>
+                            <label>Ticket Priority * </label>
                             <select class="form-control select2" name="priority_id" style="width: 100%;" required>
                                 <option value="" selected>Please select priority</option>
                                 @foreach ($priorities as $row )

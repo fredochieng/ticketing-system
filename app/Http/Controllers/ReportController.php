@@ -19,6 +19,7 @@ class ReportController extends Controller
     public function index()
     {
         $data['ticket_status'] = DB::table('tickets_status')->orderBy('status_id', 'asc')->get();
+        $data['countries'] = DB::table('countries')->orderBy('country_id', 'asc')->get();
         $data['tickets'] = Ticket::getTickets();
         $data['tickets']->map(function ($item) {
 
@@ -46,6 +47,8 @@ class ReportController extends Controller
     public function displayReports(Request $request)
     {
         $data['ticket_status'] = DB::table('tickets_status')->orderBy('status_id', 'asc')->get();
+        $data['countries'] = DB::table('countries')->orderBy('country_id', 'asc')->get();
+
         $data['tickets'] = Ticket::getTickets();
         $data['tickets']->map(function ($item) {
 
@@ -91,17 +94,15 @@ class ReportController extends Controller
             return $item;
         });
 
-        // echo "<pre>";
-        // print_r($data['tickets']);
-        // exit;
-
         $status_id = $request->input('status_id');
+        $country_id = $request->input('country_id');
 
         $date_range = $request->input('date_range');
         $date_range = (array) $date_range;
         $date_range = str_replace(' - ', ',', $date_range);
 
         $data['status_id'] = $status_id;
+        $data['country_id'] = $country_id;
 
         foreach ($date_range as $key => $value) {
             $date_range = $value;
@@ -112,19 +113,20 @@ class ReportController extends Controller
         $data['end_date'] = date('Y-m-d', strtotime($date_range[1]));
 
         $data['status_name'] = $data['ticket_status']->where('status_id', '=', $status_id)->pluck('status_name')->first();
+        $data['country_name'] = $data['countries']->where('country_id', '=', $country_id)->pluck('country_name')->first();
 
         if ($status_id == 4) {
-            $data['tickets'] = $data['tickets']->whereBetween(
-                'ticket_date',
-                array($data['start_date'], $data['end_date'])
-            );
+            $data['tickets'] = $data['tickets']
+                ->whereBetween('ticket_date', array($data['start_date'], $data['end_date']))
+                ->where('country_id', $country_id);
         } else {
 
             $data['tickets'] = $data['tickets']->where('status_id', '=>', $status_id)
                 ->whereBetween(
                     'ticket_date',
                     array($data['start_date'], $data['end_date'])
-                );
+                )
+                ->where('country_id', $country_id);
         }
 
         return view('reports.view')->with($data);
@@ -133,6 +135,7 @@ class ReportController extends Controller
     public function ExportReports(Request $request)
     {
         $data['ticket_status'] = DB::table('tickets_status')->orderBy('status_id', 'asc')->get();
+
         $data['tickets'] = Ticket::getTickets();
         $data['tickets']->map(function ($item) {
 
@@ -179,6 +182,7 @@ class ReportController extends Controller
         });
 
         $status_id = $request->input('status_id');
+        $country_id = $request->input('country_id');
 
         $date_range = $request->input('date_range');
         $date_range = (array) $date_range;
@@ -200,9 +204,10 @@ class ReportController extends Controller
             $data['tickets_report'] = $data['tickets']->whereBetween(
                 'ticket_date',
                 array($data['start_date'], $data['end_date'])
-            );
+            )
+                ->where('country_id', $country_id);
 
-            $data_array[] = array('Ticket', 'Subject', 'Submitter', 'Date Opened', 'Status', 'Assigned To', 'Issue Category', 'Issue Subcategory', 'RFO', 'Date Closed', 'Time Taken', 'Closed By');
+            $data_array[] = array('Ticket', 'Subject', 'Submitter', 'Date Opened', 'Status', 'Assigned To', 'Country', 'Issue Category', 'Issue Subcategory', 'RFO', 'Date Closed', 'Time Taken', 'Closed By');
             $text_title_disp = "Tickets_Report_" . $data['start_date'] . " to " . $data['end_date'];
 
             foreach ($data['tickets_report'] as $value) {
@@ -253,6 +258,7 @@ class ReportController extends Controller
                     $value->ticket_created_at,
                     $status,
                     $value->assigned_to,
+                    $value->country_name,
                     $issue_name,
                     $issue_subcategory_name,
                     $reason,
@@ -273,9 +279,10 @@ class ReportController extends Controller
                 ->whereBetween(
                     'ticket_date',
                     array($data['start_date'], $data['end_date'])
-                );
+                )
+                ->where('country_id', $country_id);
 
-            $data_array[] = array('Ticket', 'Subject', 'Submitter', 'Date Opened', 'Status', 'Assigned To', 'Issue Category', 'Issue Subcategory', 'RFO', 'Date Closed', 'Time Taken', 'Closed By');
+            $data_array[] = array('Ticket', 'Subject', 'Submitter', 'Date Opened', 'Status', 'Assigned To', 'Country', 'Issue Category', 'Issue Subcategory', 'RFO', 'Date Closed', 'Time Taken', 'Closed By');
             $text_title_disp = "Tickets_Report_" . $data['start_date'] . " to " . $data['end_date'];
 
             foreach ($data['tickets_report'] as $value) {
@@ -326,6 +333,7 @@ class ReportController extends Controller
                     $value->ticket_created_at,
                     $status,
                     $value->assigned_to,
+                    $value->country_name,
                     $issue_name,
                     $issue_subcategory_name,
                     $reason,
@@ -370,9 +378,6 @@ class ReportController extends Controller
 
             return $item;
         });
-        // echo "<pre>";
-        // print_r($data['tickets']);
-        // exit;
 
         return view('reports.ticket_assignment_report')->with($data);
     }
