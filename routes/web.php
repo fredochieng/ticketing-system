@@ -24,7 +24,9 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('dashboard');
 // Routes for Assets
 Route::resource('/inventory/assets', 'AssetController');
+Route::any('/assets/manage/&id={id}', 'AssetController@manageAsset');
 Route::post('/addAsset', 'AssetController@addAsset');
+Route::post('/inventory/assets', 'AssetController@getSearchedAssets');
 Route::resource('/inventory/attributes/asset-categories', 'CategoryController');
 
 // Routes for Issues
@@ -72,3 +74,4 @@ Route::any('/report/tickets/assigment', 'ReportController@ticketAssignmentReport
 Route::resource('/system/settings', 'SystemController');
 Route::any('/system/logs', 'SystemController@getLogs');
 Route::any('/system/import', 'SystemController@getImport');
+Route::any('/reports/import', 'ReportController@importExcel');

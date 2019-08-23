@@ -1,241 +1,178 @@
 @extends('adminlte::page')
-@section('title', 'AdminLTE')
+@section('title', 'All assets - IT HelpDesk & Ticketing System')
 @section('content_header')
-<h1 class="pull-left">Assets<small>Manage Assets</small></h1>
-<div class="pull-right"><a class="btn btn-primary btn-sm btn-flat" href="/inventory/assets/create"><i class="fa fa-plus"></i> NEW ASSET</a>
-</div>
+<h1 class="pull-left">Inventory<small>Assets</small></h1>
 <div style="clear:both"></div>
-
 
 @stop
 @section('content')
 <div class="row">
-    <div class="col-xs-12">
-        <div class="box box-primary">
-            <div class="box-body">
-                <div class="table-responsive">
-                    <div id="dataTablesFull_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-                        <div class="top">
-                            <div id="dataTablesFull_filter" class="dataTables_filter"><label><i class="fa fa-search text-gray dTsearch"></i><input type="search" class="form-control input-sm" placeholder="" aria-controls="dataTablesFull"></label></div>
-                        </div>
-                        <table id="dataTablesFull" class="table table-striped table-hover table-bordered dataTable no-footer" role="grid" aria-describedby="dataTablesFull_info">
-                            <thead>
-                                <tr role="row">
-                                    <th class="sorting_asc" tabindex="0" aria-controls="dataTablesFull" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Tag: activate to sort column descending"
-                                        style="width: 60px;">Tag</th>
-                                    <th class="sorting" tabindex="0" aria-controls="dataTablesFull" rowspan="1" colspan="1" aria-label="Category: activate to sort column ascending"
-                                        style="width: 65px;">Category</th>
-                                    <th class="sorting" tabindex="0" aria-controls="dataTablesFull" rowspan="1" colspan="1" aria-label="Asset Name: activate to sort column ascending"
-                                        style="width: 100px;">Asset Name</th>
-                                    <th class="sorting" tabindex="0" aria-controls="dataTablesFull" rowspan="1" colspan="1" aria-label="Model: activate to sort column ascending"
-                                        style="width: 87px;">Model</th>
-                                    <th class="sorting" tabindex="0" aria-controls="dataTablesFull" rowspan="1" colspan="1" aria-label="Serial Number: activate to sort column ascending"
-                                        style="width: 102px;">Serial Number</th>
-                                    <th class="sorting" tabindex="0" aria-controls="dataTablesFull" rowspan="1" colspan="1" aria-label="Related Entities: activate to sort column ascending"
-                                        style="width: 199px;">Related Entities</th>
-                                    <th class="sorting" tabindex="0" aria-controls="dataTablesFull" rowspan="1" colspan="1" aria-label="Status: activate to sort column ascending"
-                                        style="width: 57px;">Status</th>
-                                    <th class="text-right sorting_disabled" rowspan="1" colspan="1" aria-label="" style="width: 108px;"></th>
-                                </tr>
-                            </thead>
-
-                            <tbody>
-
-
-
-
-                                <tr role="row" class="odd">
-                                    <td class="sorting_1"><a href="?route=inventory/assets/manage&amp;id=2">IT-2</a></td>
-                                    <td><span class="label" style="background-color:#FFF;color:#ff0000;border:1px solid #ff0000">Servers</span></td>
-                                    <td><a href="?route=inventory/assets/manage&amp;id=2">DC Server</a></td>
-                                    <td> PowerEdge R220</td>
-                                    <td>ASDFG12345</td>
-                                    <td>
-                                        <a href="?route=clients/manage&amp;id=2">
-														<span class="label" style="background-color:#FFF;color:#0073b7;border:1px solid #0073b7;"><i class="fa fa-briefcase fa-fw"></i> Client 2 Inc.</span>
-													</a>
-
-                                    </td>
-
-                                    <td><span class="badge" style="background-color:#3479da">Deployed</span></td>
-                                    <td>
-                                        <div class="pull-right">
-                                            <div class="btn-group">
-                                                <a href="?route=inventory/assets/manage&amp;id=2" class="btn btn-flat btn-primary btn-sm"><i class="fa fa-eye"></i></a>                                                <a href="?route=inventory/assets/manage&amp;id=2&amp;section=edit" class="btn btn-flat btn-success btn-sm"><i class="fa fa-edit"></i></a>
-                                                <div class="btn-group">
-                                                    <button type="button" class="btn btn-default btn-sm btn-flat dropdown-toggle" data-toggle="dropdown">
-																<span class="caret"></span>
-															</button>
-                                                    <ul class="dropdown-menu pull-right">
-                                                        <li><a href="#" onclick="showM(&quot;?modal=assets/delete&amp;reroute=inventory/assets&amp;routeid=&amp;id=2&amp;section=&quot;);return false"><i class="fa fa-trash-o fa-fw"></i>Delete</a></li>
-                                                        <li><a href="?route=pdf&amp;type=assetlabel&amp;id=2" target="_blank"><i class="fa fa-barcode fa-fw"></i>Label</a></li>
-                                                    </ul>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr role="row" class="even">
-                                    <td class="sorting_1"><a href="?route=inventory/assets/manage&amp;id=3">IT-3</a></td>
-                                    <td><span class="label" style="background-color:#FFF;color:#058e29;border:1px solid #058e29">Laptops</span></td>
-                                    <td><a href="?route=inventory/assets/manage&amp;id=3">Laptop 1</a></td>
-                                    <td> MacBook Pro</td>
-                                    <td>BNMHJK98765</td>
-                                    <td>
-                                        <a href="?route=clients/manage&amp;id=2">
-														<span class="label" style="background-color:#FFF;color:#0073b7;border:1px solid #0073b7;"><i class="fa fa-briefcase fa-fw"></i> Client 2 Inc.</span>
-													</a>
-
-                                    </td>
-
-                                    <td><span class="badge" style="background-color:#3479da">Deployed</span></td>
-                                    <td>
-                                        <div class="pull-right">
-                                            <div class="btn-group">
-                                                <a href="?route=inventory/assets/manage&amp;id=3" class="btn btn-flat btn-primary btn-sm"><i class="fa fa-eye"></i></a>                                                <a href="?route=inventory/assets/manage&amp;id=3&amp;section=edit" class="btn btn-flat btn-success btn-sm"><i class="fa fa-edit"></i></a>
-                                                <div class="btn-group">
-                                                    <button type="button" class="btn btn-default btn-sm btn-flat dropdown-toggle" data-toggle="dropdown">
-																<span class="caret"></span>
-															</button>
-                                                    <ul class="dropdown-menu pull-right">
-                                                        <li><a href="#" onclick="showM(&quot;?modal=assets/delete&amp;reroute=inventory/assets&amp;routeid=&amp;id=3&amp;section=&quot;);return false"><i class="fa fa-trash-o fa-fw"></i>Delete</a></li>
-                                                        <li><a href="?route=pdf&amp;type=assetlabel&amp;id=3" target="_blank"><i class="fa fa-barcode fa-fw"></i>Label</a></li>
-                                                    </ul>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr role="row" class="odd">
-                                    <td class="sorting_1"><a href="?route=inventory/assets/manage&amp;id=5">IT-5</a></td>
-                                    <td><span class="label" style="background-color:#FFF;color:#058e29;border:1px solid #058e29">Laptops</span></td>
-                                    <td><a href="?route=inventory/assets/manage&amp;id=5">HP Elitebook G840</a></td>
-                                    <td>HP MacBook Air</td>
-                                    <td>12345678</td>
-                                    <td>
-                                        <a href="?route=clients/manage&amp;id=1">
-														<span class="label" style="background-color:#FFF;color:#0073b7;border:1px solid #0073b7;"><i class="fa fa-briefcase fa-fw"></i> Client Inc.</span>
-													</a>
-
-                                    </td>
-
-                                    <td><span class="badge" style="background-color:#1ecbbd">Requested</span></td>
-                                    <td>
-                                        <div class="pull-right">
-                                            <div class="btn-group">
-                                                <a href="?route=inventory/assets/manage&amp;id=5" class="btn btn-flat btn-primary btn-sm"><i class="fa fa-eye"></i></a>                                                <a href="?route=inventory/assets/manage&amp;id=5&amp;section=edit" class="btn btn-flat btn-success btn-sm"><i class="fa fa-edit"></i></a>
-                                                <div class="btn-group">
-                                                    <button type="button" class="btn btn-default btn-sm btn-flat dropdown-toggle" data-toggle="dropdown">
-																<span class="caret"></span>
-															</button>
-                                                    <ul class="dropdown-menu pull-right">
-                                                        <li><a href="#" onclick="showM(&quot;?modal=assets/delete&amp;reroute=inventory/assets&amp;routeid=&amp;id=5&amp;section=&quot;);return false"><i class="fa fa-trash-o fa-fw"></i>Delete</a></li>
-                                                        <li><a href="?route=pdf&amp;type=assetlabel&amp;id=5" target="_blank"><i class="fa fa-barcode fa-fw"></i>Label</a></li>
-                                                    </ul>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr role="row" class="even">
-                                    <td class="sorting_1"><a href="?route=inventory/assets/manage&amp;id=6">IT-PRINTER6</a></td>
-                                    <td><span class="label" style="background-color:#FFF;color:#99ac14;border:1px solid #99ac14">Printers</span></td>
-                                    <td><a href="?route=inventory/assets/manage&amp;id=6">DeksJet HP Printer</a></td>
-                                    <td>HP Deskjet</td>
-                                    <td></td>
-                                    <td>
-                                        <a href="?route=clients/manage&amp;id=5">
-														<span class="label" style="background-color:#FFF;color:#0073b7;border:1px solid #0073b7;"><i class="fa fa-briefcase fa-fw"></i> Fred James</span>
-													</a>
-
-                                        <a href="?route=people/users/edit&amp;id=2">
-														<span class="label" style="background-color:#FFF;color:#001F3F;border:1px solid #001F3F;"><i class="fa fa-user fa-fw"></i> Christine Fredrick</span>
-													</a>
-                                    </td>
-
-                                    <td><span class="badge" style="background-color:#1ecbbd">Requested</span></td>
-                                    <td>
-                                        <div class="pull-right">
-                                            <div class="btn-group">
-                                                <a href="?route=inventory/assets/manage&amp;id=6" class="btn btn-flat btn-primary btn-sm"><i class="fa fa-eye"></i></a>                                                <a href="?route=inventory/assets/manage&amp;id=6&amp;section=edit" class="btn btn-flat btn-success btn-sm"><i class="fa fa-edit"></i></a>
-                                                <div class="btn-group">
-                                                    <button type="button" class="btn btn-default btn-sm btn-flat dropdown-toggle" data-toggle="dropdown">
-																<span class="caret"></span>
-															</button>
-                                                    <ul class="dropdown-menu pull-right">
-                                                        <li><a href="#" onclick="showM(&quot;?modal=assets/delete&amp;reroute=inventory/assets&amp;routeid=&amp;id=6&amp;section=&quot;);return false"><i class="fa fa-trash-o fa-fw"></i>Delete</a></li>
-                                                        <li><a href="?route=pdf&amp;type=assetlabel&amp;id=6" target="_blank"><i class="fa fa-barcode fa-fw"></i>Label</a></li>
-                                                    </ul>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <div class="bottom"></div>
-                        <div class="row dt-margin">
-                            <div class="col-md-6">
-                                <div class="dataTables_info" id="dataTablesFull_info" role="status" aria-live="polite">Showing 1 to 4 of 4 entries</div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="dataTables_paginate paging_simple_numbers" id="dataTablesFull_paginate">
-                                    <ul class="pagination">
-                                        <li class="paginate_button previous disabled" id="dataTablesFull_previous"><a href="#" aria-controls="dataTablesFull" data-dt-idx="0" tabindex="0">Previous</a></li>
-                                        <li class="paginate_button active"><a href="#" aria-controls="dataTablesFull" data-dt-idx="1" tabindex="0">1</a></li>
-                                        <li class="paginate_button next disabled" id="dataTablesFull_next"><a href="#" aria-controls="dataTablesFull" data-dt-idx="2" tabindex="0">Next</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="dt-buttons btn-group"><a class="btn btn-default buttons-copy buttons-html5" tabindex="0" aria-controls="dataTablesFull"
-                                        href="#"><span>Copy</span></a><a class="btn btn-default buttons-csv buttons-html5" tabindex="0"
-                                        aria-controls="dataTablesFull" href="#"><span>CSV</span></a><a class="btn btn-default buttons-excel buttons-html5"
-                                        tabindex="0" aria-controls="dataTablesFull" href="#"><span>Excel</span></a><a class="btn btn-default buttons-pdf buttons-html5"
-                                        tabindex="0" aria-controls="dataTablesFull" href="#"><span>PDF</span></a><a class="btn btn-default buttons-print"
-                                        tabindex="0" aria-controls="dataTablesFull" href="#"><span>Print</span></a></div>
+    <div class="col-md-12">
+        <div class="box box-success" id="accordion">
+            <div class="box-header with-border">
+                <h3 class="box-title">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseFilter">
+                        <i class="fa fa-filter" aria-hidden="true"></i> Filters
+                    </a>
+                </h3>
+            </div>
+            <div id="collapseFilter" class="panel-collapse active collapse in" aria-expanded="true">
+                <div class="box-body">
+                    {!!
+                    Form::open(['action'=>['AssetController@getSearchedAssets'],
+                    'method'=>'POST','class'=>'form','enctype'=>'multipart/form-data'])
+                    !!}
+                    <div class="col-md-12">
+                        <div class="col-md-3">
+                            {{Form::label('Asset Type')}}
+                            <div class="form-group">
+                                <select class="form-control select2" id="category_name" name="category_name" required
+                                    style="width: 100%;" tabindex="-1" aria-hidden="true">
+                                    <option selected="selected" value="">Select asset type</option>
+                                    @foreach($assect_categories as $item)
+                                    <option value="{{ $item->asset_cat_name }}">{{ $item->asset_cat_name }}
+                                    </option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
-                        <div class="clear"></div>
+                        <div class="col-md-3">
+                            {{Form::label('Asset Status')}}
+                            <div class="form-group">
+                                <select class="form-control select2" id="asset_status_id" name="asset_status_id" required
+                                    style="width: 100%;" tabindex="-1" aria-hidden="true">
+                                    <option selected="selected" value="">Select asset status</option>
+                                    @foreach($asset_status as $item)
+                                    <option value="{{ $item->asset_status_id }}">{{ $item->asset_status_name }}
+                                    </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            {{Form::label('Asset Country')}}
+                            <div class="form-group">
+                                <select class="form-control select2" id="country_name" name="country_name" required
+                                    style="width: 100%;" tabindex="-1" aria-hidden="true">
+                                    <option selected="selected" value="">Select asset country</option>
+                                    @foreach($countries as $item)
+                                    <option value="{{ $item->country_name }}">{{ $item->country_name }}
+                                    </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <button type="submit" style="margin-top:25px;" class="btn btn-block btn-info"><strong><i
+                                        class="fa fa-fw fa-eye"></i>View Assets</strong></button>
+                        </div>
                     </div>
+                    {!! Form::close() !!}
                 </div>
             </div>
         </div>
     </div>
 </div>
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box box-success">
+            <div class="box-header with-border">
+              @if($filter == 'N')
+               <h3 class="box-title">All Assets</h3>
+               @else
+                <h3 class="box-title"><strong>{{$asset_type}} Assets</strong></h3>
+                @endif
+            </div>
+            <div class="box-body">
+                <div class="table-responsive">
+                    <table id="example1" class="table no-margin" style="font-size:12px">
+                        <thead>
+                            <tr role="row">
+                                <th>Staff Name</th>
+                                <th>Asset No</th>
+                                <th>Asset Type</th>
+                                <th>Model No</th>
+                                <th>Serial No</th>
+                                <th>Status</th>
+                                {{-- <th>RAM</th>
+                                <th>OS</th>
+                                <th>Processor</th> --}}
+                                <th>Country</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($assets as $row)
+                            <tr>
+                            @if(empty($row->staff_name))
+                            <td>NOT AVAILABLE</td>
+                            @else
+                                <td>{{$row->staff_name}}</td>
+                                @endif
+                                @if(empty($row->asset_no))
+                                 <td>NOT AVAILABLE</td>
+                                 @else
+                                <td>{{$row->asset_no}}</td>
+                                @endif
+                                @if(empty($row->asset_type))
+                                 <td>NOT AVAILABLE</td>
+                                 @else
+                                <td>{{$row->asset_type}}</td>
+                                @endif
+                                @if(empty($row->model_no ))
+                                  <td>NOT AVAILABLE</td>
+                                  @else
+                                <td>{{ $row->model_no }}</td>
+                                @endif
+                                @if(empty($row->serial_no))
+                                 <td>NOT AVAILABLE</td>
+                                 @else
+                                <td>{{ $row->serial_no }}</td>
+                                @endif
+                                <td><small class="badge bg-{{$row->status_color}}">{{$row->asset_status_name}}</small></span></td>
+                                {{-- @if(empty($row->ram ))
+                                 <td>NOT AVAILABLE</td>
+                                 @else
+                                <td>{{ $row->ram }}</td>
+                                @endif
+                                @if(empty($row->os))
+                                 <td>NOT AVAILABLE</td>
+                                 @else
+                                <td>{{ $row->os }}</td>
+                                @endif
+                                @if(empty($row->processor))
+                                 <td>NOT AVAILABLE</td>
+                                 @else
+                                <td>{{ $row->processor }}</td>
+                                @endif --}}
+                                  @if(empty($row->country))
+                                 <td>NOT AVAILABLE</td>
+                                 @else
+                                <td>{{ $row->country }}</td>
+                                @endif
+                                     <td> <a href="/assets/manage/&id={{$row->asset_id}}"
+                                        class="btn btn-flat btn-info btn-sm"><i class="fa fa-eye"></i></a></td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@stop
+@section('css')
+<link rel="stylesheet" href="/css/bootstrap-datepicker.min.css">
+@stop
+@section('js')
 
+<script src="/js/select2.full.min.js"></script>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+<script>
+    $(function () {
+      $(".select2").select2();
+      $('#example1').DataTable();
+    });
+</script>
 @stop

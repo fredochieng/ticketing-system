@@ -54,10 +54,7 @@ class LoginController extends Controller
 
         $adldap = new adLDAP();
         $authUser = $adldap->authenticate($username, $password);
-        $userinfo = $adldap->user_info($username, array("name", "samaccountname", "userPrincipalName", "mail", "description", "group"));
-        // echo "<pre>";
-        // print_r($userinfo);
-        // exit;
+        //$userinfo = $adldap->user_info($username, array("name", "samaccountname", "userPrincipalName", "mail", "description", "group"));
 
         if ($authUser == true) {
 

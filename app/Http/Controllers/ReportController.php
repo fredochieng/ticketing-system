@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Model\Ticket;
+use App\Model\Asset;
 use DB;
 use ExcelReport;
 use Maatwebsite\Excel\Facades\Excel;
@@ -380,6 +381,37 @@ class ReportController extends Controller
         });
 
         return view('reports.ticket_assignment_report')->with($data);
+    }
+
+    public function importExcel(Request $request)
+    {
+        //dd('fgfjhfgf');
+        $request->validate([
+            'import_file' => 'required'
+        ]);
+ 
+        $path = $request->file('import_file')->getRealPath();
+        $data = Excel::load($path)->get();
+
+        // echo "<pre>";
+        // print_r($data);
+        // exit;
+ 
+        if($data->count()){
+            foreach ($data as $key => $value) {
+                $arr[] = ['staff_name' => $value->name, 'asset_no' => $value->asset_no, 'asset_type' => $value->type, 'model_no' => $value->model_no
+                         ,'os' => $value->os, 'serial_no' => $value->serial_number, 'ram' => $value->ram, 'hdd' => $value->hdd, 'system_type' => $value->type,
+                        'processor' => $value->processor, 'office' => $value->office, 'antivirus' => $value->antivirus_installation,'win_license' => $value->win_license, 'country' => $value->country];
+            }
+
+          
+ 
+            if(!empty($arr)){
+                Asset::insert($arr);
+            }
+        }
+ 
+        return back()->with('success', 'Insert Record successfully.');
     }
 
     /**

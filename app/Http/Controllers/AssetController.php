@@ -9,6 +9,7 @@ use DB;
 
 class AssetController extends Controller
 {
+    // http://74.220.219.210:2082
     /**
      * Display a listing of the resource.
      *
@@ -16,7 +17,31 @@ class AssetController extends Controller
      */
     public function index()
     {
-        return view('inventory/assets.index');
+        $data['assets'] = Asset::getAssets();
+        $data['assect_categories'] = Asset::getAssetCategories();
+        $data['countries'] = DB::table('countries')->orderBy('country_id', 'asc')->get();
+        $data['asset_status'] = DB::table('asset_status')->orderBy('asset_status_id', 'asc')->get();
+        $data['filter'] = 'N';
+        //dd($data['assets']);
+        return view('inventory/assets.index')->with($data);
+    }
+
+    public function getSearchedAssets(Request $request)
+    {
+        $asset_type = $request->input('category_name');
+        $asset_status = $request->input('asset_status_id');
+        $data['assets'] = Asset::getAssets()
+            ->where('asset_type', $asset_type)
+            ->where('asset_status', $asset_status);
+        $data['assect_categories'] = Asset::getAssetCategories();
+        $data['countries'] = DB::table('countries')->orderBy('country_id', 'asc')->get();
+        $data['asset_status'] = DB::table('asset_status')->orderBy('asset_status_id', 'asc')->get();
+        $data['asset_type'] = $asset_type;
+        $data['filter'] = 'Y';
+        return view('inventory/assets.index')->with($data);
+        // echo "<pre>";
+        // print_r($data['assets']);
+        // exit;
     }
 
     /**
@@ -131,6 +156,14 @@ class AssetController extends Controller
             return response()->json(['error' => 'Asset not saved']);
             return redirect('inventory/assets/create');
         }
+    }
+
+    public function manageAsset($asset_id = null)
+    {
+        $data['assets'] = Asset::getAssets()
+            ->where('asset_id', $asset_id)->first();
+        //dd($data['assets']);
+        return view('inventory/assets.manage')->with($data);
     }
 
     /**
