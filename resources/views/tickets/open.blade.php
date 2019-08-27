@@ -8,6 +8,7 @@
 
 @stop
 @section('content')
+
 <div class="row">
     <div class="col-xs-12">
         <div class="box box-success">
@@ -80,7 +81,7 @@
 <script type="text/javascript">
     $(function(){
       $(".select2").select2();
-    $('#example1').DataTable()
+    $('#example1').DataTable();
     });
 </script>
 @stop

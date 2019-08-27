@@ -57,7 +57,7 @@ return [
 
     'from' => [
         'address' => env('MAIL_FROM_ADDRESS', 'ticketing@ke.wananchi.com'),
-        'name' => env('MAIL_FROM_NAME', 'Wanachi Helpdesk'),
+        'name' => env('MAIL_FROM_NAME', 'Wananchi Helpdesk'),
     ],
 
     /*

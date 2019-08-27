@@ -3,7 +3,6 @@
 @section('content_header')
 <h1 class="pull-left">Inventory<small>Assets</small></h1>
 <div style="clear:both"></div>
-
 @stop
 @section('content')
 <div class="row">
@@ -39,8 +38,8 @@
                         <div class="col-md-3">
                             {{Form::label('Asset Status')}}
                             <div class="form-group">
-                                <select class="form-control select2" id="asset_status_id" name="asset_status_id" required
-                                    style="width: 100%;" tabindex="-1" aria-hidden="true">
+                                <select class="form-control select2" id="asset_status_id" name="asset_status_id"
+                                    required style="width: 100%;" tabindex="-1" aria-hidden="true">
                                     <option selected="selected" value="">Select asset status</option>
                                     @foreach($asset_status as $item)
                                     <option value="{{ $item->asset_status_id }}">{{ $item->asset_status_name }}
@@ -77,102 +76,114 @@
 <div class="row">
     <div class="col-xs-12">
         <div class="box box-success">
-            <div class="box-header with-border">
-              @if($filter == 'N')
-               <h3 class="box-title">All Assets</h3>
-               @else
-                <h3 class="box-title"><strong>{{$asset_type}} Assets</strong></h3>
-                @endif
-            </div>
-            <div class="box-body">
-                <div class="table-responsive">
-                    <table id="example1" class="table no-margin" style="font-size:12px">
-                        <thead>
-                            <tr role="row">
-                                <th>Staff Name</th>
-                                <th>Asset No</th>
-                                <th>Asset Type</th>
-                                <th>Model No</th>
-                                <th>Serial No</th>
-                                <th>Status</th>
-                                {{-- <th>RAM</th>
-                                <th>OS</th>
-                                <th>Processor</th> --}}
-                                <th>Country</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($assets as $row)
-                            <tr>
-                            @if(empty($row->staff_name))
-                            <td>NOT AVAILABLE</td>
-                            @else
-                                <td>{{$row->staff_name}}</td>
-                                @endif
-                                @if(empty($row->asset_no))
-                                 <td>NOT AVAILABLE</td>
-                                 @else
-                                <td>{{$row->asset_no}}</td>
-                                @endif
-                                @if(empty($row->asset_type))
-                                 <td>NOT AVAILABLE</td>
-                                 @else
-                                <td>{{$row->asset_type}}</td>
-                                @endif
-                                @if(empty($row->model_no ))
-                                  <td>NOT AVAILABLE</td>
-                                  @else
-                                <td>{{ $row->model_no }}</td>
-                                @endif
-                                @if(empty($row->serial_no))
-                                 <td>NOT AVAILABLE</td>
-                                 @else
-                                <td>{{ $row->serial_no }}</td>
-                                @endif
-                                <td><small class="badge bg-{{$row->status_color}}">{{$row->asset_status_name}}</small></span></td>
-                                {{-- @if(empty($row->ram ))
-                                 <td>NOT AVAILABLE</td>
-                                 @else
-                                <td>{{ $row->ram }}</td>
-                                @endif
-                                @if(empty($row->os))
-                                 <td>NOT AVAILABLE</td>
-                                 @else
-                                <td>{{ $row->os }}</td>
-                                @endif
-                                @if(empty($row->processor))
-                                 <td>NOT AVAILABLE</td>
-                                 @else
-                                <td>{{ $row->processor }}</td>
-                                @endif --}}
-                                  @if(empty($row->country))
-                                 <td>NOT AVAILABLE</td>
-                                 @else
-                                <td>{{ $row->country }}</td>
-                                @endif
-                                     <td> <a href="/assets/manage/&id={{$row->asset_id}}"
-                                        class="btn btn-flat btn-info btn-sm"><i class="fa fa-eye"></i></a></td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+            <div class="box-header">
+                <div class="box-header with-border">
+                    @if($filter == 'N')
+                    <h3 class="box-title">All Assets</h3>
+                    @else
+                    <h3 class="box-title"><strong>{{$asset_type}} Assets</strong></h3>
+                    @endif
+                    {!!
+                    Form::open(['action'=>['AssetController@exportSearchedAssetss'],
+                    'method'=>'POST','class'=>'form','enctype'=>'multipart/form-data'])
+                    !!}
+                    <button type="submit" style="margin-top:25px;"
+                        class="btn btn-primary btn-flat pull-right"><strong><i class="fa fa-fw fa-excel"></i>Export
+                            Assets</strong></button>
+                    <input type="hidden" name="asset_type" value="{{ $asset_type}}">
+                    <input type="hidden" name="asset_status" value="{{ $asset_status_id}}">
+
+                    {!! Form::close() !!}
+                </div>
+                <div class="box-body">
+                    <div class="table-responsive">
+                        <table id="example1" class="table no-margin" style="font-size:12px">
+                            <thead>
+                                <tr role="row">
+                                    <th>Staff Name</th>
+                                    <th>Asset No</th>
+                                    <th>Asset Type</th>
+                                    <th>Model No</th>
+                                    <th>Serail No</th>
+                                    <th>Status</th>
+                                    <th>Country</th>
+                                    <th>Action</th>
+                                </tr>
+
+                            </thead>
+                            <tbody>
+                                @foreach ($assets as $row)
+                                <tr>
+                                    @if(empty($row->staff_name))
+                                    <td>NOT AVAILABLE</td>
+                                    @else
+                                    <td>{{$row->staff_name}}</td>
+                                    @endif
+                                    @if(empty($row->asset_no))
+                                    <td>NOT AVAILABLE</td>
+                                    @else
+                                    <td>{{$row->asset_no}}</td>
+                                    @endif
+                                    @if(empty($row->asset_type))
+                                    <td>NOT AVAILABLE</td>
+                                    @else
+                                    <td>{{$row->asset_type}}</td>
+                                    @endif
+                                    @if(empty($row->model_no ))
+                                    <td>NOT AVAILABLE</td>
+                                    @else
+                                    <td>{{ $row->model_no }}</td>
+                                    @endif
+                                    @if(empty($row->serial_no))
+                                    <td>NOT AVAILABLE</td>
+                                    @else
+                                    <td>{{ $row->serial_no }}</td>
+                                    @endif
+                                    <td><small
+                                            class="badge bg-{{$row->status_color}}">{{$row->asset_status_name}}</small></span>
+                                    </td>
+                                    {{-- @if(empty($row->ram ))
+                                                             <td>NOT AVAILABLE</td>
+                                                             @else
+                                                            <td>{{ $row->ram }}</td>
+                                    @endif
+                                    @if(empty($row->os))
+                                    <td>NOT AVAILABLE</td>
+                                    @else
+                                    <td>{{ $row->os }}</td>
+                                    @endif
+                                    @if(empty($row->processor))
+                                    <td>NOT AVAILABLE</td>
+                                    @else
+                                    <td>{{ $row->processor }}</td>
+                                    @endif --}}
+                                    @if(empty($row->country))
+                                    <td>NOT AVAILABLE</td>
+                                    @else
+                                    <td>{{ $row->country }}</td>
+                                    @endif
+                                    <td> <a href="/assets/manage/&id={{$row->asset_id}}"
+                                            class="btn btn-flat btn-info btn-sm"><i class="fa fa-eye"></i></a></td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-@stop
-@section('css')
-<link rel="stylesheet" href="/css/bootstrap-datepicker.min.css">
-@stop
-@section('js')
+    @stop
+    @section('css')
 
-<script src="/js/select2.full.min.js"></script>
+    @stop
+    @section('js')
 
-<script>
-    $(function () {
+
+    <script type="text/javascript">
+        $(function(){
       $(".select2").select2();
-      $('#example1').DataTable();
+    $('#example1').DataTable();
     });
-</script>
-@stop
+    </script>
+    @stop

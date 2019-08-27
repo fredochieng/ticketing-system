@@ -24,9 +24,13 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('dashboard');
 // Routes for Assets
 Route::resource('/inventory/assets', 'AssetController');
+Route::post('/inventory/assets/create', 'AssetController@store');
 Route::any('/assets/manage/&id={id}', 'AssetController@manageAsset');
 Route::post('/addAsset', 'AssetController@addAsset');
+Route::post('/update-asset', 'AssetController@updateAsset');
+Route::post('/change-status', 'AssetController@changeStatus');
 Route::post('/inventory/assets', 'AssetController@getSearchedAssets');
+Route::any('/inventory/assets/export', 'AssetController@exportSearchedAssetss');
 Route::resource('/inventory/attributes/asset-categories', 'CategoryController');
 
 // Routes for Issues

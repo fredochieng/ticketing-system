@@ -1,7 +1,7 @@
 @extends('adminlte::page')
 @section('title', 'Create Asset - IT HelpDesk')
 @section('content_header')
-<h1 class="pull-left">Assets<small>Manage assets</small></h1>
+<h1 class="pull-left">Assets<small>Create new asset</small></h1>
 <div style="clear:both"></div>
 @stop
 @section('content')
@@ -15,173 +15,160 @@
             <div class="box-body">
                 <div class="container-fluid">
                     <div class="row">
-                        {!! Form::open(['action'=>'AssetController@store','method'=>'POST','class'=>'form','enctype'=>'multipart/form-data']) !!}
-                        <div class="col-md-6">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    {{Form::label('Asset Tag *')}}<br>
+                        {!!
+                        Form::open(['action'=>'AssetController@store','method'=>'POST','class'=>'form','enctype'=>'multipart/form-data'])
+                        !!}
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    {{Form::label('Asset Number')}}<br>
                                     <div class="form-group">
-                                        {{Form::text('asset_tag', 'WG',['class'=>'form-control'])}}
+                                        {{Form::text('asset_no', '',['class'=>'form-control', 'required', 'placeholder'=>''])}}
                                     </div>
                                 </div>
-
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        {{Form::label('Asset Number *')}}<br>
-                                        <div class="form-group">
-                                            {{Form::text('asset_no', '',['class'=>'form-control',])}}
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        {{Form::label('Category')}}<br> {{ Form::select('category_id',$categories,null, ['class'
-                                        => 'form-control select2', 'placeholder'=>'Please select category']) }}
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        {{Form::label('Asset Status')}}<br> {{ Form::select('status_id',$asset_status,null,
-                                        ['class' => 'form-control select2', 'placeholder'=>'Please select asset status'])
-                                        }}
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        {{Form::label('Manufacturer')}}<br> {{ Form::select('manufacturer_id',$manufacturers,null,
-                                        ['class' => 'form-control select2', 'placeholder'=>'Please select manufacturer'])
-                                        }}
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    {{Form::label('Model *')}}<br>
-                                    <div class="form-group">
-                                        {{Form::text('model', '',['class'=>'form-control'])}}
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        {{Form::label('RAM')}}<br> {{ Form::select('ram_id',$ram,null, ['class' => 'form-control
-                                        select2', 'placeholder'=>'Please select RAM size']) }}
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        {{Form::label('HDD')}}<br> {{ Form::select('hdd_id',$hdd,null, ['class' => 'form-control
-                                        select2', 'placeholder'=>'Please select HDD size']) }}
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        {{Form::label('Asset User')}}<br> {{ Form::select('user_id',$users,null, ['class'
-                                        => 'form-control select2', 'placeholder'=>'Please select category']) }}
-                                    </div>
-                                </div>
-                                <div class="col-md-12"></div>
                             </div>
-                        </div>
-
-                        <div class="col-md-6">
-
-                            <div class="row">
-                                <div class="col-md-6">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    {{Form::label('Staff Name')}}<br>
                                     <div class="form-group">
-                                        <label for="purchase_date">Purchase Date</label>
-                                        <div class="input-group">
-                                            <input type="text" class="form-control purchase_date" id="purchase_date" name="purchase_date">
-                                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                        </div>
+                                        {{Form::text('staff_name', '',['class'=>'form-control', 'placeholder'=>''])}}
                                     </div>
                                 </div>
-
-                                <div class="col-md-6">
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    {{Form::label('Asset Type')}}<br>
                                     <div class="form-group">
-                                        <label for="warranty_months">Warranty</label>
-                                        <div class="input-group">
-                                            <input type="number" class="form-control" id="warranty_months" name="warranty_months">
-                                            <span class="input-group-addon">months</span>
-                                        </div>
+                                        <select class="form-control select2" id="asset_type_id" name="asset_type"
+                                            style="width: 100%;" required>
+                                            <option selected="selected">Select asset type</option>
+                                            @foreach($asset_categories as $item)
+                                            <option value="{{ $item->asset_cat_name }}">{{ $item->asset_cat_name }}
+                                            </option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                 </div>
-
-                                {{--
-                                <div class="col-md-6">
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    {{Form::label('Serial Number')}}<br>
                                     <div class="form-group">
-                                        {{Form::label('Warranty *')}}<br>
-                                        <div class="form-group">
-                                            <div class="input-group">
-                                                {{Form::number('asset_no', '',['class'=>'form-control', 'id'=>'warranty_months'])}}
-                                                <span class="input-group-addon"></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div> --}}
-
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        {{Form::label('Serial Number *')}}<br>
-                                        <div class="form-group">
-                                            {{Form::text('serial_no', '',['class'=>'form-control'])}}
-                                        </div>
+                                        {{Form::text('serial_no', '',['class'=>'form-control', 'required', 'placeholder'=>''])}}
                                     </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        {{Form::label('System Type')}}<br> {{ Form::select('system_type_id',$system_types,null,
-                                        ['class' => 'form-control select2', 'placeholder'=>'Please select system type'])
-                                        }}
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        {{Form::label('Operating System')}}<br> {{ Form::select('os_id',$os,null, ['class'
-                                        => 'form-control select2', 'placeholder'=>'Please select operating system']) }}
-                                    </div>
-                                </div>
+                            </div>
 
-
-                                <div class="col-md-6">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    {{Form::label('Model Number')}}<br>
                                     <div class="form-group">
-                                        {{Form::label('Processor Type')}}<br> {{ Form::select('processor_id',$processors,null,
-                                        ['class' => 'form-control select2', 'placeholder'=>'Please select processor']) }}
+                                        {{Form::text('model_no', '',['class'=>'form-control', 'required', 'placeholder'=>''])}}
                                     </div>
                                 </div>
+                            </div>
 
-                                <div class="col-md-6">
+                            <div class="col-md-4 hide" id="os_div">
+                                <div class="form-group">
+                                    {{Form::label('Operating System')}}<br>
                                     <div class="form-group">
-                                        {{Form::label('Microsoft Office')}}<br> {{ Form::select('office_id',$office,null,
-                                        ['class' => 'form-control select2', 'placeholder'=>'Please select office package'])
-                                        }}
+                                        {{Form::text('os', '',['class'=>'form-control', 'placeholder'=>''])}}
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                            </div>
+                            <div class="col-md-3 hide" id="ram_div">
+                                <div class="form-group">
+                                    {{Form::label('RAM')}}<br>
                                     <div class="form-group">
-                                        {{Form::label('Windows Licence')}}<br> {{ Form::select('licence_id',$windows_licence,null,
-                                        ['class' => 'form-control select2', 'placeholder'=>'Please select windows licence'])
-                                        }}
+                                        {{Form::text('ram', '',['class'=>'form-control', 'placeholder'=>''])}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 hide" id="hdd_div">
+                                <div class="form-group">
+                                    {{Form::label('Hard Drive')}}<br>
+                                    <div class="form-group">
+                                        {{Form::text('hdd', '',['class'=>'form-control', 'placeholder'=>''])}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 hide" id="sys_type_div">
+                                <div class="form-group">
+                                    {{Form::label('System Type')}}<br>
+                                    <div class="form-group">
+                                        {{Form::text('system_type', '',['class'=>'form-control', 'placeholder'=>''])}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 hide" id="processor_div">
+                                <div class="form-group">
+                                    {{Form::label('Processor')}}<br>
+                                    <div class="form-group">
+                                        {{Form::text('processor', '',['class'=>'form-control', 'placeholder'=>''])}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 hide" id="office_div">
+                                <div class="form-group">
+                                    {{Form::label('Office')}}<br>
+                                    <div class="form-group">
+                                        {{Form::text('office', '',['class'=>'form-control', 'placeholder'=>''])}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 hide" id="antivirus_div">
+                                <div class="form-group">
+                                    {{Form::label('Antivirus')}}<br>
+                                    <div class="form-group">
+                                        {{Form::text('antivirus', '',['class'=>'form-control', 'placeholder'=>''])}}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 hide" id="win_license_div">
+                                <div class="form-group">
+                                    {{Form::label('Windows License')}}<br>
+                                    <div class="form-group">
+                                        {{Form::text('win_license', '',['class'=>'form-control', 'placeholder'=>''])}}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    {{Form::label('User Country')}}<br>
+                                    <div class="form-group">
+                                        <select class="form-control select2" name="country" style="width: 100%;"
+                                            required>
+                                            <option selected="selected">Select user country</option>
+                                            @foreach($countries as $item)
+                                            <option value="{{ $item->country_name }}">{{ $item->country_name }}
+                                            </option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label for="notes">Description</label>
-                                <textarea class="form-control summernoteLarge" id="notes" name="notes"></textarea>
+                        <div class="row">
+                            <div class="col-md-3 pull-right">
+                                <button type="submit" class="btn btn-block btn-primary"><i class="fa fa-check"></i>
+                                    Create New
+                                    Asset</button>
                             </div>
+                            {!! Form::close() !!}
                         </div>
 
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <button type="submit" class="btn btn-primary"><i class="fa fa-check"></i> Create New Asset</button>
-                            </div>
-                        </div>
-                        {!! Form::close() !!}
-                        <!-- /.form -->
                     </div>
                 </div>
+                <!-- /.tab-pane -->
             </div>
+            <!-- /.form -->
         </div>
     </div>
+</div>
+</div>
+</div>
 </div>
 @stop
 @section('css')
@@ -193,101 +180,28 @@
 <script src="/js/select2.full.min.js"></script>
 <script>
     $(function () {
-	 $('.purchase_date').datepicker( {
-	 	format: 'dd-mm-yyyy',
-		orientation: "bottom",
-		autoclose: true,
-         showDropdowns: true,
-         todayHighlight: true,
-         toggleActive: true,
-         startDate: new Date(),
-         clearBtn: true,
-     })
+        $("#asset_type_id").change(function() {
+        var val = $(this).val();
+        if (val == 'LAPTOP' || val == 'DESKTOP') {
+           $("#os_div").removeClass("hide");
+           $("#ram_div").removeClass("hide");
+           $("#hdd_div").removeClass("hide");
+           $("#sys_type_div").removeClass("hide");
+           $("#processor_div").removeClass("hide");
+           $("#office_div").removeClass("hide");
+           $("#antivirus_div").removeClass("hide");
+           $("#win_license_div").removeClass("hide");
+        }else{
+           $("#ram_div").addClass("hide");
+           $("#hdd_div").addClass("hide");
+           $("#sys_type_div").addClass("hide");
+           $("#processor_div").addClass("hide");
+           $("#office_div").addClass("hide");
+           $("#antivirus_div").addClass("hide");
+           $("#win_license_div").addClass("hide");
+        }
+        });
           $(".select2").select2()
-          $('#example1').DataTable()
  })
 </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 @stop
