@@ -67,32 +67,32 @@
     </div>
 </div>
 
-   {{-- {!!
+{!!
 Form::open(['action'=>['ReportController@importExcel'],
-                    'method'=>'POST','class'=>'form','enctype'=>'multipart/form-data'])
-                    !!}
- 
-                @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
- 
-                @if (Session::has('success'))
-                    <div class="alert alert-success">
-                        <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
-                        <p>{{ Session::get('success') }}</p>
-                    </div>
-                @endif
- 
-                <input type="file" name="import_file" />
-                <button class="btn btn-primary">Import File</button>
-            </form> --}}
+'method'=>'POST','class'=>'form','enctype'=>'multipart/form-data'])
+!!}
+
+@if ($errors->any())
+<div class="alert alert-danger">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+    <ul>
+        @foreach ($errors->all() as $error)
+        <li>{{ $error }}</li>
+        @endforeach
+    </ul>
+</div>
+@endif
+
+@if (Session::has('success'))
+<div class="alert alert-success">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+    <p>{{ Session::get('success') }}</p>
+</div>
+@endif
+
+<input type="file" name="import_file" />
+<button class="btn btn-primary">Import File</button>
+{!! Form::close() !!}
 
 <div class="row">
     <div class="col-md-12">

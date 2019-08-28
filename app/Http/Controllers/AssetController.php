@@ -6,6 +6,7 @@ use App\Model\Asset;
 use App\Model\Category;
 use Illuminate\Http\Request;
 use DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AssetController extends Controller
 {
@@ -24,6 +25,7 @@ class AssetController extends Controller
         $data['filter'] = 'N';
         $data['asset_type'] = 'all';
         $data['asset_status_id'] = 'all';
+        $data['country_name'] = 'all';
         return view('inventory/assets.index')->with($data);
     }
 
@@ -31,14 +33,20 @@ class AssetController extends Controller
     {
         $asset_type = $request->input('category_name');
         $asset_status = $request->input('asset_status_id');
+        $country_name = $request->input('country_name');
+
         $data['assets'] = Asset::getAssets()
             ->where('asset_type', $asset_type)
-            ->where('asset_status', $asset_status);
+            ->where('asset_status', $asset_status)
+            ->where('country', $country_name);
         $data['assect_categories'] = Asset::getAssetCategories();
         $data['countries'] = DB::table('countries')->orderBy('country_id', 'asc')->get();
         $data['asset_status'] = DB::table('asset_status')->orderBy('asset_status_id', 'asc')->get();
+        $data['asset_status_name'] = DB::table('asset_status')->where('asset_status_id', $asset_status)->first();
+        $data['asset_status_name'] = $data['asset_status_name']->asset_status_name;
         $data['asset_type'] = $asset_type;
         $data['asset_status_id'] = $asset_status;
+        $data['country_name'] = $country_name;
         $data['filter'] = 'Y';
         return view('inventory/assets.index')->with($data);
     }
@@ -47,7 +55,161 @@ class AssetController extends Controller
     {
         $asset_type = $request->input('asset_type');
         $asset_status = $request->input('asset_status');
-        dd($asset_status);
+        $country_name = $request->input('country_name');
+
+        if ($asset_type == 'all') {
+            $assets = Asset::getAssets();
+        } else {
+            $assets = Asset::getAssets()
+                ->where('asset_type', $asset_type)
+                ->where('asset_status', $asset_status)
+                ->where('country', $country_name);
+        }
+
+        if ($asset_type == 'LAPTOP' || $asset_type == 'DESKTOP') {
+            $data_array[] = array(
+                'Asset No', 'Status', 'Staff Name', 'Asset Type', 'Model No', 'Serial No', 'Operating System', 'RAM', 'HDD',
+                'System Type', 'Office', 'Antivirus', 'Windows License', 'Country', 'Date Added'
+            );
+            $text_title_disp = $asset_type . " ASSETS REPORT";
+            foreach ($assets as $key => $value) {
+
+                if ($value->asset_status == 1) {
+                    $status = 'Unassigned';
+                } elseif ($value->asset_status == 2) {
+                    $status = 'Faulty';
+                } elseif ($value->asset_status == 3) {
+                    $status = 'Working';
+                } elseif ($value->asset_status == 3) {
+                    $status = 'Repair';
+                }
+                $data_array[] = array(
+                    $value->asset_no,
+                    $status,
+                    $value->staff_name,
+                    $value->asset_type,
+                    $value->model_no,
+                    $value->serial_no,
+                    $value->os,
+                    $value->ram,
+                    $value->hdd,
+                    $value->system_type,
+                    $value->office,
+                    $value->antivirus,
+                    $value->win_license,
+                    $value->country,
+                    $value->created_at
+                );
+            }
+
+            $GLOBALS['data_array'] = $data_array;
+            \Excel::create(str_replace(' ', '_', $text_title_disp), function ($excel) {
+                $excel->sheet('Sheetname', function ($sheet) {
+                    $sheet->fromArray($GLOBALS['data_array']);
+                });
+            })->export('xlsx');
+        } elseif ($asset_type == 'all') {
+            $data_array[] = array(
+                'Asset No', 'Status', 'Staff Name', 'Asset Type', 'Model No', 'Serial No', 'Operating System', 'RAM', 'HDD',
+                'System Type', 'Office', 'Antivirus', 'Windows License', 'Country', 'Date Added'
+            );
+            $text_title_disp = "ALL ASSETS REPORT";
+            foreach ($assets as $key => $value) {
+                if ($value->asset_status == 1) {
+                    $status = 'Unassigned';
+                } elseif ($value->asset_status == 2) {
+                    $status = 'Faulty';
+                } elseif ($value->asset_status == 3) {
+                    $status = 'Working';
+                } elseif ($value->asset_status == 3) {
+                    $status = 'Repair';
+                }
+                $data_array[] = array(
+                    $value->asset_no,
+                    $status,
+                    $value->staff_name,
+                    $value->asset_type,
+                    $value->model_no,
+                    $value->serial_no,
+                    $value->os,
+                    $value->ram,
+                    $value->hdd,
+                    $value->system_type,
+                    $value->office,
+                    $value->antivirus,
+                    $value->win_license,
+                    $value->country,
+                    $value->created_at,
+                );
+            }
+
+            $GLOBALS['data_array'] = $data_array;
+            \Excel::create(str_replace(' ', '_', $text_title_disp), function ($excel) {
+                $excel->sheet('Sheetname', function ($sheet) {
+                    $sheet->fromArray($GLOBALS['data_array']);
+                });
+            })->export('xlsx');
+        } else {
+
+            $data_array[] = array(
+                'Asset No', 'Status', 'Staff Name', 'Asset Type', 'Model No', 'Serial No', 'Country', 'Date Added'
+            );
+            $text_title_disp = $asset_type . " ASSETS REPORT";
+            foreach ($assets as $key => $value) {
+                if ($value->asset_status == 1) {
+                    $status = 'Unassigned';
+                } elseif ($value->asset_status == 2) {
+                    $status = 'Faulty';
+                } elseif ($value->asset_status == 3) {
+                    $status = 'Working';
+                } elseif ($value->asset_status == 3) {
+                    $status = 'Repair';
+                }
+                $data_array[] = array(
+                    $value->asset_no,
+                    $status,
+                    $value->staff_name,
+                    $value->asset_type,
+                    $value->model_no,
+                    $value->serial_no,
+                    $value->country,
+                    $value->created_at
+                );
+            }
+
+            $GLOBALS['data_array'] = $data_array;
+            \Excel::create(str_replace(' ', '_', $text_title_disp), function ($excel) {
+                $excel->sheet('Sheetname', function ($sheet) {
+                    $sheet->fromArray($GLOBALS['data_array']);
+                });
+            })->export('xlsx');
+        }
+    }
+
+    public function importExcel(Request $request)
+    {
+        $request->validate([
+            'import_file' => 'required'
+        ]);
+
+        $path = $request->file('import_file')->getRealPath();
+        $data = Excel::load($path)->get();
+
+        if ($data->count()) {
+            foreach ($data as $key => $value) {
+                $arr[] = [
+                    'staff_name' => $value->name, 'asset_no' => $value->asset_no, 'asset_type' => $value->type, 'model_no' => $value->model_no, 'os' => $value->os, 'serial_no' => $value->serial_number, 'ram' => $value->ram, 'hdd' => $value->hdd, 'system_type' => $value->system_type,
+                    'processor' => $value->processor, 'office' => $value->office, 'antivirus' => $value->antivirus_installation, 'win_license' => $value->win_license, 'country' => $value->country
+                ];
+            }
+
+            if (!empty($arr)) {
+                Asset::insert($arr);
+            }
+        }
+
+        toast('Assets imported successfully', 'success', 'top-right');
+        return back();
     }
 
     /**
@@ -139,7 +301,7 @@ class AssetController extends Controller
         $data['countries'] = DB::table('countries')->orderBy('country_id', 'asc')->get();
         $data['asset_status'] = DB::table('asset_status')->orderBy('asset_status_id', 'asc')->get();
         $status = DB::table('asset_status')->where('asset_status_id', $status_id)->first();
-        $data['status_name'] = $status->asset_status_name;
+        $data['status_name'] = isset($status->asset_status_name) ? $status->asset_status_name : null;
         //dd($data['assets']);
         return view('inventory/assets.manage')->with($data);
     }

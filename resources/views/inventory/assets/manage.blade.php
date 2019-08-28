@@ -82,11 +82,8 @@
 
                         </tr>
                         <tr>
-                            <td><b>Issued On</b></td>
-
-                        </tr>
-                        <tr>
-                            <td><b>Returned On</b></td>
+                            <td><b>Date Added</b></td>
+                            <td>{{ $assets->created_at }}</td>
 
                         </tr>
                     </tbody>
@@ -262,7 +259,7 @@
                                         <div class="form-group">
                                             {{Form::label('Created At')}}<br>
                                             <div class="form-group">
-                                                {{Form::text('created_at', '2019-08-23 14:25:56',['class'=>'form-control', 'readonly', 'placeholder'=>''])}}
+                                                {{Form::text('created_at', $assets->created_at,['class'=>'form-control', 'readonly', 'placeholder'=>''])}}
                                             </div>
                                         </div>
                                     </div>

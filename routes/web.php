@@ -32,6 +32,7 @@ Route::post('/change-status', 'AssetController@changeStatus');
 Route::post('/inventory/assets', 'AssetController@getSearchedAssets');
 Route::any('/inventory/assets/export', 'AssetController@exportSearchedAssetss');
 Route::resource('/inventory/attributes/asset-categories', 'CategoryController');
+Route::any('/reports/import', 'AssetController@importExcel');
 
 // Routes for Issues
 Route::resource('/issues/categories', 'IssueController');
@@ -78,4 +79,4 @@ Route::any('/report/tickets/assigment', 'ReportController@ticketAssignmentReport
 Route::resource('/system/settings', 'SystemController');
 Route::any('/system/logs', 'SystemController@getLogs');
 Route::any('/system/import', 'SystemController@getImport');
-Route::any('/reports/import', 'ReportController@importExcel');
+// Route::any('/reports/import', 'ReportController@importExcel');

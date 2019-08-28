@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Model\Category;
+use App\Model\Asset;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -14,7 +15,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return view('inventory/attributes.index');
+        $data['asset_types'] = Asset::getAssetCategories();
+        return view('inventory/attributes.index')->with($data);
     }
 
     /**

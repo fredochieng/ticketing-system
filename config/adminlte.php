@@ -113,58 +113,9 @@ return [
             'text' => 'Dashboard',
             'url'  => 'home',
             'icon' => 'dashboard'
-        ], [
-            'text'    => 'User Management',
-            'icon'    => 'users',
-            'submenu' => [
-                [
-                    'text'    => 'Users',
-                    'url'     => '/users/users',
-                    'icon' => 'user'
-                ],
-                [
-                    'text' => 'Roles',
-                    'url'  => 'roles',
-                    'icon' => 'angle-double-right'
-                ],
-            ],
-            'can' => 'users.manage',
-        ], [
-            'text'    => 'Inventory',
-            'icon'    => 'th',
-            'submenu' => [
-                [
-                    'text' => 'Assets',
-                    'url'  => '/inventory/assets',
-                    'icon' => 'desktop'
-                ],
-                [
-                    'text'    => 'Attributes',
-                    'url'     => '#',
-                    'submenu' => [
-                        [
-                            'text' => 'Asset Categories',
-                            'url'  => '/inventory/attributes/asset-categories',
-                            'icon' => 'angle-double-right'
-                        ], [
-                            'text' => 'Status Labels',
-                            'url'  => '#',
-                            'icon' => 'angle-double-right'
-                        ], [
-                            'text' => 'Manufacturers',
-                            'url'  => '#',
-                            'icon' => 'angle-double-right'
-                        ], [
-                            'text' => 'Suppliers',
-                            'url'  => '#',
-                            'icon' => 'angle-double-right'
-                        ],
-                    ],
-                ],
+        ],
 
-            ],
-            'can' => 'inventory.manage'
-        ], [
+        [
             'text'    => 'Tickets',
             'icon'    => 'ticket',
             'submenu' => [
@@ -205,6 +156,47 @@ return [
             'url'  => 'issues/categories',
             'icon' => 'tasks',
             'can' => 'issues.manage'
+        ],
+        [
+            'text'    => 'Inventory',
+            'icon'    => 'th',
+            'submenu' => [
+                [
+                    'text' => 'New Asset',
+                    'url'  => '/inventory/assets/create',
+                    'icon' => 'plus-circle'
+                ],
+                [
+                    'text' => 'Assets',
+                    'url'  => '/inventory/assets',
+                    'icon' => 'desktop'
+                ],
+                [
+
+                    'text' => 'Asset Categories',
+                    'url'  => '/inventory/attributes/asset-categories',
+                    'icon' => 'angle-double-right'
+                ],
+
+            ],
+            'can' => 'inventory.manage'
+        ],
+        [
+            'text'    => 'User Management',
+            'icon'    => 'users',
+            'submenu' => [
+                [
+                    'text'    => 'Users',
+                    'url'     => '/users/users',
+                    'icon' => 'user'
+                ],
+                [
+                    'text' => 'Roles',
+                    'url'  => 'roles',
+                    'icon' => 'angle-double-right'
+                ],
+            ],
+            'can' => 'users.manage',
         ],
         [
             'text'    => 'Reports',

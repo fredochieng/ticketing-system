@@ -10,6 +10,12 @@
         <div class="box box-primary">
             <div class="box-header with-border">
                 <h3 class="box-title">Create New Asset</h3>
+                <div class="col-md-3 pull-right">
+                    <a href="#" data-toggle="modal" data-target="#modal_import_assets"
+                        class="btn btn-block btn-info btn-sm btn-flat"><i class="fa fa-refresh fa-refresh"></i> Import
+                        Assets
+                    </a>
+                </div>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
@@ -170,6 +176,7 @@
 </div>
 </div>
 </div>
+@include('modals.assets.modal_import_assets')
 @stop
 @section('css')
 <link rel="stylesheet" href="/css/admin_custom.css">

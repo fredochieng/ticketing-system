@@ -39,7 +39,7 @@
                             {{Form::label('Asset Status')}}
                             <div class="form-group">
                                 <select class="form-control select2" id="asset_status_id" name="asset_status_id"
-                                    required style="width: 100%;" tabindex="-1" aria-hidden="true">
+                                    required required style="width: 100%;" tabindex="-1" aria-hidden="true">
                                     <option selected="selected" value="">Select asset status</option>
                                     @foreach($asset_status as $item)
                                     <option value="{{ $item->asset_status_id }}">{{ $item->asset_status_name }}
@@ -79,19 +79,26 @@
             <div class="box-header">
                 <div class="box-header with-border">
                     @if($filter == 'N')
-                    <h3 class="box-title">All Assets</h3>
+                    <td class="box-title">ALL ASSETS</td>
                     @else
-                    <h3 class="box-title"><strong>{{$asset_type}} Assets</strong></h3>
+                    <td class="box-title"><strong>ASSET: {{$asset_type}}</strong></td>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <td pull-right><strong>ASSET STATUS:
+                            {{ $asset_status_name }}</strong></td>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <td pull-right><strong>USER COUNTRY:
+                            {{ $country_name }}</strong></td>
                     @endif
                     {!!
                     Form::open(['action'=>['AssetController@exportSearchedAssetss'],
                     'method'=>'POST','class'=>'form','enctype'=>'multipart/form-data'])
                     !!}
-                    <button type="submit" style="margin-top:25px;"
-                        class="btn btn-primary btn-flat pull-right"><strong><i class="fa fa-fw fa-excel"></i>Export
+                    <button type="submit" class="btn btn-primary btn-flat pull-right"><strong><i
+                                class="fa fa-file-excel-o"></i> Export
                             Assets</strong></button>
                     <input type="hidden" name="asset_type" value="{{ $asset_type}}">
                     <input type="hidden" name="asset_status" value="{{ $asset_status_id}}">
+                    <input type="hidden" name="country_name" value="{{ $country_name}}">
 
                     {!! Form::close() !!}
                 </div>
