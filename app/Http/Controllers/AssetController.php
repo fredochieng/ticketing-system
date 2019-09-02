@@ -369,7 +369,7 @@ class AssetController extends Controller
 
             DB::table('assets_movements')->insert(
                 [
-                    'asset_id' => $asset_id, 'asset_no' => $asset_no, 'moved_to' => 'IT DEPARTMENT', 'payroll_no' => 'Not Available',
+                    'asset_id' => $asset_id, 'asset_no' => $asset_no, 'moved_to' => 'IT DEPARTMENT', 'payroll_no' => 'NOT AVAILABLE',
                     'moved_from' => $staff_name
                 ]
             );

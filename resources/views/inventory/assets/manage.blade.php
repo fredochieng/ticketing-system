@@ -107,9 +107,17 @@
                         Movement</a></li>
                 <div class="btn-group pull-right" style="padding:6px;">
                     <div class="btn-group pull-right" style="padding:6px;">
+                        @if($assets->asset_status == 3)
                         <a href="#" data-toggle="modal" data-target="#modal_move_asset_{{$assets->asset_id}}"
                             class="btn btn-primary btn-sm btn-flat"><i class="fa fa-refresh fa-refresh"></i> Reassign
                             Asset</a>
+                        @else
+                        <a href="#" data-toggle="modal" data-target="#modal_move_asset_{{$assets->asset_id}}"
+                            class="btn btn-primary btn-sm btn-flat disabled"><i class="fa fa-refresh fa-refresh"></i>
+                            Reassign
+                            Asset</a>
+                        @endif
+
                         <div class="col-md-1"></div>
                         <a href="#" data-toggle="modal" data-target="#modal_change_asset_status_{{$assets->asset_id}}"
                             class="btn btn-info btn-sm btn-flat"><i class="fa fa-refresh fa-refresh"></i> Change Asset
