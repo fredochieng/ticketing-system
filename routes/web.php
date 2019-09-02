@@ -29,6 +29,7 @@ Route::any('/assets/manage/&id={id}', 'AssetController@manageAsset');
 Route::post('/addAsset', 'AssetController@addAsset');
 Route::post('/update-asset', 'AssetController@updateAsset');
 Route::post('/change-status', 'AssetController@changeStatus');
+Route::post('/reassign-status', 'AssetController@reassignAsset');
 Route::post('/inventory/assets', 'AssetController@getSearchedAssets');
 Route::any('/inventory/assets/export', 'AssetController@exportSearchedAssetss');
 Route::resource('/inventory/attributes/asset-categories', 'CategoryController');

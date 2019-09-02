@@ -30,6 +30,7 @@ use App\Mail\WorkOnTicket;
 use App\Mail\TicketInProgress;
 use App\Mail\TicketCreationAndAssignment;
 use App\adLDAP;
+use Illuminate\Support\Facades\Log;
 
 class TicketController extends Controller
 {
@@ -334,6 +335,7 @@ class TicketController extends Controller
             $ticket->priority_id = $request->input('priority_id');
             $ticket->country_id = $request->input('country_id');
             $assigned_user = $request->input('assigned_user_id');
+            $now = Carbon::now('Africa/Nairobi');
 
             if (!empty($assigned_user)) {
                 $status_id = 2;
@@ -352,102 +354,100 @@ class TicketController extends Controller
 
             $userinfo = $adldap->user_info($username, array("name", "samaccountname", "userPrincipalName", "mail", "description", "group"));
 
-            foreach ($userinfo as $key => $value) {
-                $userinfo = $value;
-            }
-            $today = Carbon::now('Africa/Nairobi')->toDateString();
-            $assigned_at = Carbon::now('Africa/Nairobi');
+            if ($userinfo) {
 
-            $name = $userinfo['name'][0];
-            $username = $userinfo['samaccountname'][0];
-            $email = $userinfo['mail'][0];
+                foreach ($userinfo as $key => $value) {
+                    $userinfo = $value;
+                }
+                $name = $userinfo['name'][0];
+                $username = $userinfo['samaccountname'][0];
+                $email = $userinfo['mail'][0];
 
-            $ticket->email = $email;
-            $ticket->submitter = strtoupper($name);
-            $ticket->ticket_date = $today;
+                $today = Carbon::now('Africa/Nairobi')->toDateString();
+                $assigned_at = Carbon::now('Africa/Nairobi');
 
 
-            DB::beginTransaction();
-            $ticket->save();
+                $ticket->email = $email;
+                $ticket->submitter = strtoupper($name);
+                $ticket->ticket_date = $today;
 
-            $just_saved_ticket_id = $ticket->ticket_id;
 
-            $ticket_details_data = array(
-                'id' => $just_saved_ticket_id,
-                'subject' => strtoupper($request->input('subject')),
-                'issue_id' => $request->input('issue_category_id'),
-                'sub_id' => $request->input('subcategory_id'),
-                'description' => $request->input('description')
-            );
-            //$save_ticket_details_data = DB::table('ticket_details')->insertGetId($ticket_details_data);
+                DB::beginTransaction();
+                $ticket->save();
 
-            $reply_array = array(
-                'ticket_id' => $just_saved_ticket_id,
-                'submitter' => ucwords($name),
-                'message' => $request->input('description'),
-                'reply_type' => 'opened a ticket'
-            );
+                $just_saved_ticket_id = $ticket->ticket_id;
 
-            // $save_reply_details = DB::table('ticket_replies')->insertGetId($reply_array);
+                $ticket_details_data = array(
+                    'id' => $just_saved_ticket_id,
+                    'subject' => strtoupper($request->input('subject')),
+                    'issue_id' => $request->input('issue_category_id'),
+                    'sub_id' => $request->input('subcategory_id'),
+                    'description' => $request->input('description')
+                );
+                $save_ticket_details_data = DB::table('ticket_details')->insertGetId($ticket_details_data);
 
-            if (!empty($assigned_user)) {
-                DB::table('ticket_details')->where('id', $just_saved_ticket_id)->update(array('assigned_at' => $assigned_at));
-                $user_assigned = DB::table('users')->where('id', '=', $assigned_user)->first();
-                $assigned_name = $user_assigned->name;
-                $assigned_email = $user_assigned->email;
+                $reply_array = array(
+                    'ticket_id' => $just_saved_ticket_id,
+                    'submitter' => ucwords($name),
+                    'message' => $request->input('description'),
+                    'reply_type' => 'opened a ticket'
+                );
 
+                $save_reply_details = DB::table('ticket_replies')->insertGetId($reply_array);
+
+                if (!empty($assigned_user)) {
+                    DB::table('ticket_details')->where('id', $just_saved_ticket_id)->update(array('assigned_at' => $assigned_at));
+                    $user_assigned = DB::table('users')->where('id', '=', $assigned_user)->first();
+                    $assigned_name = $user_assigned->name;
+                    $assigned_email = $user_assigned->email;
+
+                    $company = "Wananchi Group IT Team";
+                    $subject = 'Ticket ' . '#' . $ticket_no . ' Creation and Assignment';
+                    $message = 'A new ticket has been created and assigned to you. ' . ' Ticket Number : ' . $ticket_no;
+
+                    $mailData1 = array(
+                        'name'     => $assigned_name,
+                        'email'     => $assigned_email,
+                        'ticket'     => $ticket_no,
+                        'subject'    => $subject,
+                        'message'   => $message,
+                        'company'    => $company
+                    );
+
+                    $resp = Mail::to($assigned_email)->send(new TicketCreationAndAssignment($mailData1));
+                }
+
+                DB::commit();
+                $name =  $name;
+                $email = $email;
                 $company = "Wananchi Group IT Team";
-                $subject = 'Ticket ' . '#' . $ticket_no . ' Creation and Assignment';
-                $message = 'A new ticket has been created and assigned to you. ' . ' Ticket Number : ' . $ticket_no;
 
-                $mailData1 = array(
-                    'name'     => $assigned_name,
-                    'email'     => $assigned_email,
+                $objEmail = new \stdClass();
+                $objEmail->name = $name;
+                $objEmail->ticket = $ticket_no;
+                $objEmail->subject = 'Ticket' . '#' . $ticket . 'Created';
+                $objEmail->message = "Someone will be assigned to process your ticket";
+                $objEmail->company = $company;
+
+                $mailData = array(
+                    'name'     => $name,
+                    'email'     => $email,
                     'ticket'     => $ticket_no,
-                    'subject'    => $subject,
-                    'message'   => $message,
+                    'subject'    => 'Ticket ' . '# ' . $ticket_no . ' Created',
+                    'message'   => 'Someone will be assigned to process your ticket',
+                    'message_id' => 'bdfdgydtfdrt6dggvcfcttydtftd',
                     'company'    => $company
                 );
 
-                $resp = Mail::to($assigned_email)->send(new TicketCreationAndAssignment($mailData1));
+                $resp = Mail::to($email)->send(new TicketCreated($mailData));
+                toast('Ticket created  successfully', 'success', 'top-right');
+
+                return back();
+            } else {
+                Log::warning("Ticket Creation attempt by " . Auth::user()->name . " for user: " . $username . " and subject: " . $request->input('subject') . " failed at " . $now);
+                toast('No user found matching the username', 'error', 'top-right');
+                return back();
             }
-
-            DB::commit();
-            $name =  $name;
-            $email = $email;
-            $company = "Wananchi Group IT Team";
-
-            $objEmail = new \stdClass();
-            $objEmail->name = $name;
-            $objEmail->ticket = $ticket_no;
-            $objEmail->subject = 'Ticket' . '#' . $ticket . 'Created';
-            $objEmail->message = "Someone will be assigned to process your ticket";
-            $objEmail->company = $company;
-
-            $mailData = array(
-                'name'     => $name,
-                'email'     => $email,
-                'ticket'     => $ticket_no,
-                'subject'    => 'Ticket ' . '# ' . $ticket_no . ' Created',
-                'message'   => 'Someone will be assigned to process your ticket',
-                'message_id' => 'bdfdgydtfdrt6dggvcfcttydtftd',
-                'company'    => $company
-            );
-
-            // echo "<pre>";
-            // print_r($mailData);
-            // exit;
-
-
-            // if (!empty($assigned_user)) {
-            //     $objEmail->message = "Your ticket has been created and assigned to one of our helpdesk technician successfully";
-            // } else {
-            //     $objEmail->message = "Your ticket has been created successfully";
-            // }
-            $resp = Mail::to($email)->send(new TicketCreated($mailData));
-            toast('Ticket created  successfully', 'success', 'top-right');
-
-            return back();
         } catch (\Exception $e) {
             DB::rollBack();
             \Log::emergency("File:" . $e->getFile() . "Line:" . $e->getLine() . "Message:" . $e->getMessage());

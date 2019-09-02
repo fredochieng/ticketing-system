@@ -1,5 +1,5 @@
 @extends('adminlte::page')
-@section('title', 'Manage Tickets - IT HelpDesk')
+@section('title', 'Manage Asset - IT HelpDesk')
 @section('content_header')
 <h1 class="pull-left"><b>Asset Details</b></h1>
 <div style="clear:both"></div>
@@ -99,21 +99,27 @@
     <div class="col-md-7">
         <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
-                <li class="active"><a href="#tab-ticket" data-toggle="tab" class="ticket-tab-button"
-                        aria-expanded="true">Edit Asset</a></li>
+                <li class="active"><a href="#tab-edit-asset" data-toggle="tab" class="ticket-tab-button"
+                        aria-expanded="true">Edit
+                        Asset</a></li>
+                <li class=""><a href="#tab-asset-movement" data-toggle="tab" class="ticket-tab-button"
+                        aria-expanded="true">Asset
+                        Movement</a></li>
                 <div class="btn-group pull-right" style="padding:6px;">
                     <div class="btn-group pull-right" style="padding:6px;">
-
+                        <a href="#" data-toggle="modal" data-target="#modal_move_asset_{{$assets->asset_id}}"
+                            class="btn btn-primary btn-sm btn-flat"><i class="fa fa-refresh fa-refresh"></i> Reassign
+                            Asset</a>
+                        <div class="col-md-1"></div>
                         <a href="#" data-toggle="modal" data-target="#modal_change_asset_status_{{$assets->asset_id}}"
                             class="btn btn-info btn-sm btn-flat"><i class="fa fa-refresh fa-refresh"></i> Change Asset
                             Status</a>
-
                     </div>
-
                 </div>
             </ul>
             <div class="tab-content">
-                <div class="tab-pane active" id="tab-ticket">
+
+                <div class="tab-pane active" id="tab-edit-asset">
                     <div class="row">
                         {!!
                         Form::open(['action'=>['AssetController@updateAsset'],'method'=>'POST','class'=>'floatit','enctype'=>'multipart/form-data'])
@@ -245,6 +251,7 @@
                                 </div>
                             </div>
                             @endif
+
                             @if ($assets->asset_type == 'LAPTOP' || $assets->asset_type == 'DESKTOP')
                             <div class="col-md-4">
                                 @else
@@ -286,23 +293,65 @@
                                     {!! Form::close() !!}
                                 </div>
                             </div>
+                            <div class="tab-pane" id="tab-asset-movement">
+                                <div class="table-responsive">
+                                    <div class="table-responsive">
+                                        <table id="example1" class="table no-margin" style="font-size:12px">
+                                            <thead>
+                                                <tr role="row">
+                                                    <th>S/N</th>
+                                                    <th>Moved To</th>
+                                                    <th>Payroll No</th>
+                                                    <th>From</th>
+                                                    <th>Date</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($asset_movements as $count => $item)
+                                                <tr>
+                                                    <td>{{ $count + 1 }}</td>
+                                                    <td>{{ $item->moved_to }}</td>
+                                                    <td>{{ $item->payroll_no }}</td>
+                                                    <td>{{ $item->moved_from }}</td>
+                                                    <td>{{ $item->created_at }}</td>
+                                                </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <!-- /.tab-pane -->
                     </div>
                 </div>
             </div>
-
-        </div>
-        @include('modals.assets.modal_change_asset_status')
-        @stop
-        @section('css')
-        <link rel="stylesheet" href="/css/admin_custom.css">
-        <link rel="stylesheet" href="/css/custom.css">
-        @stop
-        @section('js')
-        <script type="text/javascript">
-            $(function(){
-      $(".select2").select2();
-    $('#example1').DataTable()
-        </script>
-        @stop
+            @include('modals.assets.modal_change_asset_status')
+            @include('modals.assets.modal_move_asset')
+            @stop
+            @section('css')
+            <link rel="stylesheet" href="/css/admin_custom.css">
+            <link rel="stylesheet" href="/css/custom.css">
+            @stop
+            @section('js')
+            <script type="text/javascript">
+                $(function(){
+                  $(".select2").select2();
+                  $('#example1').DataTable();
+            });
+            </script>
+            <script>
+                $(function () {
+                    $("#asset_status_id").change(function() {
+                    var val = $(this).val();
+                    if (val == 3) {
+                       $("#staff_name_div").removeClass("hide");
+                       $("#payroll_no_div").removeClass("hide");
+                    }else{
+                       $("#staff_name_div").addClass("hide");
+                       $("#payroll_no_div").addClass("hide");
+                    }
+                    });
+                      $(".select2").select2()
+             })
+            </script>
+            @stop

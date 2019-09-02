@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Model\Asset;
+use App\Model\AssetMovement;
 use App\Model\Category;
 use Illuminate\Http\Request;
 use DB;
@@ -201,10 +202,15 @@ class AssetController extends Controller
                     'staff_name' => $value->name, 'asset_no' => $value->asset_no, 'asset_type' => $value->type, 'model_no' => $value->model_no, 'os' => $value->os, 'serial_no' => $value->serial_number, 'ram' => $value->ram, 'hdd' => $value->hdd, 'system_type' => $value->system_type,
                     'processor' => $value->processor, 'office' => $value->office, 'antivirus' => $value->antivirus_installation, 'win_license' => $value->win_license, 'country' => $value->country
                 ];
+
+                $asset_movement[] = [
+                    'asset_no' => $value->asset_no, 'moved_to' => $value->name, 'moved_from' => 'IT Department',
+                ];
             }
 
             if (!empty($arr)) {
                 Asset::insert($arr);
+                AssetMovement::insert($asset_movement);
             }
         }
 
@@ -298,6 +304,18 @@ class AssetController extends Controller
     {
         $data['assets'] = Asset::getAssets()
             ->where('asset_id', $asset_id)->first();
+
+        // $data['asset_movements'] = AssetMovement::getAssetMovements()
+        //     ->where('asset_id', $asset_id)->first();
+
+        $data['asset_movements'] = DB::table('assets_movements')
+            ->select(
+                DB::raw('assets_movements.*')
+            )
+            ->where('asset_id', $asset_id)
+            ->orderBy('asset_id', 'asc')->get();
+        // dd($data['asset_movements']);
+
         $status_id = $data['assets']->asset_status;
         $data['assect_categories'] = Asset::getAssetCategories();
         $data['countries'] = DB::table('countries')->orderBy('country_id', 'asc')->get();
@@ -312,6 +330,17 @@ class AssetController extends Controller
     {
         $asset_id = $request->input('asset_id');
         $status_id = $request->input('status_id');
+        $staff = $request->input('staff_name');
+        $payroll_no = $request->input('payroll_no');
+        $asset = Asset::getAssets()->where("asset_id", $asset_id)->first();
+        $staff_name = $asset->staff_name;
+        $asset_no = $asset->asset_no;
+        if (empty($staff_name)) {
+            $staff_name = 'IT DEPARTMENT';
+        } else {
+            $staff_name = $staff_name;
+        }
+
         if ($status_id == 'Unassigned' || $status_id == '1') {
             $status_id = 1;
         } elseif ($status_id == 'Faulty' || $status_id == '2') {
@@ -324,13 +353,26 @@ class AssetController extends Controller
 
         if ($status_id == 3) {
             $update_status = Asset::where("asset_id", $asset_id)->update([
-                'asset_status' => $status_id
+                'asset_status' => $status_id, 'staff_name' => $staff, 'payroll_no' => $payroll_no
             ]);
+            DB::table('assets_movements')->insert(
+                [
+                    'asset_id' => $asset_id, 'asset_no' => $asset_no, 'moved_to' => $staff, 'payroll_no' => $payroll_no,
+                    'moved_from' => 'IT DEPARTMENT'
+                ]
+            );
         } else {
             $update_status = Asset::where("asset_id", $asset_id)->update([
                 'asset_status' => $status_id,
-                'staff_name' => ''
+                'staff_name' => '', 'payroll_no' => ''
             ]);
+
+            DB::table('assets_movements')->insert(
+                [
+                    'asset_id' => $asset_id, 'asset_no' => $asset_no, 'moved_to' => 'IT DEPARTMENT', 'payroll_no' => 'Not Available',
+                    'moved_from' => $staff_name
+                ]
+            );
         }
 
         toast('Asset status updated successfully', 'success', 'top-right');
@@ -407,6 +449,32 @@ class AssetController extends Controller
         ]);
 
         toast('Asset details updated successfully', 'success', 'top-right');
+        return back();
+    }
+
+    public function reassignAsset(Request $request)
+    {
+        $asset_id = $request->input('asset_id');
+        $staff = strtoupper($request->input('staff_name'));
+        $payroll_no = strtoupper($request->input('payroll_no'));
+
+        $asset = Asset::getAssets()->where("asset_id", $asset_id)->first();
+        $staff_name = $asset->staff_name;
+        $asset_no = $asset->asset_no;
+
+
+        $reassign_asset = Asset::where("asset_id", $asset_id)->update([
+            'staff_name' => $staff, 'payroll_no' => $payroll_no
+        ]);
+
+        DB::table('assets_movements')->insert(
+            [
+                'asset_id' => $asset_id, 'asset_no' => $asset_no, 'moved_to' => $staff, 'payroll_no' => $payroll_no,
+                'moved_from' => $staff_name
+            ]
+        );
+
+        toast('Asset reassigned successfully', 'success', 'top-right');
         return back();
     }
 
