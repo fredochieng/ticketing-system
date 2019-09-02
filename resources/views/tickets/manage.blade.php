@@ -17,6 +17,7 @@
                     <div class="btn-group">
                         <a href="" data-toggle="modal" data-target="#modal_reply_ticket" class="btn btn-primary">Reply
                             ticket</a>
+
                         @if(!auth()->user()->isUser() )
                         @if($tickets->status_id==3)
                         <a href="" data-toggle="modal" data-target="#modal_reopen_ticket_{{$tickets->ticket_id}}" a
@@ -24,20 +25,24 @@
                             class="btn btn-info">Reopen</a>
                         @endif
                         @endif
+
                         @if(auth()->user()->isAdmin())
                         @if($tickets->status_id==1)
                         <a href="" data-toggle="modal" data-target="#modal_assign_ticket" a href="" data-toggle="modal"
                             data-target="#modal_assign_ticket" class="btn btn-info">Assign</a>
                         @endif
                         @endif
-                        @if(auth()->user()->isTechnician() || auth()->user()->isAdmin())
+
+                        @if(auth()->user()->isTechnician() || auth()->user()->isAdmin() ||
+                        auth()->user()->isITManager())
                         @if($tickets->status_id==1)
                         <a href="" data-toggle="modal" data-target="#modal_work_on_ticket_{{$tickets->ticket_id}}"
                             class="btn btn-warning">Work on
                             ticket</a>
                         @endif
                         @endif
-                        @if(auth()->user()->isTechnician() || auth()->user()->isAdmin())
+                        @if(auth()->user()->isTechnician() || auth()->user()->isAdmin() ||
+                        auth()->user()->isITManager())
                         @if(($tickets->status_id==2) && ($tickets->esc_level_id=='') &&
                         ($tickets->assigned_user_id==Auth::user()->id))
                         <a href="" data-toggle="modal" data-target="#modal_escalate_ticket"
@@ -57,72 +62,39 @@
                             class="btn btn-success">Close</a>
                         @endif
                         @endif
+
                         @if(auth()->user()->isAdmin())
                         @if(($tickets->status_id==2) && $tickets->assigned_user_id !=Auth::user()->id)
                         <a href="" data-toggle="modal" data-target="#modal_close_ticket"
                             class="btn btn-success">Close</a>
                         @endif
                         @endif
+
                         @if(auth()->user()->isITManager())
                         @if(($tickets->status_id==2) && ($tickets->esc_level_id=='2'))
                         <a href="" data-toggle="modal" data-target="#modal_close_ticket"
                             class="btn btn-success">Close</a>
                         @endif
                         @endif
+                        @if(auth()->user()->isCIO())
+                        @if(($tickets->status_id==2) && ($tickets->esc_level_id=='7'))
+                        <a href="" data-toggle="modal" data-target="#modal_close_ticket"
+                            class="btn btn-success">Close</a>
+                        @endif
+                        @endif
+                        @if(auth()->user()->isSysManager())
+                        @if(($tickets->status_id==2) && ($tickets->esc_level_id=='4'))
+                        <a href="" data-toggle="modal" data-target="#modal_close_ticket"
+                            class="btn btn-success">Close</a>
+                        @endif
+                        @endif
 
-                        @if(auth()->user()->isAdmin())
+                        @if(auth()->user()->isAdmin() || auth()->user()->isITManager())
                         <a href="" data-toggle="modal" data-target="#modal_delete_ticket_{{ $tickets->ticket_id }}"
                             class="btn btn-danger">Delete</a>
                         @endif
 
                     </div>
-                    {{--
-                    @if(auth()->user()->isAdmin())
-                    @if($tickets->status_id==1)
-                    <a data-toggle="modal" data-target="#modal_assign_ticket" title="Assign Ticket" href="#"
-                        class="btn btn-default btn-sm btn-flat"><i class="fa fa-thumb-tack"></i></a>
-                    @endif
-                    @endif
-
-                    @if(auth()->user()->isTechnician())
-                    @if($tickets->status_id==1)
-                    <a data-toggle="modal" data-target="#modal_work_on_ticket_{{$tickets->ticket_id}}"
-                    title="Work On Ticket" href="#" class="btn btn-default btn-sm btn-flat"><i
-                        class="fa fa-check"></i></a>
-                    @endif
-                    @endif
-
-                    @if(auth()->user()->isTechnician())
-                    @if(($tickets->status_id==2) && ($tickets->esc_level_id=='') &&
-                    ($tickets->assigned_user_id==Auth::user()->id))
-                    <a data-toggle="modal" data-target="#modal_escalate_ticket" title="Escalate Ticket" href="#"
-                        class="btn btn-default btn-sm btn-flat"><i class="fa fa-refresh"></i></a>
-                    @endif
-                    @endif
-
-                    @if(($tickets->status_id==2) && ($tickets->esc_level_id=='') &&
-                    ($tickets->assigned_user_id==Auth::user()->id))
-                    <a data-toggle="modal" data-target="#modal_close_ticket" title="Close Ticket" href="#"
-                        class="btn btn-default btn-sm btn-flat"><i class="fa fa-close"></i></a>
-                    @endif
-
-                    @if(auth()->user()->isSysAdmin())
-                    @if(($tickets->status_id==2) && ($tickets->esc_level_id=='1'))
-                    <a data-toggle="modal" data-target="#modal_close_ticket" title="Close Ticket" href="#"
-                        class="btn btn-default btn-sm btn-flat"><i class="fa fa-close"></i></a>
-                    @endif
-                    @endif
-
-                    @if(auth()->user()->isITManager())
-                    @if(($tickets->status_id==2) && ($tickets->esc_level_id=='2'))
-                    <a data-toggle="modal" data-target="#modal_close_ticket" title="Close Ticket" href="#"
-                        class="btn btn-default btn-sm btn-flat"><i class="fa fa-close"></i></a>
-                    @endif
-                    @endif
-                    <button data-toggle="modal" data-target="#modal_delete_ticket_{{ $tickets->ticket_id }}"
-                        title="Delete Ticket" type="button" class="btn btn-default btn-sm btn-flat"><i
-                            class="fa fa-trash text-red"></i></button> --}}
-                </div>
             </ul>
             <div class="tab-content">
                 <div class="tab-pane active" id="tab-ticket">

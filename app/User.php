@@ -66,7 +66,15 @@ class User extends Authenticatable
     }
     public function isSysAdmin()
     {
-        return $this->hasRole('System Admin');
+        return $this->hasRole('Systems & Developers');
+    }
+    public function isSysManager()
+    {
+        return $this->hasRole('Systems Manager');
+    }
+    public function isCIO()
+    {
+        return $this->hasRole('Chief Information Officer');
     }
     public function isTechnician()
     {
@@ -76,6 +84,4 @@ class User extends Authenticatable
     {
         return $this->hasRole('Standard User');
     }
-
-
 }

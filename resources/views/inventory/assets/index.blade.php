@@ -108,10 +108,11 @@
                             <thead>
                                 <tr role="row">
                                     <th>Staff Name</th>
+                                    <th>Payroll No</th>
                                     <th>Asset No</th>
                                     <th>Asset Type</th>
                                     <th>Model No</th>
-                                    <th>Serail No</th>
+                                    <th>Serial No</th>
                                     <th>Status</th>
                                     <th>Country</th>
                                     <th>Action</th>
@@ -126,6 +127,7 @@
                                     @else
                                     <td>{{$row->staff_name}}</td>
                                     @endif
+                                    <td>3546</td>
                                     @if(empty($row->asset_no))
                                     <td>NOT AVAILABLE</td>
                                     @else

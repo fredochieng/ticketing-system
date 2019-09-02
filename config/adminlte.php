@@ -179,7 +179,7 @@ return [
                 ],
 
             ],
-            'can' => 'inventory.manage'
+            'can' => 'inventory.manage',
         ],
         [
             'text'    => 'User Management',

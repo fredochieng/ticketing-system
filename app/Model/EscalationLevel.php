@@ -16,7 +16,7 @@ class EscalationLevel extends Model
                 DB::raw('id'),
                 DB::raw('name')
             )
-            ->whereIn('id', array(2, 3))
+            ->whereIn('id', array(2, 3, 4, 7))
             ->orderBy('id', 'asc')->get();
 
         return $esc_levels;

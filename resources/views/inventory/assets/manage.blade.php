@@ -29,6 +29,11 @@
 
                         </tr>
                         <tr>
+                            <td><b>Payroll No</b></td>
+                            <td>{{ $assets->payroll_no}}</td>
+
+                        </tr>
+                        <tr>
                             <td><b>Asset Type</b></td>
                             <td>{{ $assets->asset_type }}</td>
 
@@ -58,7 +63,6 @@
                         <tr>
                             <td><b>Hard Drive (HDD)</b></td>
                             <td>{{ $assets->hdd}}</td>
-
                         </tr>
                         <tr>
                             <td><b>System Type</b></td>
@@ -114,7 +118,7 @@
                         {!!
                         Form::open(['action'=>['AssetController@updateAsset'],'method'=>'POST','class'=>'floatit','enctype'=>'multipart/form-data'])
                         !!}
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 {{Form::label('Asset Number')}}<br>
                                 <div class="form-group">
@@ -123,11 +127,19 @@
                             </div>
                         </div>
                         <input type="hidden" name="asset_id" value="{{$assets->asset_id}}">
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 {{Form::label('Staff Name')}}<br>
                                 <div class="form-group">
                                     {{Form::text('staff_name', $assets->staff_name,['class'=>'form-control', 'required', 'placeholder'=>''])}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                {{Form::label('Payroll No')}}<br>
+                                <div class="form-group">
+                                    {{Form::text('payroll_no', $assets->payroll_no,['class'=>'form-control', 'required', 'placeholder'=>''])}}
                                 </div>
                             </div>
                         </div>

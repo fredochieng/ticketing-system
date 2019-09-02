@@ -7,6 +7,8 @@ use Carbon\Carbon;
 use App\Model\Ticket;
 use App\Model\DailyTicketsSummary;
 use App\User;
+use DB;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -25,8 +27,12 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index(Request $request)
     {
+        // dd($request->user()->getAllPermissions(), $request->user()->hasPermissionTo('newperm'));
+
+        // $per = DB::table('permissions')->get();
+        // dd($per);
         $today = Carbon::now('Africa/Nairobi')->toDateString();
         $data['total_tickets'] = count(Ticket::getTickets());
         $data['esc_tickets'] = count(Ticket::getTickets()->where('esc_level_id', '!=', ''));

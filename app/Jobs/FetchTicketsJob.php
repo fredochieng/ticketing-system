@@ -87,7 +87,7 @@ class FetchTicketsJob implements ShouldQueue
                     $priority_id = 1;
 
                     $head = $obj->get_email_header($eml_num);
-                  
+
                     if (count($head) == 0) {
                         continue;
                     }
@@ -206,18 +206,19 @@ class FetchTicketsJob implements ShouldQueue
                             $tanzania = 'tz';
                             $uganda = 'ug';
                             $zambia = 'zm';
+                            $malawi = 'mw';
 
                             if (strpos($country, $kenya) !== false) {
                                 $country_id = 1;
                             } elseif (strpos($country, $tanzania) !== false) {
                                 $country_id = 2;
-                            }elseif(strpos($country, $uganda) !== false){
+                            } elseif (strpos($country, $uganda) !== false) {
                                 $country_id = 3;
-                            }elseif(strpos($country, $malawi) !== false){
+                            } elseif (strpos($country, $malawi) !== false) {
                                 $country_id = 4;
-                            }elseif(strpos($country, $zambia) !== false){
+                            } elseif (strpos($country, $zambia) !== false) {
                                 $country_id = 5;
-                            }else{
+                            } else {
                                 $country_id = 1;
                             }
                             // dd($country_id);

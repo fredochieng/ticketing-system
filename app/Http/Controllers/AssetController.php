@@ -245,6 +245,7 @@ class AssetController extends Controller
             $asset = new Asset();
             $asset_no = strtoupper($request->input('asset_no'));
             $staff_name = strtoupper($request->input('staff_name'));
+            $payroll_no = strtoupper($request->input('payroll_no'));
             $asset_type = strtoupper($request->input('asset_type'));
             $serial_no = strtoupper($request->input('serial_no'));
             $model_no = $request->input('model_no');
@@ -267,6 +268,7 @@ class AssetController extends Controller
             $asset->asset_status = $asset_status;
             $asset->asset_no = $asset_no;
             $asset->staff_name = $staff_name;
+            $asset->payroll_no = $payroll_no;
             $asset->asset_type = $asset_type;
             $asset->serial_no = $serial_no;
             $asset->model_no = $model_no;
@@ -372,6 +374,7 @@ class AssetController extends Controller
         $asset_id = $request->input('asset_id');
         $asset_no = strtoupper($request->input('asset_no'));
         $staff_name = strtoupper($request->input('staff_name'));
+        $payroll_no = strtoupper($request->input('payroll_no'));
         $asset_type = strtoupper($request->input('asset_type'));
         $serial_no = strtoupper($request->input('serial_no'));
         $model_no = $request->input('model_no');
@@ -388,6 +391,7 @@ class AssetController extends Controller
         $update_asset = Asset::where("asset_id", $asset_id)->update([
             'asset_no' => $asset_no,
             'staff_name' => $staff_name,
+            'payroll_no' => $payroll_no,
             'asset_type' => $asset_type,
             'serial_no' => $serial_no,
             'model_no' => $model_no,

@@ -68,7 +68,7 @@ class TicketController extends Controller
 
         $data['departments'] = Department::getDepartments();
         $data['priorities'] = Priority::getPriorities();
-        $data['users'] = User::getUsers();
+        $data['users'] = User::getHelpdeskTeam();
         $data['issue_categories'] = Issue::getIssueCategories();
         $data['countries'] = DB::table('countries')->orderBy('country_id', 'asc')->get();
 
@@ -1073,6 +1073,6 @@ class TicketController extends Controller
     {
         $resp = DB::table('tickets')->where('ticket_id', $ticket)->delete();
         toast('Ticket deleted successfully', 'success', 'top-right');
-        return view('tickets.index');
+        return redirect('tickets/all');
     }
 }

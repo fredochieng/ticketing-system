@@ -17,6 +17,7 @@
                     </a>
                 </div>
             </div>
+
             <!-- /.box-header -->
             <div class="box-body">
                 <div class="container-fluid">
@@ -25,7 +26,7 @@
                         Form::open(['action'=>'AssetController@store','method'=>'POST','class'=>'form','enctype'=>'multipart/form-data'])
                         !!}
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     {{Form::label('Asset Number')}}<br>
                                     <div class="form-group">
@@ -33,7 +34,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     {{Form::label('Staff Name')}}<br>
                                     <div class="form-group">
@@ -41,7 +42,15 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    {{Form::label('Payroll No')}}<br>
+                                    <div class="form-group">
+                                        {{Form::text('payroll_no', '',['class'=>'form-control', 'placeholder'=>''])}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     {{Form::label('Asset Type')}}<br>
                                     <div class="form-group">

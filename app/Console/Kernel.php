@@ -30,7 +30,7 @@ class Kernel extends ConsoleKernel
         // $schedule->command('backup:run')->daily()->at('13:00');
         $schedule->job(new FetchTicketsJob())->everyMinute();
         $schedule->job(new DailyTicketsSummaryJob())->everyMinute();
-        $schedule->job(new DailyDatesJob())->everyMinute();
+       $schedule->job(new DailyDatesJob())->everyMinute();
     }
 
     /**
