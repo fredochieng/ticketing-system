@@ -52,6 +52,7 @@ Route::any('/tickets/closed', 'TicketController@closedTickets');
 Route::any('/tickets/open', 'TicketController@openTickets');
 Route::any('/tickets/in-progress', 'TicketController@ticketsInProgress');
 Route::any('/tickets/assigned-to-me', 'TicketController@myAssignedTickets');
+Route::any('/tickets/deleted', 'TicketController@deletedTickets');
 Route::any('/tickets/escalated', 'TicketController@escalatedTickets');
 Route::any('/tickets/manage/&id={id}', 'TicketController@manageTickets');
 Route::any('/ticket/assign', 'TicketController@assignTicket');
@@ -75,9 +76,11 @@ Route::resource('/reports', 'ReportController');
 Route::any('/reports/view', 'ReportController@displayReports');
 Route::any('/report/excel/generate', 'ReportController@ExportReports');
 Route::any('/report/tickets/assigment', 'ReportController@ticketAssignmentReport');
+Route::any('/report/tickets/category', 'ReportController@categoryReport');
+Route::any('/report/tickets/subcategory', 'ReportController@subcategoryReport');
 
 // Routes for System/Settings
 Route::resource('/system/settings', 'SystemController');
 Route::any('/system/logs', 'SystemController@getLogs');
 Route::any('/system/import', 'SystemController@getImport');
-// Route::any('/reports/import', 'ReportController@importExcel');
+Route::any('/compose/mail', 'RoleController@sendMail');

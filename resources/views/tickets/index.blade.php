@@ -34,7 +34,6 @@
                         <tbody>
                             @foreach ($tickets as $count=> $row)
                             <tr>
-
                                 <td>{{$count + 1}}</td>
                                 <td><a href="/tickets/manage/&id={{$row->ticket_id}}"><b>{{$row->ticket}}</b></a></td>
                                 <td>{{$row->subject}}</td>
@@ -48,12 +47,11 @@
                                 <td> <a href="/tickets/manage/&id={{$row->ticket_id}}"
                                         class="btn btn-flat btn-primary btn-sm"><i class="fa fa-eye"></i></a></td>
 
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
-                </td>
-                </tr>
-                @endforeach
-                </tbody>
-                </table>
             </div>
         </div>
     </div>

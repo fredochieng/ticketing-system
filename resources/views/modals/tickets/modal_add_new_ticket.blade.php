@@ -51,15 +51,29 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-4">
+                        {{Form::label('Upload Attachment')}}
                         <div class="form-group">
-                            {{Form::label('Username *')}}<br>
+                            {{Form::file('attachment',['class'=>'form-control'])}}
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            {{Form::label('User Name *')}}<br>
                             <div class="form-group">
-                                {{Form::text('username', '',['class'=>'form-control', 'required', 'placeholder'=>''])}}
+                                {{Form::text('name', '',['class'=>'form-control', 'required', 'placeholder'=>''])}}
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            {{Form::label('User Email *')}}<br>
+                            <div class="form-group">
+                                {{Form::email('email', '',['class'=>'form-control', 'required', 'placeholder'=>''])}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
                         <div class="form-group">
                             <label>User Country</label>
                             <select class="form-control select2" name="country_id" style="width: 100%;" tabindex="-1"
@@ -72,7 +86,7 @@
                         </div>
                     </div>
 
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <div class="form-group">
                             <label>Assign To</label>
                             <select class="form-control select2" name="assigned_user_id" style="width: 100%;"
@@ -85,7 +99,7 @@
                         </div>
                     </div>
 
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <div class="form-group">
                             <label>Ticket Priority * </label>
                             <select class="form-control select2" name="priority_id" style="width: 100%;" required>
@@ -96,14 +110,6 @@
                             </select>
                         </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <input class="fileinput" type="file" id="file" name="file[]" multiple>
-                        </div>
-                    </div>
-
                 </div>
             </div>
             <div class="modal-footer">

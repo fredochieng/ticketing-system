@@ -45,7 +45,6 @@ class FetchTicketsJob implements ShouldQueue
      */
     public function handle()
     {
-        // $obj = new FetchMails('webmail.ke.wananchi.com', 'fredrick.ochieng@ke.wananchi.com', 'Happy1995', 'imap', '143', false, true);
         $obj = new FetchMails('webmail.ke.wananchi.com', 'ticketing@ke.wananchi.com', 'Zuku@2019!', 'imap', '143', false, true);
 
         // //Connect to the Mail Box
@@ -194,7 +193,43 @@ class FetchTicketsJob implements ShouldQueue
                             'no-reply@manage.trendmicro.com', 'root@nbi.simbanet.co.ke', 'noreply@dmarc.yahoo.com', 'noreply@simbanet.co.tz', 'no-reply@infobip.com',
                             'cpanel@mga-legal.com', 'cpanel@webhost.simbanet.co.ke', 'noreply-dmarc@zoho.com', 'networksolutions@notifications.networksolutions.com',
                             'noreply-dmarc-support@google.com', 'cpanel@cartridgeworldkenya.com', 'no-reply@mx67.antispamcloud.com', 'noreply@mxtoolbox.com',
-                            'dmarc@spamtitan.com', 'no-reply@foxitsoftware.com', 'TrendMicroExternalAdvisoryService@support.trendmicro.com', 'trendmicroexternaladvisoryservice@support.trendmicro.com', 'mgeups@ke.wananchi.com'
+                            'dmarc@spamtitan.com', 'no-reply@foxitsoftware.com', 'TrendMicroExternalAdvisoryService@support.trendmicro.com',
+                            'trendmicroexternaladvisoryservice@support.trendmicro.com', 'mgeups@ke.wananchi.com', 'solarwinds@ke.wananchi.com', 'hfcpower@ke.wananchi.com',
+                            'BroadHub@wincable-db1.wananchi.com', 'nagios@wananchi.com', 'root@nms1.wananchi.com', 'admin@zcs.wananchi.com', 'audits-zm@zuku.co.ke',
+                            'MAILER-DAEMON@mta01.zcs.wananchi.com', 'mgeups@ke.wananchi.com', 'noreply@solarwinds.com', 'asn-alert@cymru.com', 'admin@mta01.zcs.wananchi.com',
+                            'noreply@ke.wananchi.com', 'reports@fastmaildmarc.com', 'root@malogs.wananchi.com', 'root@auditreports.wananchi.com',
+                            'noreply@dmarc.yahoo.com', 'wgreports@ke.wananchi.com', 'support@ke.wananchi.com', 'root@noms.ke.wananchi.com', 'denar-sftp@zuku.co.ke',
+                            'noreply-dmarc-support@google.com', 'no-reply@mx96.antispamcloud.com', 'customer.care@equitybank.co.ke', 'dmarcfeedback@airfrance.fr',
+                            'cpanel@oceanicmarine.co.ke', 'cpanel@mga-legal.com', 'abuse-report@netabuse.info', 'postmaster@esutton.co.uk', 'billingteam@ke.wananchi.com',
+                            'root@wincable-db3.wananchi.com', 'nms@ke.wananchi.com', 'alert@uptimerobot.com', 'equitytx@zuku.co.ke', 'michelle@corporatetraining.org.za',
+                            'wincable@wincable-db3.wananchi.com', 'MAILER-DAEMON@sercoglobal.com', 'mis@tnm.co.mw', 'noreply@akamai.com', 'root@mailman.wananchi.com',
+                            'eventloganalyzer@localadmin.com', 'kmikwa@malogs.wananchi.com', 'noreply@simbanet.co.ke', 'communityteam@solarwinds.com', 'root@ke.wananchi.com',
+                            'MAILER-DAEMON@mailman.aqa.org.uk', 'MAILER-DAEMON@midgard.ch.richemont.com', 'support@simbanet.co.ke', 'support@glds.com',
+                            'noreply@eventloganalyzer.com', 'simiso@corporateskills.org', 'root@kali.zuku.co.ke', 'root@nbi.simbanet.co.ke',
+                            'mailfilter-esa@mailfilter01.viettel.com.vn', 'mailfilter-esa@mailfilter03.viettel.com.vn', 'Changemgmt@airtel.com',
+                            'no-reply@mx127.antispamcloud.com', 'support@wtl.co.ke', 'no-reply@filter13.premiumantispam.nl', 'MAILER-DAEMON@smtp11.infineon.com',
+                            'noreply@opensrs.email', 'nmc@simbanet.co.ke', 'MAILER-DAEMON@drammen.kommune.no', 'dmarc-noreply@bedsys.net',
+                            'theteam-bounces@mailman.wananchi.com', 'MAILER-DAEMON@esa4.hc250-1.ca.iphmx.com', 'MAILER-DAEMON@libertyglobal.com',
+                            'MAILER-DAEMON@esa2.hc3378-56.iphmx.com', 'MAILER-DAEMON@esa4.hc3720-45.iphmx.com', 'MAILER-DAEMON@esa1.hc3918-3.iphmx.com',
+                            'noreply@simbanet.co.tz', 'dmarc_support@corp.mail.ru', 'msojeda@entel.cl', 'dmarcrep@denic.de', 'dmarcreports@asitur.es',
+                            'MAILER-DAEMON@esa2.hc3607-48.iphmx.com', 'dmarc-support@wp.pl', 'noreply@desjardins.com', 'dmarc@spamtitan.com', 'postmaster@apkappa.it',
+                            'MAILER-DAEMON@BKDC-DMZ-ESA-04.aos.rw', 'MAILER-DAEMON@esa2.hc3723-85.iphmx.com', 'MAILER-DAEMON@esa1.hc3723-85.iphmx.com', 'cirt@ca.go.ke',
+                            'MAILER-DAEMON@esa1.hc3396-75.iphmx.com', 'smartsolarbox@solrasystm.us', 'no-reply@mx172.antispamcloud.com', 'mhlaba@corporateskills.org',
+                            'cpanel@chemserve.co.ke', 'tariq.salman@bdpeer.com', 'noreply@notifications.sectigo.com', 'team@elementor.com', 'studio@davidgulden.com',
+                            'postmaster@amazonses.com', 'soli_michelle@163.com', 'MAILER-DAEMON@esa2.scalasolutions.nl', 'MAILER-DAEMON@BKDC-DMZ-ESA-05.aos.rw',
+                            'MAILER-DAEMON@BKDC-DMZ-ESA-07.aos.rw', 'davej@clearcable.ca', 'BroadHub@wincable-db1.wananchi.com', 'cpanel@lantana-homes.co.ke',
+                            'veteransdiscounts@vetranshsidc.us', 'flowguard-reporter@entrypoint.co.il', 'root@nfsen.wananchi.com', 'wordpress@cosmopolitansacco.co.ke',
+                            'gerardo.rondon@stgen.com', 'service.notifications@seacom.mu', 'noreply@mxtoolbox.com', 'mail@dianebutler.cf',
+                            'root@wincable-archive-db.wananchi.com', 'cpanel@masaadistributors.co.ke', 'noki@officeskills.co.za', 'customercare@zukutv.co.ke',
+                            'billing@zukufiber.co.ke', 'no-reply@mx150.antispamcloud.com', 'netapp@ke.wananchi.com ', 'zukubills@tz.wananchi.com', 'communications@glds.com',
+                            'cpanel@tem-co.com', 'cpanel@lantana-galu-beach.co.ke', 'support@cbxnet.de', 'unlockyourhipflexors@unlockyourhipps.us', 'cpanel@dahwa.co.ke',
+                            'engage@b2me.cisco.com', 'christoph@mpkglobaltraining.co.za', 'ultimateherpsprotocol@ultimateherpsprot.us', 'alerts-noreply@meraki.com',
+                            'raimundas.packevicius@glds.com', 'donotreply@godaddy.com', 'no-reply@ipayafrica.com', 'bahetsi@officeskills.co.za',
+                            'totalblackoutprotocol@tbpprotback.pro', 'ezfha@clusivex.pro', 'christos@mpkglobaltraining.co.za', 'cpanel@pelsomkenya.com',
+                            'cpanel@saicare.co.ke', 'cpanel@cosmopolitansacco.co.ke', 'MAILER-DAEMON@mta03.zcs.wananchi.com', 'renewals@solarwinds.com',
+                            'k_takada@surg2.med.kyushu-u.ac.jp', 'mashiloane@officeskills.co.za', 'MAILER-DAEMON@BKDC-DMZ-ESA-01.idc.bsc.rw',
+                            'MAILER-DAEMON@BKDC-DMZ-ESA-03.idc.bsc.rw', 'editor@eff.org', 'udciklimlendirme.hatay@daikinservis.com.tr', 'renewals@godaddy.com',
+                            'CarrierNoc@seacom.com', 'MAILER-DAEMON@mta02.zcs.wananchi.com'
                         );
 
                         // no-reply@infobip.com, janetbain@epbfi.com;

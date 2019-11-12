@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
 use App\Model\Asset;
 use App\Model\AssetMovement;
 use App\Model\Category;
@@ -199,18 +200,18 @@ class AssetController extends Controller
         if ($data->count()) {
             foreach ($data as $key => $value) {
                 $arr[] = [
-                    'staff_name' => $value->name, 'asset_no' => $value->asset_no, 'asset_type' => $value->type, 'model_no' => $value->model_no, 'os' => $value->os, 'serial_no' => $value->serial_number, 'ram' => $value->ram, 'hdd' => $value->hdd, 'system_type' => $value->system_type,
-                    'processor' => $value->processor, 'office' => $value->office, 'antivirus' => $value->antivirus_installation, 'win_license' => $value->win_license, 'country' => $value->country
+                    'staff_name' => strtoupper($value->name), 'asset_no' => strtoupper($value->asset_no), 'asset_type' => strtoupper($value->type), 'model_no' => strtoupper($value->model_no), 'os' => strtoupper($value->os), 'serial_no' => strtoupper($value->serial_number), 'ram' => $value->ram, 'hdd' => $value->hdd, 'system_type' => $value->system_type,
+                    'processor' => strtoupper($value->processor), 'office' => strtoupper($value->office), 'antivirus' => strtoupper($value->antivirus_installation), 'win_license' => strtoupper($value->win_license), 'country' => strtoupper($value->country)
                 ];
 
-                $asset_movement[] = [
-                    'asset_no' => $value->asset_no, 'moved_to' => $value->name, 'moved_from' => 'IT Department',
-                ];
+                // $asset_movement[] = [
+                //     'asset_no' => $value->asset_no, 'moved_to' => $value->name, 'moved_from' => 'IT Department',
+                // ];
             }
 
             if (!empty($arr)) {
                 Asset::insert($arr);
-                AssetMovement::insert($asset_movement);
+                //AssetMovement::insert($asset_movement);
             }
         }
 
@@ -305,16 +306,15 @@ class AssetController extends Controller
         $data['assets'] = Asset::getAssets()
             ->where('asset_id', $asset_id)->first();
 
-        // $data['asset_movements'] = AssetMovement::getAssetMovements()
-        //     ->where('asset_id', $asset_id)->first();
-
         $data['asset_movements'] = DB::table('assets_movements')
             ->select(
-                DB::raw('assets_movements.*')
+                DB::raw('assets_movements.*'),
+                DB::raw('users.id'),
+                DB::raw('users.name')
             )
+            ->leftJoin('users', 'assets_movements.moved_by', '=', 'users.id')
             ->where('asset_id', $asset_id)
             ->orderBy('asset_id', 'asc')->get();
-        // dd($data['asset_movements']);
 
         $status_id = $data['assets']->asset_status;
         $data['assect_categories'] = Asset::getAssetCategories();
@@ -328,10 +328,11 @@ class AssetController extends Controller
 
     public function changeStatus(Request $request)
     {
+        $user_id = Auth::user()->id;
         $asset_id = $request->input('asset_id');
         $status_id = $request->input('status_id');
-        $staff = $request->input('staff_name');
-        $payroll_no = $request->input('payroll_no');
+        $staff = strtoupper($request->input('staff_name'));
+        $payroll_no = strtoupper($request->input('payroll_no'));
         $asset = Asset::getAssets()->where("asset_id", $asset_id)->first();
         $staff_name = $asset->staff_name;
         $asset_no = $asset->asset_no;
@@ -358,7 +359,7 @@ class AssetController extends Controller
             DB::table('assets_movements')->insert(
                 [
                     'asset_id' => $asset_id, 'asset_no' => $asset_no, 'moved_to' => $staff, 'payroll_no' => $payroll_no,
-                    'moved_from' => 'IT DEPARTMENT'
+                    'moved_from' => 'IT DEPARTMENT', 'moved_by' => $user_id
                 ]
             );
         } else {
@@ -370,7 +371,7 @@ class AssetController extends Controller
             DB::table('assets_movements')->insert(
                 [
                     'asset_id' => $asset_id, 'asset_no' => $asset_no, 'moved_to' => 'IT DEPARTMENT', 'payroll_no' => 'NOT AVAILABLE',
-                    'moved_from' => $staff_name
+                    'moved_from' => $staff_name, 'moved_by' => $user_id
                 ]
             );
         }
@@ -448,12 +449,20 @@ class AssetController extends Controller
             'country' => $country
         ]);
 
+        $updated_asset = Asset::where('asset_id', $asset_id)->first();
+        $assigned_to = $updated_asset->staff_name;
+
+        $update_payropll_nos = Asset::where("staff_name", $assigned_to)->update([
+            'payroll_no' => $payroll_no, 'country' => $country
+        ]);
+
         toast('Asset details updated successfully', 'success', 'top-right');
         return back();
     }
 
     public function reassignAsset(Request $request)
     {
+        $user_id = Auth::user()->id;
         $asset_id = $request->input('asset_id');
         $staff = strtoupper($request->input('staff_name'));
         $payroll_no = strtoupper($request->input('payroll_no'));
@@ -470,7 +479,7 @@ class AssetController extends Controller
         DB::table('assets_movements')->insert(
             [
                 'asset_id' => $asset_id, 'asset_no' => $asset_no, 'moved_to' => $staff, 'payroll_no' => $payroll_no,
-                'moved_from' => $staff_name
+                'moved_from' => $staff_name, 'moved_by' => $user_id
             ]
         );
 

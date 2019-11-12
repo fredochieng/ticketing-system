@@ -7,6 +7,8 @@ use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use App\Jobs\FetchTicketsJob;
 use App\Jobs\DailyTicketsSummaryJob;
 use App\Jobs\DailyDatesJob;
+use App\Jobs\SendMailJob;
+use App\Jobs\TestJob;
 
 class Kernel extends ConsoleKernel
 {
@@ -30,7 +32,9 @@ class Kernel extends ConsoleKernel
         // $schedule->command('backup:run')->daily()->at('13:00');
         $schedule->job(new FetchTicketsJob())->everyMinute();
         $schedule->job(new DailyTicketsSummaryJob())->everyMinute();
-       $schedule->job(new DailyDatesJob())->everyMinute();
+        $schedule->job(new DailyDatesJob())->everyMinute();
+        //$schedule->job(new SendMailJob())->everyMinute();
+        $schedule->job(new TestJob())->everyMinute();
     }
 
     /**

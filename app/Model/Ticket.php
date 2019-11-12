@@ -266,6 +266,67 @@ class Ticket extends Model
 
         return $data['tickets_closed'];
     }
+    public static function ticketsDeleted()
+    {
+        $user = Auth::user();
+        $user_email = Auth::user()->email;
+        ~$user_role = $user->getRoleNames()->first();
+        if ($user_role == "Admin") {
+            $compare_field = "tickets.ticket_id";
+            $compare_operator = ">=";
+            $compare_value = 1;
+        } elseif ($user_role == "Technician") {
+            $compare_field = "tickets.ticket_id";
+            $compare_operator = ">=";
+            $compare_value = 1;
+        } elseif ($user_role == "Systems & Developers") {
+            $compare_field = "ticket_details.esc_level_id";
+            $compare_operator = "=";
+            $compare_value = 3;
+        } elseif ($user_role == "IT Manager") {
+            $compare_field = "tickets.ticket_id";
+            $compare_operator = ">=";
+            $compare_value = 1;
+        } elseif ($user_role == "Systems Manager") {
+            $compare_field = "ticket_details.esc_level_id";
+            $compare_operator = "=";
+            $compare_value = 4;
+        } elseif ($user_role == "Chief Information Officer") {
+            $compare_field = "tickets.ticket_id";
+            $compare_operator = ">=";
+            $compare_value = 1;
+        } elseif ($user_role == "Standard User") {
+            $compare_field = "tickets.email";
+            $compare_operator = "=";
+            $compare_value = $user_email;
+        }
+        $status_id = 5;
+        $data['tickets_deleted'] = DB::table('tickets')
+            ->select(
+                DB::raw('tickets.*'),
+                DB::raw('tickets.email AS submitter_email'),
+                DB::raw('tickets.created_at AS ticket_created_at'),
+                DB::raw('tickets_action.*'),
+                DB::raw('tickets_status.*'),
+                DB::raw('ticket_priority.*'),
+                DB::raw('ticket_priority.*'),
+                DB::raw('ticket_details.*'),
+                DB::raw('issues_categories.*'),
+                DB::raw('users.*')
+            )
+            ->leftJoin('tickets_action', 'tickets.ticket_id', '=', 'tickets_action.id')
+            ->leftJoin('tickets_status', 'tickets.status_id', '=', 'tickets_status.status_id')
+            ->leftJoin('ticket_priority', 'tickets.priority_id', '=', 'ticket_priority.priority_id')
+            ->leftJoin('ticket_details', 'tickets.ticket_id', '=', 'ticket_details.id')
+            ->leftJoin('issues_categories', 'ticket_details.issue_id', '=', 'issues_categories.issue_id')
+            ->leftJoin('users', 'tickets.user_id', '=', 'users.id')
+            ->where('tickets.status_id', '=', $status_id)
+            ->where($compare_field, $compare_operator, $compare_value)
+            ->orderBy('tickets.ticket_id', 'desc')
+            ->get();
+
+        return $data['tickets_deleted'];
+    }
 
     public static function myAssignedTickets()
     {

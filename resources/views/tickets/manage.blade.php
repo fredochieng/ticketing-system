@@ -34,19 +34,27 @@
                         @endif
 
                         @if(auth()->user()->isTechnician() || auth()->user()->isAdmin() ||
-                        auth()->user()->isITManager())
+                        auth()->user()->isITManager() || auth()->user()->isSysAdmin() || auth()->user()->isSysManager())
                         @if($tickets->status_id==1)
                         <a href="" data-toggle="modal" data-target="#modal_work_on_ticket_{{$tickets->ticket_id}}"
                             class="btn btn-warning">Work on
                             ticket</a>
                         @endif
                         @endif
-                        @if(auth()->user()->isTechnician() || auth()->user()->isAdmin() ||
+                        {{-- @if(auth()->user()->isTechnician() || auth()->user()->isAdmin() ||
                         auth()->user()->isITManager())
                         @if(($tickets->status_id==2) && ($tickets->esc_level_id=='') &&
                         ($tickets->assigned_user_id==Auth::user()->id))
                         <a href="" data-toggle="modal" data-target="#modal_escalate_ticket"
                             class="btn btn-warning">Escalate</a>
+                        @endif
+                        @endif --}}
+
+                        @if(auth()->user()->isTechnician() || auth()->user()->isAdmin() ||
+                        auth()->user()->isITManager())
+                        @if(($tickets->status_id==1) && ($tickets->esc_level_id==''))
+                        <a href="" data-toggle="modal" data-target="#modal_escalate_ticket"
+                            class="btn btn-info">Escalate</a>
                         @endif
                         @endif
 
@@ -230,16 +238,20 @@
                             <td>NO ESCALATION</td>
                             @endif
                             @elseif(auth()->user()->isSysAdmin() && ($tickets->esc_level_id !=''))
-                            <td>Escalated by <b>{{ $escalated_by->name }}</b></td>
+                            <td>Escalated by <b>{{ $ticket_escalation->name }}</b></td>
                             @elseif(auth()->user()->isSysAdmin() && ($tickets->esc_level_id ==''))
                             <td>NO ESCALATION</td>
+                            @elseif(auth()->user()->isSysManager() && ($tickets->esc_level_id !=''))
+                            <td>Escalated by <b>{{ $ticket_escalation->name }}</b></td>
+                            @elseif(auth()->user()->isSysManager() && ($tickets->esc_level_id ==''))
+                            <td>NO ESCALATION</td>
                             @elseif(auth()->user()->isITManager() && ($tickets->esc_level_id !=''))
-                            <td>Escalated by <b>{{ $escalated_by->name }}</b></td>
+                            <td>Escalated by <b>{{ $ticket_escalation->name }}</b></td>
                             @elseif(auth()->user()->isITManager() && ($tickets->esc_level_id ==''))
                             <td>NO ESCALATION</td>
                             @elseif(auth()->user()->isAdmin())
                             @if($tickets->esc_level_id !='')
-                            <td>From <b>{{ $escalated_by->name }}</b> to <b>{{ $tickets->role_name }}</b></td>
+                            <td>From <b>{{ $ticket_escalation->name }}</b> to <b>{{ $tickets->role_name }}</b></td>
                             @else
                             <td>NO ESCALATION</td>
                             @endif

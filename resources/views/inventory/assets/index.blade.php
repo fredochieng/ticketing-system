@@ -127,7 +127,11 @@
                                     @else
                                     <td>{{$row->staff_name}}</td>
                                     @endif
-                                    <td>3546</td>
+                                    @if(empty($row->payroll_no))
+                                    <td>NOT AVAILABLE</td>
+                                    @else
+                                    <td>{{$row->payroll_no}}</td>
+                                    @endif
                                     @if(empty($row->asset_no))
                                     <td>NOT AVAILABLE</td>
                                     @else

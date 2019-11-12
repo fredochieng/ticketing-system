@@ -1,10 +1,13 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Model\Role;
 use DB;
 use Illuminate\Support\Facades\Validator;
 use RealRashid\SweetAlert\Facades\Alert;
+use App\Model\Messages;
+use App\User;
 
 use Illuminate\Http\Request;
 
@@ -17,8 +20,8 @@ class RoleController extends Controller
      */
     public function index()
     {
-       $data['roles'] = Role::getRoles();
-       return view('users/roles.index')->with($data);
+        $data['roles'] = Role::getRoles();
+        return view('users/roles.index')->with($data);
     }
 
     /**
@@ -58,6 +61,40 @@ class RoleController extends Controller
             Alert::success('New Role', 'Role added successfully');
             return back();
         }
+    }
+
+    public function sendMail(Request $request)
+    {
+        $users = User::getUsers();
+        foreach ($users as $key => $value) {
+            # code...
+            $message = new Messages();
+            $message->title = $request->input('title');
+            $message->body = $request->input('body');
+            $message->email = $value->email;
+            $message->name = $value->name;
+            $message->delivered = 'NO';
+
+            $message->save();
+        }
+        // if ($request->item == "now") {
+        //     $message->delivered = 'YES';
+        //     $message->send_date = Carbon::now();
+        //     $message->save();
+        //     $users = User::all();
+        //     foreach ($users as $user) {
+
+        //         dispatch(new SendMailsJob($user->email, new UpgradeBreak($user, $message)));
+        //     }
+
+        //     return response()->json('Mail sent.', 201);
+        // } else {
+        //     $message->date_string = '2019-09-03 09:41:00';
+        //     $message->save();
+        //     return response()->json('Notification will be sent later.', 201);
+        // }
+        Alert::success('New Role', 'Role added successfully');
+        return back();
     }
 
     /**

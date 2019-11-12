@@ -17,7 +17,7 @@
                         <p>Are you sure you want to close ticket <span style="font-weight:bold">{{$tickets->ticket}}</span>?
                     </p>
                 </div> --}}
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <div class="form-group">
                         <label>Issue Category</label>
                         <select class="form-control select2" required name="issue_category_id" id="categories"
@@ -29,12 +29,23 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <div class="form-group">
                         <label>Issue Subcategory</label>
                         <select class="form-control select2" name="subcategory_id" id="subcategories"
                             style="width: 100%;" tabindex="-1" aria-hidden="true">
                             <option value="0" disabled="true" selected="true">Select issue category first</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Service Affecting</label>
+                        <select class="form-control select2" name="service_affecting" style="width: 100%;" tabindex="-1"
+                            aria-hidden="true">
+                            <option value="">Select issue category</option>
+                            <option value='Yes'>Yes</option>
+                            <option value='No'>No</option>
                         </select>
                     </div>
                 </div>

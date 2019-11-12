@@ -8,7 +8,13 @@
 @section('content')
 <div class="box box-success">
     <div class="box-header with-border">
-        <h3 class="box-title">All Roles</h3>
+        {{-- <h3 class="box-title">All Roles</h3> --}}
+        <div class="col-md-2">
+
+            <a href="#modal_compose_mail" data-toggle="modal" class="btn btn-block btn-info"><i
+                    class="fa fa-pencil"></i>
+                Compose Mail </a>
+        </div>
         <div class="box-tools">
             <a href="#modal_add_new_role" data-toggle="modal" class="btn btn-block btn-primary"><i
                     class="fa fa-plus"></i>
@@ -33,8 +39,10 @@
                         <td>{{$row->name}}</td>
                         @if($row->name=='Admin')
                         <td>
-                            <button class="btn btn-xs btn-success" disabled><i class="glyphicon glyphicon-edit"></i> Edit</button>
-                            <button class="btn btn-xs btn-danger" disabled><i class="glyphicon glyphicon-trash"></i> Delete</button>
+                            <button class="btn btn-xs btn-success" disabled><i class="glyphicon glyphicon-edit"></i>
+                                Edit</button>
+                            <button class="btn btn-xs btn-danger" disabled><i class="glyphicon glyphicon-trash"></i>
+                                Delete</button>
                         </td>
                         @else
                         <td>
@@ -57,6 +65,7 @@
     <!-- /.box-body -->
 </div>
 @include('modals.roles.modal_add_new_role')
+@include('modals.roles.modal_compose_mail')
 @stop
 @section('css')
 <link rel="stylesheet" href="/css/admin_custom.css">

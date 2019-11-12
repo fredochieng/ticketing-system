@@ -35,6 +35,7 @@ class DailyDatesJob
      */
     public function handle()
     {
+
         $today = $this->date->toDateString();
         //$start_date = '2019-09-01';
         $start_date = $this->date->startOfMonth()->toDateString();

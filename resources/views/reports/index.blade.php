@@ -35,9 +35,10 @@
                             </div>
                         </div>
                         <div class="col-md-3">
-                            {{Form::label('Ticket Country')}}
+                            {{-- {{Form::label('Country(leave empty to select all countries)')}} --}}
+                            <label>Leave empty to select all countries</label>
                             <div class="form-group">
-                                <select class="form-control select2" id="status_id" name="country_id" required
+                                <select class="form-control select2" id="status_id" name="country_id"
                                     style="width: 100%;" tabindex="-1" aria-hidden="true">
                                     <option selected="selected" value="">Select country</option>
                                     @foreach($countries as $item)
@@ -56,7 +57,8 @@
                         </div>
 
                         <div class="col-md-2">
-                            <button type="submit" style="margin-top:25px;" class="btn btn-block btn-info"><strong><i
+                            <button type="submit" style="margin-top:25px;"
+                                class="btn btn-block btn-info pull-right"><strong><i
                                         class="fa fa-fw fa-search"></i>Generate Report</strong></button>
                         </div>
                     </div>
@@ -67,34 +69,7 @@
     </div>
 </div>
 
-{!!
-Form::open(['action'=>['ReportController@importExcel'],
-'method'=>'POST','class'=>'form','enctype'=>'multipart/form-data'])
-!!}
-
-@if ($errors->any())
-<div class="alert alert-danger">
-    <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
-    <ul>
-        @foreach ($errors->all() as $error)
-        <li>{{ $error }}</li>
-        @endforeach
-    </ul>
-</div>
-@endif
-
-@if (Session::has('success'))
-<div class="alert alert-success">
-    <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
-    <p>{{ Session::get('success') }}</p>
-</div>
-@endif
-
-<input type="file" name="import_file" />
-<button class="btn btn-primary">Import File</button>
-{!! Form::close() !!}
-
-<div class="row">
+{{-- <div class="row">
     <div class="col-md-12">
         <div class="box box-info">
             <div class="box-body">
@@ -117,26 +92,25 @@ Form::open(['action'=>['ReportController@importExcel'],
                             <tr>
 
                                 <td>{{$count + 1}}</td>
-                                <td><a href="/tickets/manage/&id={{$row->ticket_id}}"><b>{{$row->ticket}}</b></a></td>
-                                <td>{{$row->subject}}</td>
-                                <td>{{$row->submitter}}</td>
-                                <td><a href="">{{$row->submitter_email}}</a></td>
-                                <td>{{$row->assigned_to}}</td>
-                                <td><small class="badge bg-{{$row->status_color}}">{{$row->status_name}}</small></span>
-                                </td>
-                                <td>{{ $row->ticket_created_at }}</td>
+<td><a href="/tickets/manage/&id={{$row->ticket_id}}"><b>{{$row->ticket}}</b></a></td>
+<td>{{$row->subject}}</td>
+<td>{{$row->submitter}}</td>
+<td><a href="">{{$row->submitter_email}}</a></td>
+<td>{{$row->assigned_to}}</td>
+<td><small class="badge bg-{{$row->status_color}}">{{$row->status_name}}</small></span>
+</td>
+<td>{{ $row->ticket_created_at }}</td>
 
-                </div>
-                </td>
-                </tr>
-                @endforeach
-                </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
+</div>
+</td>
+</tr>
+@endforeach
+</tbody>
+</table>
 </div>
 </div>
+</div>
+</div> --}}
 @stop
 @section('css')
 <link rel="stylesheet" href="/plugins/bootstrap-daterangepicker/daterangepicker.css">

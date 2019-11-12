@@ -144,6 +144,11 @@ return [
                     'url'  => 'tickets/escalated',
                     'icon' => 'tag'
                 ],
+                [
+                    'text' => 'Deleted Tickets',
+                    'url'  => 'tickets/deleted',
+                    'icon' => 'trash'
+                ],
 
                 [
                     'text' => 'Closed Tickets',
@@ -206,9 +211,16 @@ return [
                     'text' => 'Tickets Report',
                     'url'  => 'reports',
                     'icon' => 'angle-double-right'
-                ], [
+                ],
+
+                [
                     'text' => 'Ticket Assignment Report',
                     'url'  => '/report/tickets/assigment',
+                    'icon' => 'angle-double-right'
+                ],
+                [
+                    'text' => 'Ticket Category Report',
+                    'url'  => '/report/tickets/category',
                     'icon' => 'angle-double-right'
                 ],
             ],

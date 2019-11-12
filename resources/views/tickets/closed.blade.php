@@ -3,11 +3,6 @@
 @section('content_header')
 <h1 class="pull-left">Tickets<small>Closed Tickets</small></h1>
 <div style="clear:both"></div>
-
-
-
-
-
 @stop
 @section('content')
 <div class="row">
@@ -17,12 +12,13 @@
             </div>
             <div class="box-body">
                 <div class="table-responsive">
-                    <table id="example1" class="table no-margin">
+                    <table id="example1" class="table no-margin" style="font-size:12px">
                         <thead>
                             <tr role="row">
                                 <th>S/N</th>
                                 <th>Ticket #</th>
                                 <th>Subject</th>
+                                <th>Service Affecting</th>
                                 <th>Submitter</th>
                                 <th>Email</th>
                                 <th>Assignee</th>
@@ -38,6 +34,15 @@
                                 <td>{{$count + 1}}</td>
                                 <td><a href="/tickets/manage/&id={{$row->ticket_id}}"><b>{{$row->ticket}}</b></a></td>
                                 <td>{{$row->subject}}</td>
+                                @if ($row->service_affecting != '')
+                                <td>
+                                    <center>{{ $row->service_affecting }}</center>
+                                </td>
+                                @else
+                                <td>
+                                    <center>N/A</center>
+                                </td>
+                                @endif
                                 <td>{{$row->submitter}}</td>
                                 <td><a href="">{{$row->submitter_email}}</a></td>
 

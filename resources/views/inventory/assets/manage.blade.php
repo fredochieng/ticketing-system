@@ -175,7 +175,7 @@
                             <div class="form-group">
                                 {{Form::label('Serial Number')}}<br>
                                 <div class="form-group">
-                                    {{Form::text('serial_no', $assets->serial_no,['class'=>'form-control', 'required', 'placeholder'=>''])}}
+                                    {{Form::text('serial_no', $assets->serial_no,['class'=>'form-control', 'placeholder'=>''])}}
                                 </div>
                             </div>
                         </div>
@@ -311,6 +311,7 @@
                                                     <th>Moved To</th>
                                                     <th>Payroll No</th>
                                                     <th>From</th>
+                                                    <th>Moved By</th>
                                                     <th>Date</th>
                                                 </tr>
                                             </thead>
@@ -321,6 +322,7 @@
                                                     <td>{{ $item->moved_to }}</td>
                                                     <td>{{ $item->payroll_no }}</td>
                                                     <td>{{ $item->moved_from }}</td>
+                                                    <td>{{ $item->name }}</td>
                                                     <td>{{ $item->created_at }}</td>
                                                 </tr>
                                                 @endforeach
