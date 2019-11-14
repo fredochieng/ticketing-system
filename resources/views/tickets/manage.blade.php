@@ -10,7 +10,7 @@
         <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
                 <li class="active"><a href="#tab-ticket" data-toggle="tab" class="ticket-tab-button"
-                        aria-expanded="true">Ticket Description</a></li>
+                        aria-expanded="true">Ticket</a></li>
                 <li class=""><a href="#tab-attachments" data-toggle="tab" aria-expanded="false">Attachments <span
                             class="badge bg-green"> {{ $total_attachments }}</span></a></li>
                 <div class="btn-group pull-right" style="padding:6px;">
@@ -18,7 +18,7 @@
                         <a href="" data-toggle="modal" data-target="#modal_reply_ticket" class="btn btn-primary">Reply
                             ticket</a>
 
-                        @if(!auth()->user()->isUser() )
+                        @if(!auth()->user()->isUser())
                         @if($tickets->status_id==3)
                         <a href="" data-toggle="modal" data-target="#modal_reopen_ticket_{{$tickets->ticket_id}}" a
                             href="" data-toggle="modal" data-target="#modal_reopen_ticket"
@@ -26,7 +26,9 @@
                         @endif
                         @endif
 
-                        @if(auth()->user()->isAdmin())
+                        {{-- @if(auth()->user()->isAdmin() || auth()->user()->isSysManager() ||
+                        auth()->user()->isITManager()) --}}
+                        @if((auth()->user()->can('ticket.assign')))
                         @if($tickets->status_id==1)
                         <a href="" data-toggle="modal" data-target="#modal_assign_ticket" a href="" data-toggle="modal"
                             data-target="#modal_assign_ticket" class="btn btn-info">Assign</a>
@@ -41,18 +43,10 @@
                             ticket</a>
                         @endif
                         @endif
-                        {{-- @if(auth()->user()->isTechnician() || auth()->user()->isAdmin() ||
-                        auth()->user()->isITManager())
-                        @if(($tickets->status_id==2) && ($tickets->esc_level_id=='') &&
-                        ($tickets->assigned_user_id==Auth::user()->id))
-                        <a href="" data-toggle="modal" data-target="#modal_escalate_ticket"
-                            class="btn btn-warning">Escalate</a>
-                        @endif
-                        @endif --}}
 
                         @if(auth()->user()->isTechnician() || auth()->user()->isAdmin() ||
-                        auth()->user()->isITManager())
-                        @if(($tickets->status_id==1) && ($tickets->esc_level_id==''))
+                        auth()->user()->isITManager() || auth()->user()->isSysAdmin() || auth()->user()->isSysManager())
+                        @if(($tickets->status_id==1))
                         <a href="" data-toggle="modal" data-target="#modal_escalate_ticket"
                             class="btn btn-info">Escalate</a>
                         @endif
@@ -71,7 +65,7 @@
                         @endif
                         @endif
 
-                        @if(auth()->user()->isAdmin())
+                        @if(auth()->user()->isAdmin() || auth()->user()->isSysManager())
                         @if(($tickets->status_id==2) && $tickets->assigned_user_id !=Auth::user()->id)
                         <a href="" data-toggle="modal" data-target="#modal_close_ticket"
                             class="btn btn-success">Close</a>
@@ -97,7 +91,8 @@
                         @endif
                         @endif
 
-                        @if(auth()->user()->isAdmin() || auth()->user()->isITManager())
+                        @if(auth()->user()->isAdmin() || auth()->user()->isITManager() ||
+                        auth()->user()->isSysManager())
                         <a href="" data-toggle="modal" data-target="#modal_delete_ticket_{{ $tickets->ticket_id }}"
                             class="btn btn-danger">Delete</a>
                         @endif
@@ -312,7 +307,9 @@
         </div>
     </div>
 </div>
+@if((auth()->user()->can('ticket.assign')))
 @include('modals.tickets.modal_assign_ticket')
+@endif
 @include('modals.tickets.modal_work_on_ticket')
 @include('modals.tickets.modal_delete_ticket')
 @include('modals.tickets.modal_close_ticket')

@@ -707,9 +707,6 @@ class TicketController extends Controller
             ->orderBy('tickets.ticket_id', 'desc')
             ->first();
 
-
-        // $data['escalated_by'] = DB::table('users')->where('id', '=', $data['tickets']->assigned_user_id)->first();
-
         $data['attached_files'] = DB::table('ticket_details')->where('id', '=', $ticket_id)
             ->first();
         if ($data['tickets']->attached_file == '') {
@@ -932,7 +929,7 @@ class TicketController extends Controller
         $reply_array = array(
             'ticket_id' => $close_ticket_id,
             'submitter' => ucwords($user->name),
-            'message' => 'Ticket closed by ' . $user->name . ' Resaon for outage (RFO): ' . $reason,
+            'message' => 'Ticket closed by ' . $user->name . ' Reason for outage (RFO): ' . $reason,
             'reply_type' => 'closed the ticket'
         );
 
@@ -990,7 +987,7 @@ class TicketController extends Controller
         $reply_array = array(
             'ticket_id' => $escalate_ticket_id,
             'submitter' => ucwords($user->name),
-            'message' => 'Ticket escalated by ' . $user->name .  ' to ' . $esc_name . ' Resaon for escalation: ' . $esc_reason,
+            'message' => 'Ticket escalated by ' . $user->name .  ' to ' . $esc_name . ' Reason for escalation: ' . $esc_reason,
             'reply_type' => 'escalated the ticket'
         );
 
