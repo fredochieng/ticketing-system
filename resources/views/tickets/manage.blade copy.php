@@ -6,7 +6,7 @@
 @stop
 @section( 'content')
 <div class="row">
-    <div class="col-md-8">
+    <div class="col-md-7">
         <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
                 <li class="active"><a href="#tab-ticket" data-toggle="tab" class="ticket-tab-button"
@@ -27,13 +27,7 @@
                         @endif
 
                         {{-- @if(auth()->user()->isAdmin() || auth()->user()->isSysManager() ||
-                        auth()->user()->isITManager())
-                        @if($tickets->status_id==1)
-                        <a href="" data-toggle="modal" data-target="#modal_assign_ticket" a href="" data-toggle="modal"
-                            data-target="#modal_assign_ticket" class="btn btn-info">Assign</a>
-                        @endif
-                        @endif --}}
-
+                        auth()->user()->isITManager()) --}}
                         @if((auth()->user()->can('ticket.assign')))
                         @if($tickets->status_id==1)
                         <a href="" data-toggle="modal" data-target="#modal_assign_ticket" a href="" data-toggle="modal"
@@ -58,11 +52,7 @@
                         @endif
                         @endif
 
-
-
-
-
-                        {{-- @if(($tickets->status_id==2) && ($tickets->esc_level_id=='') &&
+                        @if(($tickets->status_id==2) && ($tickets->esc_level_id=='') &&
                         ($tickets->assigned_user_id==Auth::user()->id))
                         <a href="" data-toggle="modal" data-target="#modal_close_ticket"
                             class="btn btn-success">Close</a>
@@ -99,69 +89,14 @@
                         <a href="" data-toggle="modal" data-target="#modal_close_ticket"
                             class="btn btn-success">Close</a>
                         @endif
-                        @endif --}}
-
-                        @if(auth()->user()->isTechnician())
-                        @if(($tickets->status_id==2) && ($tickets->esc_level_id=='') &&
-                        ($tickets->assigned_user_id==Auth::user()->id))
-                        <a href="" data-toggle="modal" data-target="#modal_close_ticket"
-                            class="btn btn-success">Close</a>
                         @endif
-                        @endif
-
-                        @if(auth()->user()->isAdmin())
-                        @if(($tickets->status_id==2))
-                        <a href="" data-toggle="modal" data-target="#modal_close_ticket"
-                            class="btn btn-success">Close</a>
-                        @endif
-                        @endif
-
-                        @if(auth()->user()->isSysManager() && ($tickets->esc_level_id==''))
-                        @if(($tickets->status_id==2))
-                        <a href="" data-toggle="modal" data-target="#modal_close_ticket"
-                            class="btn btn-success">Close</a>
-                        @endif
-                        @endif
-
-                        @if(auth()->user()->isSysAdmin())
-                        @if(($tickets->status_id==2) && ($tickets->esc_level_id=='2') || ($tickets->esc_level_id =='3'))
-                        <a href="" data-toggle="modal" data-target="#modal_close_ticket"
-                            class="btn btn-success">Close</a>
-                        @endif
-                        @endif
-
-                        @if(auth()->user()->isSysAdmin())
-                        @if(($tickets->status_id==2) && ($tickets->esc_level_id=='') &&
-                        ($tickets->assigned_user_id==Auth::user()->id))
-                        <a href="" data-toggle="modal" data-target="#modal_close_ticket"
-                            class="btn btn-success">Close</a>
-                        @endif
-                        @endif
-                        @if(auth()->user()->isITManager())
-                        @if(($tickets->status_id==2) && ($tickets->esc_level_id=='2'))
-                        <a href="" data-toggle="modal" data-target="#modal_close_ticket"
-                            class="btn btn-success">Close</a>
-                        @endif
-                        @endif
-                        @if(auth()->user()->isCIO())
-                        @if(($tickets->status_id==2) && ($tickets->esc_level_id =='7'))
-                        <a href="" data-toggle="modal" data-target="#modal_close_ticket"
-                            class="btn btn-success">Close</a>
-                        @endif
-                        @endif
-                        @if(auth()->user()->isSysManager())
-                        @if(($tickets->status_id==2) && ($tickets->esc_level_id=='4') || ($tickets->esc_level_id=='3'))
-                        <a href="" data-toggle="modal" data-target="#modal_close_ticket"
-                            class="btn btn-success">Close</a>
-                        @endif
-                        @endif
-
 
                         @if(auth()->user()->isAdmin() || auth()->user()->isITManager() ||
                         auth()->user()->isSysManager())
                         <a href="" data-toggle="modal" data-target="#modal_delete_ticket_{{ $tickets->ticket_id }}"
                             class="btn btn-danger">Delete</a>
                         @endif
+
                     </div>
             </ul>
             <div class="tab-content">
@@ -175,7 +110,6 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
                 <div class="tab-pane" id="tab-attachments">
                     <div class="table-responsive">
@@ -205,7 +139,7 @@
         </div>
     </div>
 
-    <div class="col-md-4">
+    <div class="col-md-5">
         <div class="box box-success">
             <div class="box-header with-border">
                 <h3 class="box-title"><b>Ticket Details</b></h3>
@@ -218,7 +152,6 @@
                     @endif
                     @if($tickets->esc_level_id !='')<span class=" badge bg-aqua pull-right"><b>ESCALATED</b></span>@else
                     @endif
-
 
             </div><!-- /.box-header -->
             <div class="box-body">
@@ -342,7 +275,7 @@
                 <ul class="timeline timeline-inverse">
 
                     @foreach ($ticket_replies as $replies)
-                    {{--  <li class="time-label">
+                    {{-- <li class="time-label">
                         <span class="bg-red">
                             10 Feb. 2014
                         </span>
@@ -360,7 +293,6 @@
                             <h3 class="timeline-header"><a href="#">{{$replies->submitter}}</a> {{$replies->reply_type}}
                             </h3>
                             @endif
-
                             <div class="timeline-body">
                                 {{ $replies->message }}
                             </div>
@@ -390,23 +322,26 @@
 @stop
 @section('js')
 <script type="text/javascript">
-    $(function(){
-$('#categories').on('change', function(e){
-console.log(e);
-var category_id = e.target.value;
-$.get('/get-issue-subcategories?category_id=' + category_id,function(data) {
-console.log(data);
-$('#subcategories').empty();
-$('#subcategories').append('<option value="0" disable="true" selected="true">Select issue subcategory</option>');
+$(function() {
+    $('#categories').on('change', function(e) {
+        console.log(e);
+        var category_id = e.target.value;
+        $.get('/get-issue-subcategories?category_id=' + category_id, function(data) {
+            console.log(data);
+            $('#subcategories').empty();
+            $('#subcategories').append(
+                '<option value="0" disable="true" selected="true">Select issue subcategory</option>'
+            );
 
-$.each(data, function(index, subcategoriesObj){
-$('#subcategories').append('<option value="'+ subcategoriesObj.issue_subcategory_id +'">'+
-    subcategoriesObj.issue_subcategory_name +'</option>');
-})
+            $.each(data, function(index, subcategoriesObj) {
+                $('#subcategories').append('<option value="' + subcategoriesObj
+                    .issue_subcategory_id + '">' +
+                    subcategoriesObj.issue_subcategory_name + '</option>');
+            })
+        });
+    });
 });
-});
-});
-      $(".select2").select2();
-    $('#example1').DataTable()
+$(".select2").select2();
+$('#example1').DataTable()
 </script>
 @stop

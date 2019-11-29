@@ -208,7 +208,6 @@ class AssetController extends Controller
                 //     'asset_no' => $value->asset_no, 'moved_to' => $value->name, 'moved_from' => 'IT Department',
                 // ];
             }
-
             if (!empty($arr)) {
                 Asset::insert($arr);
                 //AssetMovement::insert($asset_movement);

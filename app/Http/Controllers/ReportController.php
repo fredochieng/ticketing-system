@@ -280,7 +280,6 @@ class ReportController extends Controller
                 $data_array[] = array(
                     $value->ticket,
                     $value->subject,
-                    // $value->submitter,
                     $value->ticket_created_at,
                     $status,
                     $value->assigned_to,
