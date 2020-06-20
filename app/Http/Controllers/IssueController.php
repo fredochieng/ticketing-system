@@ -17,6 +17,10 @@ class IssueController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     public function index()
     {
         // Fetch issue categories
@@ -203,7 +207,8 @@ class IssueController extends Controller
             ->leftjoin('issues_categories', 'issue_subcategories.issue_id', 'issues_categories.issue_id')
             ->where('issue_subcategories.issue_id', '=', $issue_id)->get();
 
-        if ($data['issueSubCategories']) { }
+        if ($data['issueSubCategories']) {
+        }
 
         $data['issue_cat'] = DB::table('issues_categories')->where('issues_categories.issue_id', '=', $issue_id)->first();
 

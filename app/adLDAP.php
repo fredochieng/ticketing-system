@@ -1,4 +1,5 @@
 <?php
+
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
@@ -70,14 +71,16 @@ class adLDAP
      *
      * @var string
      */
-    protected $_account_suffix = "@vault.wananchi.com";
+    protected $_account_suffix = "@people.co.ke";
+    // protected $_account_suffix = "@medima.mediamax.co.ke";
 
     /**
      * The base dn for your domain
      *
      * @var string
      */
-    protected $_base_dn = "DC=vault,DC=wananchi,DC=com";
+    protected $_base_dn = "DC=people,DC=co,DC=ke";
+    //protected $_base_dn = "DC=medima,DC=mediamax,DC=co,DC=ke";
 
     /**
      * Array of domain controllers. Specifiy multiple controllers if you
@@ -90,7 +93,8 @@ class adLDAP
 
     /* protected $_domain_controllers = array ("192.168.10.90"); */
 
-    protected $_domain_controllers = array("192.168.10.90");
+    protected $_domain_controllers = array("192.168.10.1");
+    //protected $_domain_controllers = array("192.168.10.25");
 
     /**   protected $_domain_controllers = array ("192.168.10.90","192.168.3.6"); */
 
@@ -101,8 +105,11 @@ class adLDAP
      * @var string
      * @var string
      */
-    protected $_ad_username = "kayako.kayako";
-    protected $_ad_password = "P@ssword";
+    protected $_ad_username = "Administrator";
+    protected $_ad_password = "@n@ly$1$";
+
+    // protected $_ad_username = "Administrator";
+    // protected $_ad_password = "@dm1n1strator";
 
     /**
      * AD does not return the primary group. http://support.microsoft.com/?kbid=321360
@@ -2769,9 +2776,7 @@ class adLDAP
         $password = "\"" . $password . "\"";
         $encoded = "";
         for ($i = 0; $i < strlen($password); $i++) {
-            $encoded .= "{$password{
-
-                    $i}}\000";
+            $encoded .= "{$password{$i}}\000";
         }
         return ($encoded);
     }

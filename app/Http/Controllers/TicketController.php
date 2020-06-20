@@ -41,6 +41,10 @@ class TicketController extends Controller
      */
     use HasRoles;
     protected $guard_name = 'web';
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     public function index(Ticket $ticket)
     {
         $data['tickets'] = Ticket::getTickets();
@@ -70,11 +74,12 @@ class TicketController extends Controller
         $data['departments'] = Department::getDepartments();
         $data['priorities'] = Priority::getPriorities();
         $data['users'] = User::getHelpdeskTeam();
+        //dd($data['users']);
         $data['issue_categories'] = Issue::getIssueCategories();
         $data['countries'] = DB::table('countries')->orderBy('country_id', 'asc')->get();
 
         // // $obj = new FetchMails('webmail.ke.wananchi.com', 'fredrick.ochieng@ke.wananchi.com', 'Happy1995', 'imap', '143', false, true);
-        // $obj = new FetchMails('webmail.ke.wananchi.com', 'ticketing@ke.wananchi.com', 'Zuku@2019!', 'imap', '143', false, true);
+        // $obj = new FetchMails('webmail.ke.wananchi.com', 'fredrick.ochieng@mediamax.co.ke', 'Zuku@2019!', 'imap', '143', false, true);
 
         // // //Connect to the Mail Box
         // $obj->connect(); //If connection fails give error message and exit
@@ -246,12 +251,12 @@ class TicketController extends Controller
 
         //                 //     $email =  $head['mail_details']['email'];
         //                 //     $name = $head['mail_details']['name'];
-        //                 //     $company = "Wananchi Group Ltd";
+        //                 //     $company = "Mediamax Ltd";
 
         //                 //     $objEmail = new \stdClass();
         //                 //     $objEmail->name = $name;
         //                 //     $objEmail->ticket = $ticket;
-        //                 //     $objEmail->subject = 'Ticket' . '#' . $ticket . 'Created';
+        //                 //     $objEmail->subject = 'Ticket' . $ticket . 'Created';
         //                 //     $objEmail->message = "Someone will be assigned to process your ticket";
         //                 //     $objEmail->company = $company;
 
@@ -259,7 +264,7 @@ class TicketController extends Controller
         //                 //         'name'     => $name,
         //                 //         'email'     => $email,
         //                 //         'ticket'     => $ticket,
-        //                 //         'subject'    => 'Ticket' . '#' . $ticket . 'Created',
+        //                 //         'subject'    => 'Ticket' . $ticket . 'Created',
         //                 //         'message'   => 'Someone will be assigned to process your ticket',
         //                 //         'message_id' => $message_id,
         //                 //         'company'    => $company
@@ -335,8 +340,18 @@ class TicketController extends Controller
             $ticket->priority_id = $request->input('priority_id');
             $ticket->country_id = $request->input('country_id');
             $assigned_user = $request->input('assigned_user_id');
-            $name = $request->input('name');
-            $email = $request->input('email');
+
+            $user = Auth::user();
+
+            ~$user_role = $user->getRoleNames()->first();
+            if ($user_role == "Standard User") {
+                $email = $user->email;
+                $name = $user->name;
+            } else {
+                $name = $request->input('name');
+                $email = $request->input('email');
+            }
+
             $now = Carbon::now('Africa/Nairobi');
 
             if (!empty($assigned_user)) {
@@ -400,8 +415,8 @@ class TicketController extends Controller
                 $assigned_name = $user_assigned->name;
                 $assigned_email = $user_assigned->email;
 
-                $company = "Wananchi Group IT Team";
-                $subject = 'Ticket ' . '#' . $ticket_no . ' Creation and Assignment';
+                $company = "Mediamax IT Team";
+                $subject = 'Ticket ' . $ticket_no . ' Creation and Assignment';
                 $message = 'A new ticket has been created and assigned to you. ' . ' Ticket Number : ' . $ticket_no;
 
                 $mailData1 = array(
@@ -419,12 +434,12 @@ class TicketController extends Controller
             DB::commit();
             $name =  $name;
             $email = $email;
-            $company = "Wananchi Group IT Team";
+            $company = "Mediamax IT Team";
 
             $objEmail = new \stdClass();
             $objEmail->name = $name;
             $objEmail->ticket = $ticket_no;
-            $objEmail->subject = 'Ticket' . '#' . $ticket . 'Created';
+            $objEmail->subject = 'Ticket' . $ticket . 'Created';
             $objEmail->message = "Someone will be assigned to process your ticket";
             $objEmail->company = $company;
 
@@ -432,7 +447,7 @@ class TicketController extends Controller
                 'name'     => $name,
                 'email'     => $email,
                 'ticket'     => $ticket_no,
-                'subject'    => 'Ticket ' . '# ' . $ticket_no . ' Created',
+                'subject'    => 'Ticket ' . $ticket_no . ' Created',
                 'message'   => 'Someone will be assigned to process your ticket',
                 'message_id' => 'bdfdgydtfdrt6dggvcfcttydtftd',
                 'company'    => $company
@@ -775,15 +790,15 @@ class TicketController extends Controller
             $save_reply_details = DB::table('ticket_replies')->insertGetId($reply_array);
 
             // Send ack to the user
-            $company = "Wananchi Group IT Team";
+            $company = "Mediamax IT Team";
             $message = $assigned_name . " has been assigned/confirmed working on your ticket. We will get back to you with a resoultion.";
-            $subject = 'Ticket' . '#' . $ticket_no . 'Assigned';
+            $subject = 'Ticket' . $ticket_no . 'Assigned';
 
             $mailData = array(
                 'name'     => $submitter_name,
                 'email'     => $submitter_email,
                 'ticket'     => $ticket_no,
-                'subject'    => 'Ticket ' . '# ' . $ticket_no . ' Assigned',
+                'subject'    => 'Ticket ' . $ticket_no . ' Assigned',
                 'message'   =>  $message,
                 'company'    => $company
             );
@@ -792,15 +807,15 @@ class TicketController extends Controller
 
             $resp = Mail::to($submitter_email)->send(new TicketAssignment($mailData));
             // Send ack to the user
-            $company = "Wananchi Group IT Team";
+            $company = "Mediamax IT Team";
             $message1 = "You have confirmed working on ticket " . $ticket_no;
-            $subject = 'Ticket' . '#' . $ticket_no . 'Assignment';
+            $subject = 'Ticket' . $ticket_no . 'Assignment';
 
             $mailData1 = array(
                 'name'     => $assigned_name,
                 'email'     => $assigned_email,
                 'ticket'     => $ticket_no,
-                'subject'    => 'Ticket ' . '# ' . $ticket_no . ' Assignment',
+                'subject'    => 'Ticket ' . $ticket_no . ' Assignment',
                 'message'   =>  $message1,
                 'company'    => $company
             );
@@ -863,9 +878,9 @@ class TicketController extends Controller
         $save_reply_details = DB::table('ticket_replies')->insertGetId($reply_array);
 
         // Send ack to the technician
-        $company = "Wananchi Group IT Team";
+        $company = "Mediamax IT Team";
         $message = 'You have been assigned ticket ' . $ticket_no . ' by ' . $auth_name;
-        $subject = 'Ticket' . '#' . $ticket_no . 'Assignment';
+        $subject = 'Ticket ' . $ticket_no . ' Assignment';
 
         $mailData = array(
             'name'     => $assigned_name,
@@ -878,17 +893,17 @@ class TicketController extends Controller
 
         //dd($mailData);
 
-        $resp = Mail::to($assigned_email)->send(new WorkOnTicket($mailData));
+        $resp = Mail::to('fredrick.ochieng@mediamax.co.ke')->send(new WorkOnTicket($mailData));
         // Send ack to the user
-        $company = "Wananchi Group IT Team";
+        $company = "Mediamax IT Team";
         $message1 = 'Your ticket ' . $ticket_no .  ' has been assigned to ' . $assigned_name . '. We will get back to you with a resoultion.';
-        $subject = 'Ticket' . '#' . $ticket_no . 'Assignment';
+        $subject = 'Ticket ' . $ticket_no . ' Assignment';
 
         $mailData1 = array(
             'name'     => $submitter_name,
             'email'     => $submitter_email,
             'ticket'     => $ticket_no,
-            'subject'    => 'Ticket ' . '# ' . $ticket_no . ' Assignment',
+            'subject'    => 'Ticket ' . $ticket_no . ' Assignment',
             'message'   =>  $message1,
             'company'    => $company
         );
@@ -1021,7 +1036,7 @@ class TicketController extends Controller
         $subject = 'Ticket Escalation -' . $subject . ' ' . '(' . $ticket_number . ')';
         $esc_reason = $reason;
         $message = 'Ticket Number ' . ($ticket_number) . ' has been escalated to you';
-        $company = "Wananchi Group IT Team";
+        $company = "Mediamax IT Team";
 
         foreach ($esc_level_users as $users) {
             $name = $users->user_name;
@@ -1041,7 +1056,7 @@ class TicketController extends Controller
                 'reason'     => $reason,
                 'company'    => $company
             );
-            Mail::to($users->email)->send(new TicketEscalation($mailData));
+            // Mail::to($users->email)->send(new TicketEscalation($mailData));
         }
 
         toast('Ticket escalated successfully', 'success', 'top-right');
@@ -1079,7 +1094,7 @@ class TicketController extends Controller
         $subject = 'Reply to your ticket';
         // $subject = 'RE:' . $ticket->subject;
         // $subject = 'RE: ' . $subject;
-        $company = "Wananchi Group IT Team";
+        $company = "Mediamax IT Team";
 
         $replyEmail = new \stdClass();
         $replyEmail->name = $name;

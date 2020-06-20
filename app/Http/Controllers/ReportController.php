@@ -18,6 +18,10 @@ class ReportController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     public function index()
     {
         $data['ticket_status'] = DB::table('tickets_status')->orderBy('status_id', 'asc')->get();
@@ -231,7 +235,7 @@ class ReportController extends Controller
             )
                 ->where('country_id', $country_id);
 
-            $data_array[] = array('Ticket', 'Subject', 'Date Opened', 'Status', 'Assigned To', 'Country', 'Issue Category', 'Issue Subcategory', 'RFO', 'Date Closed', 'Time Taken', 'Closed By');
+            $data_array[] = array('Ticket', 'Subject', 'Date Opened', 'Status', 'Assigned To', 'Region', 'Issue Category', 'Issue Subcategory', 'RFO', 'Date Closed', 'Time Taken', 'Closed By');
             $text_title_disp = "Tickets_Report_" . $data['start_date'] . " to " . $data['end_date'];
 
             foreach ($data['tickets_report'] as $value) {
@@ -304,7 +308,7 @@ class ReportController extends Controller
                 array($data['start_date'], $data['end_date'])
             );
 
-            $data_array[] = array('Ticket', 'Subject', 'Date Opened', 'Status', 'Assigned To', 'Country', 'Issue Category', 'Issue Subcategory', 'RFO', 'Date Closed', 'Time Taken', 'Closed By');
+            $data_array[] = array('Ticket', 'Subject', 'Date Opened', 'Status', 'Assigned To', 'Region', 'Issue Category', 'Issue Subcategory', 'RFO', 'Date Closed', 'Time Taken', 'Closed By');
             $text_title_disp = "Tickets_Report_" . $data['start_date'] . " to " . $data['end_date'];
 
             foreach ($data['tickets_report'] as $value) {
@@ -381,7 +385,7 @@ class ReportController extends Controller
                 )
                 ->where('country_id', $country_id);
 
-            dd($data['tickets_report']);
+            //dd($data['tickets_report']);
 
             $data_array[] = array('Ticket', 'Subject', 'Date Opened', 'Status', 'Assigned To', 'Country', 'Issue Category', 'Issue Subcategory', 'RFO', 'Date Closed', 'Time Taken', 'Closed By');
             $text_title_disp = "Tickets_Report_" . $data['start_date'] . " to " . $data['end_date'];

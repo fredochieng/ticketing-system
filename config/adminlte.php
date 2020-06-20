@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'title' => 'IT HelpDesk and Ticketing System',
+    'title' => 'Mediamax Helpdesk and Ticketing System',
 
     'title_prefix' => '',
 
@@ -30,9 +30,9 @@ return [
     |
     */
 
-    'logo' => '<b>Wananchi </b>Helpdesk',
+    'logo' => '<b>Mediamax </b>Helpdesk',
 
-    'logo_mini' => '<b>A</b>LT',
+    'logo_mini' => '<b>M</b>H',
 
     /*
     |--------------------------------------------------------------------------
@@ -181,6 +181,11 @@ return [
                     'text' => 'Asset Categories',
                     'url'  => '/inventory/attributes/asset-categories',
                     'icon' => 'angle-double-right'
+                ],
+                [
+                    'text' => 'IP Inventory',
+                    'url'  => '/inventory/ip',
+                    'icon' => 'plus-circle'
                 ],
 
             ],

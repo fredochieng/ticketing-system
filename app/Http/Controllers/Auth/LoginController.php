@@ -6,8 +6,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
-use RealRashid\SweetAlert\Facades\Alert;
 use App\User;
 use DB;
 use Carbon\Carbon;
@@ -47,99 +45,6 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
-    // public function login(Request $request)
-    // {
-    //     $username = $request->input('username');
-    //     $password = $request->input('password');
-
-    //     $adldap = new adLDAP();
-    //     $authUser = $adldap->authenticate($username, $password);
-    //     //$userinfo = $adldap->user_info($username, array("name", "samaccountname", "userPrincipalName", "mail", "description", "group"));
-
-    //     if ($authUser == true) {
-
-    //         $userinfo = $adldap->user_info($username, array("name", "samaccountname", "userPrincipalName", "mail", "description", "group"));
-    //         // $userinfo=$adldap->user_info($username, array("givenname","sn","title","mail","mobile","info"));
-    //         foreach ($userinfo as $key => $value) {
-    //             $userinfo = $value;
-    //         }
-
-
-    //         $user_groups = $adldap->user_groups($username, $recursive = NULL, $isGUID = false);
-
-    //         $name = $userinfo['name'][0];
-    //         $username = $userinfo['samaccountname'][0];
-    //         $job_title = $userinfo['description'][0];
-    //         $email = $userinfo['mail'][0];
-
-    //         // if (in_array('Legal', $user_groups)) {
-    //         //     $email = $userinfo['userprincipalname'][0];
-    //         //     $email = str_replace('vault', 'ke', $email);
-    //         // } else {
-    //         //     $email = $userinfo['mail'][0];
-    //         // }
-    //         // echo "<pre>";
-    //         // print_r($email);
-    //         // exit;
-
-    //         $user_names =  User::select('username')->pluck('username')->toArray();
-
-    //         if (in_array($username, $user_names)) {
-
-    //             $credentials = $request->only('username', 'password');
-    //             DB::table('users')->where(array('username' => $username))->update(array(
-    //                 'password' => Hash::make($password)
-    //             ));
-
-    //             if (auth::attempt($credentials, $request->has('remember'))) { //this if validate if the user is on the database line 1
-
-    //                 return redirect('/home');
-    //             }
-    //         } else {
-    //             $user = new User();
-    //             $user->name = $name;
-    //             $user->email = $email;
-    //             $user->username = $username;
-    //             $user->job_title = $job_title;
-    //             $user->email_verified_at = Carbon::now();
-    //             $user->password = Hash::make($password);
-    //             $user->save();
-
-    //             $just_saved_user_id = $user->id;
-
-    //             $technicians = array('kevin.ochieng', 'antony.mukoma', 'eric.njoroge', 'robert.ochieng', 'samuel.mbugua', 'harrison.osunga', 'irene.bukangwa', 'fredrick.jaber');
-
-    //             if ($username == 'anthony.njogu') {
-    //                 $role_id = 1;
-    //             }
-    //             if (in_array($username, $technicians)) {
-    //                 $role_id = 5;
-    //             } else {
-    //                 $role_id = 6;
-    //             }
-    //             // SAVE USER ROLE
-    //             $user_role = array(
-    //                 'model_id' => $just_saved_user_id,
-    //                 'model_type' => 'App\User',
-    //                 'role_id' => $role_id
-    //             );
-    //             $save_user_role = DB::table('model_has_roles')->insertGetId($user_role);
-
-    //             $credentials = $request->only('username', 'password');
-
-    //             if (auth::attempt($credentials, $request->has('remember'))) {
-
-    //                 return redirect('/home');
-    //             }
-    //         }
-    //     } else {
-
-    //         // dd('Wrong');
-    //         toast('Incorrect username or password', 'error', 'top-right');
-    //         return back();
-    //         //->with('error', 'Incorrect username or password');
-    //     }
-    // }
     public function login(Request $request)
     {
         $username = $request->input('username');
@@ -147,89 +52,89 @@ class LoginController extends Controller
 
         $adldap = new adLDAP();
         $authUser = $adldap->authenticate($username, $password);
-        //$userinfo = $adldap->user_info($username, array("name", "samaccountname", "userPrincipalName", "mail", "description", "group"));
+
+        $userinfo = $adldap->user_info($username, array("name", "samaccountname", "userPrincipalName", "mail", "description", "title", "group"));
+
+        // echo "<pre>";
+        // print_r($userinfo);
+        // exit;
+        // dd($userinfo);
 
         if ($authUser == true) {
 
-            $userinfo = $adldap->user_info($username, array("name", "samaccountname", "userPrincipalName", "mail", "description", "group"));
-
+            $userinfo = $adldap->user_info($username, array("name", "samaccountname", "userPrincipalName", "mail", "description", "title", "group"));
+            // $userinfo=$adldap->user_info($username, array("givenname","sn","title","mail","mobile","info"));
             foreach ($userinfo as $key => $value) {
                 $userinfo = $value;
             }
+
 
             $user_groups = $adldap->user_groups($username, $recursive = NULL, $isGUID = false);
 
             $name = $userinfo['name'][0];
             $username = $userinfo['samaccountname'][0];
-            $job_title = $userinfo['description'][0];
-            if (empty($job_title)) {
+            //$job_title = $userinfo['description'][0];
+            $email = $userinfo['mail'][0];
+
+            if (!array_key_exists('title', $userinfo)) {
                 $job_title = '';
             } else {
-
-                $job_title = $userinfo['description'][0];
+                $job_title = $userinfo['title'][0];
             }
 
-            if (!array_key_exists('mail', $userinfo)) {
-                toast('Email address not configured in active directory....contact IT helpdesk for assistance', 'error', 'top-right');
-                return back();
+            $user_names =  User::select('username')->pluck('username')->toArray();
+
+            if (in_array($username, $user_names)) {
+
+                $credentials = $request->only('username', 'password');
+                DB::table('users')->where(array('username' => $username))->update(array(
+                    'password' => Hash::make($password)
+                ));
+
+                if (auth::attempt($credentials, $request->has('remember'))) { //this if validate if the user is on the database line 1
+
+                    return redirect('/home');
+                }
             } else {
-                $user_names =  User::select('username')->pluck('username')->toArray();
-                $email = $userinfo['mail'][0];
-                if (in_array($username, $user_names)) {
+                $user = new User();
+                $user->name = $name;
+                $user->email = $email;
+                $user->username = $username;
+                $user->job_title = $job_title;
+                $user->email_verified_at = Carbon::now();
+                $user->password = Hash::make($password);
+                $user->save();
 
-                    $credentials = $request->only('username', 'password');
-                    DB::table('users')->where(array('username' => $username))->update(array(
-                        'password' => Hash::make($password)
-                    ));
+                $just_saved_user_id = $user->id;
 
-                    if (auth::attempt($credentials, $request->has('remember'))) { //this if validate if the user is on the database line 1
+                $admins = array('fredrick.ochieng');
 
-                        return redirect('/home');
-                    }
+                // if ($username == 'fredrick.ochieng') {
+                //     $role_id = 1;
+                // }
+                if (in_array($username, $admins)) {
+                    $role_id = 1;
                 } else {
-                    $user = new User();
-                    $user->name = $name;
-                    $user->email = $email;
-                    $user->username = $username;
-                    $user->job_title = $job_title;
-                    $user->email_verified_at = Carbon::now();
-                    $user->password = Hash::make($password);
-                    $user->save();
+                    $role_id = 6;
+                }
+                // SAVE USER ROLE
+                $user_role = array(
+                    'model_id' => $just_saved_user_id,
+                    'model_type' => 'App\User',
+                    'role_id' => $role_id
+                );
+                $save_user_role = DB::table('model_has_roles')->insert($user_role);
 
-                    $just_saved_user_id = $user->id;
+                $credentials = $request->only('username', 'password');
 
-                    $technicians = array('kevin.ochieng', 'antony.mukoma', 'eric.njoroge', 'robert.ochieng', 'samuel.mbugua', 'harrison.osunga', 'irene.bukangwa', 'fredrick.jaber');
+                if (auth::attempt($credentials, $request->has('remember'))) {
 
-                    if ($username == 'anthony.njogu') {
-                        $role_id = 1;
-                    }
-                    if (in_array($username, $technicians)) {
-                        $role_id = 5;
-                    } else {
-                        $role_id = 6;
-                    }
-                    // SAVE USER ROLE
-                    $user_role = array(
-                        'model_id' => $just_saved_user_id,
-                        'model_type' => 'App\User',
-                        'role_id' => $role_id
-                    );
-                    $save_user_role = DB::table('model_has_roles')->insertGetId($user_role);
-
-                    $credentials = $request->only('username', 'password');
-
-                    if (auth::attempt($credentials, $request->has('remember'))) {
-
-                        return redirect('/home');
-                    }
+                    return redirect('/home');
                 }
             }
         } else {
-
-            // dd('Wrong');
-            toast('Incorrect username or password', 'error', 'top-right');
+            toast('Incorrect username or password', 'warning', 'top-right');
             return back();
-            //->with('error', 'Incorrect username or password');
         }
     }
 

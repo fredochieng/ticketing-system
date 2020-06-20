@@ -45,7 +45,7 @@ class FetchTicketsJob implements ShouldQueue
      */
     public function handle()
     {
-        $obj = new FetchMails('webmail.ke.wananchi.com', 'ticketing@ke.wananchi.com', 'Zuku@2019!', 'imap', '143', false, true);
+        $obj = new FetchMails('41.215.21.242', 'fredrick.ochieng@mediamax.co.ke', 'Happy1995#', 'imap', '143', false, true);
 
         // //Connect to the Mail Box
         $obj->connect(); //If connection fails give error message and exit
@@ -56,11 +56,12 @@ class FetchTicketsJob implements ShouldQueue
 
             //echo "Total Mails:: " . $tot . "<br>";
 
-            //     //This function will only work with IMAP.. If it is POP3 then you have to use "get_total_emails()".
+            //This function will only work with IMAP.. If it is POP3 then you have to use "get_total_emails()".
             $unread = $obj->get_unread_emails();
 
+
             if (!$unread) {
-                // echo "No Unread email found.<br>";
+                echo "No Unread email found.<br>";
             } else {
                 // echo "Total Unread E-Mails:: " . count($unread) . "<br>";
                 $ticket  = new Ticket();
@@ -93,9 +94,9 @@ class FetchTicketsJob implements ShouldQueue
                     Log::info("Header: ->" . json_encode($head));
                     // $arrFiles3 = $obj->get_attachments($eml_num);
 
-                    // // echo "<pre>";
-                    // // print_r($head);
-                    // // exit;
+                    // echo "<pre>";
+                    // print_r($head);
+                    // exit;
 
                     // if ($arrFiles3) {
                     //     foreach ($arrFiles3 as $key => $value) {
@@ -116,7 +117,8 @@ class FetchTicketsJob implements ShouldQueue
 
                     $today = Carbon::now('Africa/Nairobi')->toDateString();
 
-                    if (array_key_exists('references', $head['mail_details']['full_header'])) {
+                    if (property_exists(($head['mail_details']['full_header']), 'references')) {
+                        //property_exists($object, 'property')
                         $reply = $obj->get_email_body($eml_num);
 
                         //$reply = substr($reply, 0, strpos($reply, "From:"));
@@ -158,7 +160,6 @@ class FetchTicketsJob implements ShouldQueue
                         if ($original_ticket) {
 
                             $ticket_id = $original_ticket->ticket_id;
-                            // $submitter = strtolower($original_ticket->submitter);
 
                             $reply_array = array(
                                 'ticket_id' => $ticket_id,
@@ -170,6 +171,9 @@ class FetchTicketsJob implements ShouldQueue
                             $save_reply_details = DB::table('ticket_replies')->insertGetId($reply_array);
                         }
                     } else {
+
+
+
                         $message = $obj->get_email_body($eml_num);
 
                         $regards = 'Regards';
@@ -178,11 +182,14 @@ class FetchTicketsJob implements ShouldQueue
                         $pos = strpos($message, $regards);
                         //$pos1 = strpos($message, $kind_regards);
 
+                        // dd($pos);
                         if ($pos === false) {
                             $desc = $obj->get_email_body($eml_num);
                         } else {
                             $desc = substr($message, 0, strpos($message, "Regards"));
                         }
+
+                        // dd($desc);
 
                         // if ($pos1 === false) {
                         //     $desc = $obj->get_email_body($eml_num);
@@ -303,7 +310,7 @@ class FetchTicketsJob implements ShouldQueue
 
                             $email =  $head['mail_details']['email'];
                             $name = $head['mail_details']['name'];
-                            $company = "Wananchi Group IT Team";
+                            $company = "Mediamax IT Team";
 
                             $objEmail = new \stdClass();
                             $objEmail->name = $name;
@@ -337,13 +344,18 @@ class FetchTicketsJob implements ShouldQueue
                     //     }
                     // }
                     // // The below function will mark the email as Read in the mail box but commented in example site...
+
+
                     $obj->markas_read_email($eml_num);
 
                     // The below function will delete the email from mail box but commented in example for accidental deletion...
                     //$obj->delete_email($eml_num);
                 }
             }
+        } else {
+            dd('nop');
         }
+
         $obj->close_mailbox(); //Close Mail Box
     }
 }

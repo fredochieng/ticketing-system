@@ -36,11 +36,11 @@
                         </div>
                         <div class="col-md-3">
                             {{-- {{Form::label('Country(leave empty to select all countries)')}} --}}
-                            <label>Leave empty to select all countries</label>
+                            <label>Leave empty to select all regions</label>
                             <div class="form-group">
                                 <select class="form-control select2" id="status_id" name="country_id"
                                     style="width: 100%;" tabindex="-1" aria-hidden="true">
-                                    <option selected="selected" value="">Select country</option>
+                                    <option selected="selected" value="">Select region</option>
                                     @foreach($countries as $item)
                                     <option value="{{ $item->country_id }}">{{ $item->country_name }}
                                     </option>

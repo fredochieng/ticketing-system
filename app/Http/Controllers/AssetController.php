@@ -18,6 +18,10 @@ class AssetController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     public function index()
     {
         $data['assets'] = Asset::getAssets();
@@ -244,10 +248,8 @@ class AssetController extends Controller
 
             $this->validate($request, [
                 'asset_no' => 'required'
-                // 'category_id' => 'required',
-                // 'model' => 'required',
-                // 'serial_no' => 'required',
             ]);
+            
             $asset = new Asset();
             $asset_no = strtoupper($request->input('asset_no'));
             $staff_name = strtoupper($request->input('staff_name'));
@@ -409,7 +411,8 @@ class AssetController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Asset $asset)
-    { }
+    {
+    }
 
     public function updateAsset(Request $request)
     {

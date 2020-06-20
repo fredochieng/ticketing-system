@@ -49,11 +49,11 @@
                             </div>
                         </div>
                         <div class="col-md-3">
-                            {{Form::label('Asset Country')}}
+                            {{Form::label('Asset Region')}}
                             <div class="form-group">
                                 <select class="form-control select2" id="country_name" name="country_name" required
                                     style="width: 100%;" tabindex="-1" aria-hidden="true">
-                                    <option selected="selected" value="">Select asset country</option>
+                                    <option selected="selected" value="">Select asset region</option>
                                     @foreach($countries as $item)
                                     <option value="{{ $item->country_name }}">{{ $item->country_name }}
                                     </option>
@@ -114,7 +114,7 @@
                                     <th>Model No</th>
                                     <th>Serial No</th>
                                     <th>Status</th>
-                                    <th>Country</th>
+                                    <th>Region</th>
                                     <th>Action</th>
                                 </tr>
 

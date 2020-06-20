@@ -57,7 +57,7 @@ class SendMailJob
             'company'    => $company
         );
 
-        $resp =  Mail::to($email)->send(new SendMail($mailData));
+       // $resp =  Mail::to($email)->send(new SendMail($mailData));
 
         //     DB::table('messages')->where('id', $mess_id)
         //         ->update([

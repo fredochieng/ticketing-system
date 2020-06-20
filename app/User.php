@@ -55,6 +55,18 @@ class User extends Authenticatable
                 ->where($compare_field, $compare_operator, $compare_value)
                 ->get();
             return $helpdesk_technicians;
+        } elseif ($user_role == "Standard User") {
+            $compare_field = "roles.name";
+            $compare_operator = "=";
+            $compare_value = "Technician";
+
+            $helpdesk_technicians = DB::table('users')->select(DB::raw('users.*'), DB::raw('model_has_roles.*'), DB::raw('roles.name AS role_name'))
+                ->leftJoin('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
+                ->leftJoin('roles', 'roles.id', '=', 'model_has_roles.role_id')
+                // ->where('roles.name', 'Technician')
+                ->where($compare_field, $compare_operator, $compare_value)
+                ->get();
+            return $helpdesk_technicians;
         }
     }
     protected $fillable = [

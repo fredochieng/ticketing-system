@@ -57,6 +57,7 @@
                             {{Form::file('attachment',['class'=>'form-control'])}}
                         </div>
                     </div>
+                    @if(!auth()->user()->isUser())
                     <div class="col-md-4">
                         <div class="form-group">
                             {{Form::label('User Name *')}}<br>
@@ -73,12 +74,13 @@
                             </div>
                         </div>
                     </div>
+                    @endif
                     <div class="col-md-4">
                         <div class="form-group">
                             <label>User Country</label>
                             <select class="form-control select2" name="country_id" style="width: 100%;" tabindex="-1"
                                 required aria-hidden="true">
-                                <option value="">Select user country</option>
+                                <option value="">Select user region</option>
                                 @foreach ( $countries as $row )
                                 <option value="{{ $row->country_id }}">{{ $row->country_name }}</option>
                                 @endforeach

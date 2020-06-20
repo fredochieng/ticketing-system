@@ -39,13 +39,15 @@ class ReplyToTicket extends Mailable
             'message_id' => $this->mailData['message_id']
         );
 
+        //dd($inputs);
+
         $this->withSwiftMessage(function ($message) {
             $message->getHeaders()
                 ->addTextHeader('In-Reply-To', $this->mailData['message_id']);
             $message->getHeaders()
                 ->addTextHeader('References',  $this->mailData['message_id']);
             $message
-                ->setSender('ticketing@ke.wananchi.com');
+                ->setSender('fredrick.ochieng@mediamax.co.ke');
             // ->setReplyTo($this->mailData['email']);
         })->view('emails.reply-ticket');
 

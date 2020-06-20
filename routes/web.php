@@ -84,3 +84,5 @@ Route::resource('/system/settings', 'SystemController');
 Route::any('/system/logs', 'SystemController@getLogs');
 Route::any('/system/import', 'SystemController@getImport');
 Route::any('/compose/mail', 'RoleController@sendMail');
+
+Route::resource('/inventory/ip', 'IPInventoryController');

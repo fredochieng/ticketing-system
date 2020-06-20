@@ -30,7 +30,7 @@ class UserCreated extends Mailable
      */
     public function build()
     {
-        return $this->from('ticketing@ke.wananchi.com')
+        return $this->from('fredrick.ochieng@mediamax.co.ke')
             ->view('emails.user-created-email');
     }
 }

@@ -233,6 +233,14 @@ class FetchMails extends Model
             return false;
 
         imap_expunge($this->marubox);
+        $error = imap_errors();
+        if (count($error) > 1 || $error[0] != 'SECURITY PROBLEM: insecure server advertised AUTH=PLAIN') {
+            // More than 1 error or not the expected error
+            var_dump($error);
+            throw new Exception('IMAP error detected');
+        }
+        imap_errors();
+        imap_alerts();
         imap_close($this->marubox, CL_EXPUNGE);
     }
     private function get_mime_type(&$structure) //Get Mime type Internal Private Use

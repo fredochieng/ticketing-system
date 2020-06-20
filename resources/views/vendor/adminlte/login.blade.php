@@ -9,8 +9,8 @@
 @section('body_class', 'login-page')
 @section('body')
 <div class="login-box">
-                @include('sweetalert::alert')
- @include('adminlte::partials.messages')
+    @include('sweetalert::alert')
+    @include('adminlte::partials.messages')
     <div class="login-logo">
         <a href="{{ url(config('adminlte.dashboard_url', 'home')) }}">{!! config('adminlte.logo', '<b>Admin</b>LTE')
             !!}</a>
@@ -31,34 +31,44 @@
                 </span>
                 @endif
             </div>
-            <div class="form-group has-feedback {{ $errors->has('password') ? 'has-error' : '' }}">
-                <input type="password" name="password" class="form-control"
-                    placeholder="{{ trans('adminlte::adminlte.password') }}">
-                <span class="glyphicon glyphicon-lock form-control-feedback"></span>
-                @if ($errors->has('password'))
-                <span class="help-block">
-                    <strong>{{ $errors->first('password') }}</strong>
-                </span>
-                @endif
-            </div>
-            <div class="row">
-                <div class="col-xs-8">
-                    <div class="checkbox icheck">
-                        <label>
-                            <input type="checkbox" name="remember"> {{ trans('adminlte::adminlte.remember_me') }}
-                        </label>
-                    </div>
-                </div>
-                <!-- /.col -->
-                <div class="col-xs-4">
-                    <button type="submit"
-                        class="btn btn-primary btn-block btn-flat">{{ trans('adminlte::adminlte.sign_in') }}</button>
-                </div>
-                <!-- /.col -->
-            </div>
-        </form>
+
+            {{-- <div class="form-group has-feedback {{ $errors->has('email') ? 'has-error' : '' }}">
+            <input type="text" name="email" class="form-control" value="{{ old('email') }}" placeholder="Email">
+            <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+            @if ($errors->has('email'))
+            <span class="help-block">
+                <strong>{{ $errors->first('email') }}</strong>
+            </span>
+            @endif
+    </div> --}}
+    <div class="form-group has-feedback {{ $errors->has('password') ? 'has-error' : '' }}">
+        <input type="password" name="password" class="form-control"
+            placeholder="{{ trans('adminlte::adminlte.password') }}">
+        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+        @if ($errors->has('password'))
+        <span class="help-block">
+            <strong>{{ $errors->first('password') }}</strong>
+        </span>
+        @endif
     </div>
-    <!-- /.login-box-body -->
+    <div class="row">
+        <div class="col-xs-8">
+            <div class="checkbox icheck">
+                <label>
+                    <input type="checkbox" name="remember"> {{ trans('adminlte::adminlte.remember_me') }}
+                </label>
+            </div>
+        </div>
+        <!-- /.col -->
+        <div class="col-xs-4">
+            <button type="submit"
+                class="btn btn-primary btn-block btn-flat">{{ trans('adminlte::adminlte.sign_in') }}</button>
+        </div>
+        <!-- /.col -->
+    </div>
+    </form>
+</div>
+<!-- /.login-box-body -->
 </div><!-- /.login-box -->
 @stop
 

@@ -17,10 +17,10 @@
             </div>
             <div class="box-body">
                 <div class="table-responsive">
-                    <table id="example1" class="table no-margin">
+                    <table id="example1" class="table no-margin" style="font-size:13px">
                         <thead>
                             <tr role="row">
-                                <th>S/N</th>
+                                {{-- <th>S/N</th> --}}
                                 <th>Ticket #</th>
                                 <th>Subject</th>
                                 <th>Submitter</th>
@@ -34,7 +34,7 @@
                         <tbody>
                             @foreach ($tickets as $count=> $row)
                             <tr>
-                                <td>{{$count + 1}}</td>
+                                {{-- <td>{{$count + 1}}</td> --}}
                                 <td><a href="/tickets/manage/&id={{$row->ticket_id}}"><b>{{$row->ticket}}</b></a></td>
                                 <td>{{$row->subject}}</td>
                                 <td>{{$row->submitter}}</td>

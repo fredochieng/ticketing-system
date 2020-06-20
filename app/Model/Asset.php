@@ -8,6 +8,8 @@ use DB;
 class Asset extends Model
 {
     protected $table = 'assets';
+    protected $primaryKey = 'asset_id'; // or null
+    public $incrementing = true;
 
     public static function getAssets()
     {

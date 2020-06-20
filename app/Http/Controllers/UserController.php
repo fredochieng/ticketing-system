@@ -18,6 +18,11 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     public function index()
     {
         $data['users'] = DB::table('users')->select(
@@ -27,7 +32,7 @@ class UserController extends Controller
         )
             ->leftJoin('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
             ->leftJoin('roles', 'roles.id', '=', 'model_has_roles.role_id')
-            ->where('model_has_roles.role_id', '!=', 1)
+            //->where('model_has_roles.role_id', '!=', 1)
             ->get();
         $data['roles'] = DB::table('roles')->select(DB::raw('roles.*'))->get();
 
@@ -93,7 +98,7 @@ class UserController extends Controller
             $objEmail->contract_code = $final_draft->contract_code;
             $objEmail->title = $final_draft->contract_title;
             $objEmail->subject = 'User Registration';
-            $company = "Wananchi Group Ltd";
+            $company = "Mediamax Ltd";
             $objEmail->company = $company;
 
             $message = "You have been added as a/an.";

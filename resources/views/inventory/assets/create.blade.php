@@ -69,7 +69,7 @@
                                 <div class="form-group">
                                     {{Form::label('Serial Number')}}<br>
                                     <div class="form-group">
-                                        {{Form::text('serial_no', '',['class'=>'form-control', 'required', 'placeholder'=>''])}}
+                                        {{Form::text('serial_no', '',['class'=>'form-control', 'placeholder'=>''])}}
                                     </div>
                                 </div>
                             </div>
@@ -78,7 +78,7 @@
                                 <div class="form-group">
                                     {{Form::label('Model Number')}}<br>
                                     <div class="form-group">
-                                        {{Form::text('model_no', '',['class'=>'form-control', 'required', 'placeholder'=>''])}}
+                                        {{Form::text('model_no', '',['class'=>'form-control', 'placeholder'=>''])}}
                                     </div>
                                 </div>
                             </div>
@@ -151,15 +151,16 @@
 
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    {{Form::label('User Country')}}<br>
+                                    {{Form::label('User Region')}}<br>
                                     <div class="form-group">
                                         <select class="form-control select2" name="country" style="width: 100%;"
                                             required>
-                                            <option selected="selected">Select user country</option>
-                                            @foreach($countries as $item)
+                                            <option selected="selected" value="NAIROBI DSM PLACE">NAIROBI DSM PLACE
+                                            </option>
+                                            {{-- @foreach($countries as $item)
                                             <option value="{{ $item->country_name }}">{{ $item->country_name }}
                                             </option>
-                                            @endforeach
+                                            @endforeach --}}
                                         </select>
                                     </div>
                                 </div>

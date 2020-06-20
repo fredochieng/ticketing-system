@@ -25,7 +25,7 @@
                         </div>
                     </div>
                     <div class="col-md-3">
-                        {{Form::label('Ticket Country ')}}
+                        {{Form::label('Ticket Region ')}}
                         <div class="form-group">
                             {!! Form::text('pay_mode_idss', $country_name, ['class' =>
                             'form-control', 'readonly']); !!}

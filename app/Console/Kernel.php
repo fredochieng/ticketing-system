@@ -33,8 +33,8 @@ class Kernel extends ConsoleKernel
         $schedule->job(new FetchTicketsJob())->everyMinute();
         $schedule->job(new DailyTicketsSummaryJob())->everyMinute();
         $schedule->job(new DailyDatesJob())->everyMinute();
-        //$schedule->job(new SendMailJob())->everyMinute();
-        $schedule->job(new TestJob())->everyMinute();
+        // $schedule->job(new SendMailJob())->everyMinute();
+        // $schedule->job(new TestJob())->everyMinute();
     }
 
     /**

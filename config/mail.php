@@ -56,8 +56,8 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'ticketing@ke.wananchi.com'),
-        'name' => env('MAIL_FROM_NAME', 'Wananchi Helpdesk'),
+        'address' => env('MAIL_FROM_ADDRESS', 'fredrick.ochieng@mediamax.co.ke'),
+        'name' => env('MAIL_FROM_NAME', 'Mediamax Helpdesk'),
     ],
 
     /*

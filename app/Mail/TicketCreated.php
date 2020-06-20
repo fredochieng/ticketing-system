@@ -50,7 +50,7 @@ class TicketCreated extends Mailable
             $message->getHeaders()
                 ->addTextHeader('References',  $this->mailData['message_id']);
             $message
-                ->setSender('ticketing@ke.wananchi.com');
+                ->setSender('fredrick.ochieng@mediamax.co.ke');
         });
         //->view('emails.ticket_opening_email');
 
